@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.5.1)
+project(ad3_huffman C)
+
+if (NOT CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE Release)
+endif ()
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Wall")
+set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG")
+set(CMAKE_C_FLAGS_RELEASE "-O4")
+set(CMAKE_C_STANDARD 99)
+
+set(COMMON_SRC src/main.c)
+
+add_executable(ad3_huffman ${COMMON_SRC})
