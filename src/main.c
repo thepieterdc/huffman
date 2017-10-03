@@ -3,9 +3,9 @@
 #include "util/logging.h"
 
 int main(void) {
+	info("WOooooo");
+	success("Hello, World!");
+	warning("WXooo");
 	error(ERROR_MALLOC_FAILED);
-//	info("WOooooo\n");
-//	success("Hello, World!\n");
-//	warning("WXooo");
 	return 0;
 }

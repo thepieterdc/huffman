@@ -7,7 +7,6 @@
 #ifndef HUFFMAN_UTIL_LOGGING_H
 #define HUFFMAN_UTIL_LOGGING_H
 
-#include "stdarg.h"
 #include "stdbool.h"
 
 /**
@@ -21,22 +20,22 @@ void error(int code);
 /**
  * Shows an informational message to stdout.
  *
- * @param format the formatted string
+ * @param msg te message
  */
-void info(char *format, ...);
+void info(char *msg);
 
 /**
  * Shows a success message to stdout.
  *
- * @param fmt the formatted string
+ * @param msg te message
  */
-void success(char *format, ...);
+void success(char *msg);
 
 /**
  * Throws an warning message to stderr.
  *
- * @param format the formatted string
+ * @param msg te message
  */
-void warning(char *format, ...);
+void warning(char *msg);
 
 #endif /* HUFFMAN_UTIL_LOGGING_H */

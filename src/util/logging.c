@@ -31,3 +31,15 @@ void error(int code) {
 	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, _error_messages[code]);
 	exit(code + 1);
 }
+
+void info(char *msg) {
+	write_message(stdout, "INFO", COLOUR_LOG_INFO, msg);
+}
+
+void success(char *msg) {
+	write_message(stdout, "OK", COLOUR_LOG_SUCCESS, msg);
+}
+
+void warning(char *msg) {
+	write_message(stderr, "WARNING", COLOUR_LOG_WARNING, msg);
+}
