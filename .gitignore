@@ -54,7 +54,7 @@ compile_commands.json
 CTestTestfile.cmake
 
 ### Executable
-ad3_huffman
+huffman
 
 ### Linux
 *~
