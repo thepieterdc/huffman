@@ -11,3 +11,6 @@ set(CMAKE_C_FLAGS_RELEASE "-O4")
 set(CMAKE_C_STANDARD 99)
 
 subdirs(src tests)
+
+add_executable(huffman src/main.c ${util_SRC})
+target_link_libraries(huffman huffman_src)

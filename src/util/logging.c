@@ -24,9 +24,7 @@
  * @param msg the message
  */
 void write_message(FILE *channel, const char type[], const char colour[], string msg) {
-	string message = concat(msg, "\n");
-	fprintf(channel, "[%s]%-7s%s-%s", colour, type, COLOUR_LOG_CLEAR, message);
-	free(message);
+	fprintf(channel, "%s[%s]%s %s\n", colour, type, COLOUR_LOG_CLEAR, msg);
 }
 
 void error(int code) {
