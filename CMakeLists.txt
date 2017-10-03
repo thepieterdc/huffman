@@ -14,3 +14,6 @@ subdirs(src tests)
 
 add_executable(huffman src/main.c ${util_SRC})
 target_link_libraries(huffman huffman_src)
+
+add_executable(huffman_tests tests/main.c ${tests_SRC})
+target_link_libraries(huffman_tests huffman_tests_src)
