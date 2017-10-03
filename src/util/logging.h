@@ -1,42 +1,42 @@
 /**
  * Created by Pieter De Clercq.
  *
- * Project: ad3_huffman
+ * Project: huffman
  */
 
-#ifndef AD3_HUFFMAN_UTIL_LOGGING_H
-#define AD3_HUFFMAN_UTIL_LOGGING_H
+#ifndef HUFFMAN_UTIL_LOGGING_H
+#define HUFFMAN_UTIL_LOGGING_H
 
+#include "stdarg.h"
 #include "stdbool.h"
 
 /**
  * Throws an error message to stderr.
  *
- * @param msg the message
+ * @param code the error code
  * @param exit true to exit the program after throwing this error
  */
-//TODO errorcodes
-void error(char* msg, bool exit);
+void error(int code);
 
 /**
  * Shows an informational message to stdout.
  *
- * @param msg the message
+ * @param format the formatted string
  */
-void info(char *msg);
+void info(char *format, ...);
 
 /**
  * Shows a success message to stdout.
  *
- * @param msg the message
+ * @param fmt the formatted string
  */
-void success(char *msg);
+void success(char *format, ...);
 
 /**
  * Throws an warning message to stderr.
  *
- * @param msg the message
+ * @param format the formatted string
  */
-void warning(char* msg);
+void warning(char *format, ...);
 
-#endif /* AD3_HUFFMAN_UTIL_LOGGING_H */
+#endif /* HUFFMAN_UTIL_LOGGING_H */
