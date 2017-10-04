@@ -25,11 +25,14 @@
  */
 void write_message(FILE *channel, const char type[], const char colour[], string msg) {
 	fprintf(channel, "%s[%s]%s %s\n", colour, type, COLOUR_LOG_CLEAR, msg);
+	fflush(channel);
 }
 
 void error(int code) {
 	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, _error_messages[code]);
+#ifndef IS_TEST
 	exit(code + 1);
+#endif
 }
 
 void info(char *msg) {

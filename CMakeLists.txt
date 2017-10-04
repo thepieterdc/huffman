@@ -10,10 +10,18 @@ set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O4")
 set(CMAKE_C_STANDARD 99)
 
-subdirs(src tests)
+file(GLOB tests_SRC
+		"tests/*.h"
+		"tests/*.c")
+
+file(GLOB util_SRC
+		"src/util/*.h"
+		"src/util/*.c"
+		)
+
+set(huffman_SRC ${util_SRC})
 
 add_executable(huffman src/main.c ${util_SRC})
-target_link_libraries(huffman huffman_src)
 
-add_executable(huffman_tests tests/main.c ${tests_SRC})
-target_link_libraries(huffman_tests huffman_tests_src)
+add_executable(huffman_tests tests/testrunner.c ${huffman_SRC} ${tests_SRC})
+target_compile_definitions(huffman_tests PRIVATE IS_TEST=True)

@@ -55,6 +55,7 @@ CTestTestfile.cmake
 
 ### Executable
 huffman
+huffman_tests
 
 ### Linux
 *~
