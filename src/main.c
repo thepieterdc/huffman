@@ -4,13 +4,11 @@
  * Project: huffman
  */
 
+#include "util/arguments.h"
 #include "util/errors.h"
 #include "util/logging.h"
 
-int main(void) {
-	info("WOooooo");
-	success("Hello, World!");
-	warning("WXooo");
-	error(ERROR_MALLOC_FAILED);
+int main(int argc, char **argv) {
+	
 	return 0;
 }

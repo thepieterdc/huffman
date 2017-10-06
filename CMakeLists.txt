@@ -10,16 +10,22 @@ set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O4")
 set(CMAKE_C_STANDARD 99)
 
+file(GLOB algorithms_SRC
+		"src/algorithms/*h"
+		"src/algorithms/*.c"
+		)
+
 file(GLOB tests_SRC
 		"tests/*.h"
-		"tests/*.c")
+		"tests/*.c"
+		)
 
 file(GLOB util_SRC
 		"src/util/*.h"
 		"src/util/*.c"
 		)
 
-set(huffman_SRC ${util_SRC})
+set(huffman_SRC ${algorithms_SRC} ${util_SRC})
 
 add_executable(huffman src/main.c ${util_SRC})
 
