@@ -6,11 +6,20 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int main(void) {
-	char in;
-	while(read(STDIN_FILENO, &in, 1) > 0) {
-		printf("%c\n", in);
+	//Bevat ascii waarden van de letters
+	int *frequencies = (int *) malloc(255 * sizeof(int));
+	
+	int in;
+	while ((in = (char) getchar()) > -1) {
+		frequencies[in]++;
 	}
+	
+	for(int i = 0; i < 256; ++i) {
+		if(frequencies[i] > 0) printf("%d: %d\n", i, frequencies[i]);
+	}
+	
 	return 0;
 }
