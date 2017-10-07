@@ -4,6 +4,7 @@
  * Project: huffman
  */
 
+#include <stdlib.h>
 #include "test_unit.h"
 
 #include "test_util_bitprinter.h"
@@ -41,6 +42,7 @@ char *test_bitprinter_add_bit() {
 	assertThat(bp->buffer == 0);
 	
 	fclose(memfile);
+	free(buf);
 	
 	bitprinter_free(bp, false);
 	return 0;
