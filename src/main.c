@@ -10,23 +10,25 @@
 #include <string.h>
 #include "datastructures/dynamic_array.h"
 #include "datastructures/huffman_tree.h"
+#include "util/bitprinter.h"
 
 //Returns the amount of characters printed, sets the codes
 //printcodes = array containing all the codes in order of generation to
-int print_tree_update_codes(huffman_node *tree, char *currentcode, char **codes, dynamic_array *order_letters) {
+void print_tree_update_codes(huffman_node *tree, char *currentcode, char **codes, dynamic_array *order_letters, bitprinter *bp) {
 	if (tree->type == LEAF) {
-		printf("1");
+		bp_print_bit(bp, 1);
+		
 		codes[tree->value] = currentcode;
 		da_add(order_letters, (void *) tree->value);
-		return 1;
 	} else {
-		printf("0");
+		bp_print_bit(bp, 0);
+		
 		char *leftcode = (char *) malloc(strlen(currentcode) + 2);
 		char *rightcode = (char *) malloc(strlen(currentcode) + 2);
 		sprintf(leftcode, "%s0", currentcode);
 		sprintf(rightcode, "%s1", currentcode);
-		return 1 + print_tree_update_codes(tree->left, leftcode, codes, order_letters) +
-		       print_tree_update_codes(tree->right, rightcode, codes, order_letters);
+		print_tree_update_codes(tree->left, leftcode, codes, order_letters, bp);
+		print_tree_update_codes(tree->right, rightcode, codes, order_letters, bp);
 	}
 }
 
@@ -34,6 +36,7 @@ int main(void) {
 	//Bevat ascii waarden van de letters
 	dynamic_array *raw_string = da_create();
 	int *frequencies = (int *) malloc(256 * sizeof(int));
+	bitprinter *bp = bp_create(stdout);
 	
 	int in;
 	while ((in = getchar()) > -1) {
@@ -91,13 +94,8 @@ int main(void) {
 	dynamic_array *volgorde_letters = da_create();
 	
 	// Print tree
-	int amt_printed = print_tree_update_codes(tree, "\0", codes_dictionary, volgorde_letters);
-	if (amt_printed % 8 != 0) {
-		for (size_t i = (size_t) amt_printed; i < 8; ++i) {
-			printf("0");
-		}
-	}
-	fflush(stdout);
+	print_tree_update_codes(tree, "\0", codes_dictionary, volgorde_letters, bp);
+	bp_flush(bp);
 	
 	// Print letters DFS based
 	for (int i = 0; i < volgorde_letters->size; ++i) {

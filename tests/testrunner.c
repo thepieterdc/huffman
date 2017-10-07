@@ -16,8 +16,9 @@
  */
 static char *all_tests() {
 	/** Test: test_util_bitprinter. */
-	test(test_bitprinter_create_free);
-	test(test_bitprinter_add_bit);
+	test(test_bp_create_free);
+	test(test_bp_print_bit);
+	test(test_bp_print_bitstring);
 	return 0;
 }
 

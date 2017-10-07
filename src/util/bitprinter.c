@@ -5,11 +5,12 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "bitprinter.h"
 #include "errors.h"
 #include "logging.h"
 
-bitprinter *bitprinter_create(FILE *channel) {
+bitprinter *bp_create(FILE *channel) {
 	bitprinter *ret = malloc(sizeof(bitprinter));
 	if (ret == NULL) {
 		error(ERROR_MALLOC_FAILED);
@@ -21,17 +22,7 @@ bitprinter *bitprinter_create(FILE *channel) {
 	return ret;
 }
 
-void bitprinter_add_bit(bitprinter *bp, bool bit) {
-	bp->buffer <<= 1;
-	bp->buffer += bit;
-	bp->cursor += 1;
-	
-	if (bp->cursor == 8) {
-		bitprinter_flush(bp);
-	}
-}
-
-void bitprinter_flush(bitprinter *bp) {
+void bp_flush(bitprinter *bp) {
 	if (bp->cursor != 0) {
 		if (bp->cursor != 8) {
 			size_t padding = 8 - bp->cursor;
@@ -46,9 +37,26 @@ void bitprinter_flush(bitprinter *bp) {
 	}
 }
 
-void bitprinter_free(bitprinter *bp, bool flush) {
+void bp_free(bitprinter *bp, bool flush) {
 	if (flush) {
-		bitprinter_flush(bp);
+		bp_flush(bp);
 	}
 	free(bp);
+}
+
+void bp_print_bit(bitprinter *bp, bool bit) {
+	bp->buffer <<= 1;
+	bp->buffer += bit;
+	bp->cursor += 1;
+	
+	if (bp->cursor == 8) {
+		bp_flush(bp);
+	}
+}
+
+void bp_print_bitstring(bitprinter *bp, string bitstring) {
+	size_t len = strlen(bitstring);
+	for (size_t i = 0; i < len; ++i) {
+		bp_print_bit(bp, (int) bitstring[i] == 49);
+	}
 }

@@ -11,31 +11,30 @@
 #include "../src/util/bitprinter.h"
 #include "../src/util/string.h"
 
-char *test_bitprinter_create_free() {
-	bitprinter *bp = bitprinter_create(NULL);
+char *test_bp_create_free() {
+	bitprinter *bp = bp_create(NULL);
 	assertThat(bp != NULL);
-	bitprinter_free(bp, false);
+	bp_free(bp, false);
 	return 0;
 }
 
-char *test_bitprinter_add_bit() {
+char *test_bp_print_bit() {
 	string buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
 	
-	bitprinter *bp = bitprinter_create(memfile);
+	bitprinter *bp = bp_create(memfile);
 	assertThat(bp != NULL);
 	
 	/* Ascii code for the letter A (65). */
-	bitprinter_add_bit(bp, false);
-	bitprinter_add_bit(bp, true);
-	bitprinter_add_bit(bp, false);
-	bitprinter_add_bit(bp, false);
-	bitprinter_add_bit(bp, false);
-	bitprinter_add_bit(bp, false);
-	bitprinter_add_bit(bp, false);
-	bitprinter_add_bit(bp, true);
-	bitprinter_flush(bp);
+	bp_print_bit(bp, false);
+	bp_print_bit(bp, true);
+	bp_print_bit(bp, false);
+	bp_print_bit(bp, false);
+	bp_print_bit(bp, false);
+	bp_print_bit(bp, false);
+	bp_print_bit(bp, false);
+	bp_print_bit(bp, true);
 	
 	assertThat(strequals(buf, "A"));
 	assertThat(bp->cursor == 0);
@@ -44,6 +43,28 @@ char *test_bitprinter_add_bit() {
 	fclose(memfile);
 	free(buf);
 	
-	bitprinter_free(bp, false);
+	bp_free(bp, false);
+	return 0;
+}
+
+char *test_bp_print_bitstring() {
+	string buf;
+	size_t size;
+	FILE *memfile = open_memstream(&buf, &size);
+	
+	bitprinter *bp = bp_create(memfile);
+	assertThat(bp != NULL);
+	
+	/* Ascii code for the letter A (65). */
+	bp_print_bitstring(bp, "01000001");
+	
+	assertThat(strequals(buf, "A"));
+	assertThat(bp->cursor == 0);
+	assertThat(bp->buffer == 0);
+	
+	fclose(memfile);
+	free(buf);
+	
+	bp_free(bp, false);
 	return 0;
 }
