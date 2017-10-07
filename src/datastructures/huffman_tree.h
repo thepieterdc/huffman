@@ -19,7 +19,7 @@ enum node_type {NODE, LEAF};
  */
 typedef struct huffman_node {
 	enum node_type type;
-	char value;
+	int value;
 	size_t weight;
 	struct huffman_node *left;
 	struct huffman_node *right;
