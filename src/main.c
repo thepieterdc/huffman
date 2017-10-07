@@ -14,7 +14,8 @@
 
 //Returns the amount of characters printed, sets the codes
 //printcodes = array containing all the codes in order of generation to
-void print_tree_update_codes(huffman_node *tree, char *currentcode, char **codes, dynamic_array *order_letters, bitprinter *bp) {
+void print_tree_update_codes(huffman_node *tree, char *currentcode, char **codes, dynamic_array *order_letters,
+                             bitprinter *bp) {
 	if (tree->type == LEAF) {
 		bp_print_bit(bp, 1);
 		
@@ -105,9 +106,9 @@ int main(void) {
 	
 	// Print encoded word
 	for (int i = 0; i < raw_string->size; ++i) {
-		printf("%s", codes_dictionary[(int) da_get(raw_string, (size_t) i)]);
+		bp_print_bitstring(bp, codes_dictionary[(int) da_get(raw_string, (size_t) i)]);
 	}
+	bp_flush(bp);
 	
-	fflush(stdout);
 	return 0;
 }
