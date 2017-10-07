@@ -2,5 +2,7 @@
 
 - Woordenboek gemaakt met codes zodat boom niet telkens doorzocht moet worden
 
+- Bits printen in c kan niet -> bitprinter gemaakt die bits stockeert tot er een volledige byte is en ze dan print als een buffer
+
 - Fibo heap gebruikt om boom op te bouwen want tabel op https://en.wikipedia.org/wiki/Priority_queue
 
