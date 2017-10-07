@@ -14,3 +14,7 @@ string concat(string s1, string s2) {
 	strcpy(result, s2);
 	return result;
 }
+
+bool strequals(string s1, string s2) {
+	return strcmp(s1, s2) == 0;
+}

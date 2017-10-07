@@ -21,13 +21,26 @@ bitprinter *bitprinter_create(FILE *channel) {
 	return ret;
 }
 
+void bitprinter_add_bit(bitprinter *bp, bool bit) {
+	bp->buffer <<= 1;
+	bp->buffer += bit;
+	bp->cursor += 1;
+	
+	if (bp->cursor == 8) {
+		bitprinter_flush(bp);
+	}
+}
+
 void bitprinter_flush(bitprinter *bp) {
 	if (bp->cursor != 0) {
 		if (bp->cursor != 8) {
 			size_t padding = 8 - bp->cursor;
 			bp->buffer <<= padding;
 		}
-		printf("%c", bp->buffer);
+		
+		fprintf(bp->channel, "%c", bp->buffer);
+		fflush(bp->channel);
+		
 		bp->buffer = 0;
 		bp->cursor = 0;
 	}
