@@ -1,0 +1,4 @@
+- Letters enzo opgeslagen als ints (ascii) zodat kan worden gebruikt als index in arrays + bytes zijn toch ints
+
+- Fibo heap gebruikt om boom op te bouwen want tabel op https://en.wikipedia.org/wiki/Priority_queue
+

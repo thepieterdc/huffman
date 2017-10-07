@@ -9,10 +9,20 @@
 
 #include <unistd.h>
 
-typedef struct {
-	int code;
+/**
+ * Different types of nodes.
+ */
+enum node_type {NODE, LEAF};
+
+/**
+ * A node in the Huffman tree.
+ */
+typedef struct huffman_node {
+	enum node_type type;
 	char value;
 	size_t weight;
+	struct huffman_node *left;
+	struct huffman_node *right;
 } huffman_node;
 
 #endif /* HUFFMAN_UTIL_HUFFMAN_TREE_H */

@@ -10,18 +10,24 @@ set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O4")
 set(CMAKE_C_STANDARD 99)
 
+file(GLOB datastructures_SRC
+		"src/datastructures/*.h"
+		"src/datastructures/*.c"
+		)
+
 file(GLOB tests_SRC
 		"tests/*.h"
-		"tests/*.c")
+		"tests/*.c"
+		)
 
 file(GLOB util_SRC
 		"src/util/*.h"
 		"src/util/*.c"
 		)
 
-set(huffman_SRC ${util_SRC})
+set(huffman_SRC ${datastructures_SRC} ${util_SRC})
 
-add_executable(huffman src/main.c ${util_SRC})
+add_executable(huffman src/main.c ${huffman_SRC})
 
 add_executable(huffman_tests tests/testrunner.c ${huffman_SRC} ${tests_SRC})
 target_compile_definitions(huffman_tests PRIVATE IS_TEST=True)

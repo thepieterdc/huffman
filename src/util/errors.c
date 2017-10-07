@@ -6,4 +6,4 @@
 
 #include "errors.h"
 
-char* _error_messages[1] = {"Failed allocating memory."};
+char* _error_messages[2] = {"Failed allocating memory.", "Index exceeded bounds."};
