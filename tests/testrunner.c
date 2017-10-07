@@ -6,15 +6,18 @@
 
 #include <stdio.h>
 #include "test_unit.h"
-#include "../src/util/logging.h"
-#include "../src/util/string.h"
+
+#include "test_util_bitprinter.h"
 
 /**
  * Runs all tests.
  *
  * @return N/A
  */
-static string all_tests() {
+static char *all_tests() {
+	/** Test: test_util_bitprinter. */
+	test(test_bitprinter_create_free);
+	
 	return 0;
 }
 

@@ -4,8 +4,8 @@
  * Project: huffman
  */
 
-#ifndef HUFFMAN_UTIL_TEST_UNIT_H
-#define HUFFMAN_UTIL_TEST_UNIT_H
+#ifndef HUFFMAN_TEST_UNIT_H
+#define HUFFMAN_TEST_UNIT_H
 
 #include "../src/util/logging.h"
 
@@ -27,4 +27,4 @@ extern int testunit_tests_total;
  */
 char *_testunit_assert_failed(const char *fn, int line, const char *code);
 
-#endif /* HUFFMAN_UTIL_TEST_UNIT_H */
+#endif /* HUFFMAN_TEST_UNIT_H */
