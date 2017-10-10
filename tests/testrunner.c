@@ -9,12 +9,16 @@
 #include "../src/util/logging.h"
 #include "../src/util/string.h"
 
+#include "test_util_linked_list.h"
+
 /**
  * Runs all tests.
  *
  * @return N/A
  */
 static string all_tests() {
+	/** Test: linked_list. */
+	test(test_ll_create_free);
 	return 0;
 }
 
