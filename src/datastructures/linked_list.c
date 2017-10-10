@@ -9,13 +9,23 @@
 #include "../util/errors.h"
 #include "../util/logging.h"
 
+/**
+ * Adds an item to the linked list.
+ *
+ * @param ll the linked list
+ * @param item the item to add
+ */
+void ll_add(linked_list *ll, void *item) {
+
+}
+
 linked_list *ll_create() {
 	linked_list *ret = (linked_list*) malloc(sizeof(linked_list));
 	if(!ret) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
 		ret->size = 0;
-		ret->first = NULL;
+		ret->first = ret->last = NULL;
 	}
 	return ret;
 }
@@ -29,4 +39,12 @@ void ll_free(linked_list *ll) {
 		cursor = next;
 	}
 	free(ll);
+}
+
+void *ll_get(linked_list *ll, size_t idx) {
+	return NULL;
+}
+
+void *ll_remove_index(linked_list *ll, size_t idx) {
+	return NULL;
 }

@@ -18,6 +18,7 @@
  */
 static string all_tests() {
 	/** Test: linked_list. */
+	test(test_ll_add_get_remove);
 	test(test_ll_create_free);
 	return 0;
 }
