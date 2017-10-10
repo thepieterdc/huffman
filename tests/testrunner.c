@@ -9,7 +9,8 @@
 #include "../src/util/logging.h"
 #include "../src/util/string.h"
 
-#include "test_util_linked_list.h"
+#include "test_datastructure_queue.h"
+#include "test_util_string.h"
 
 /**
  * Runs all tests.
@@ -17,9 +18,13 @@
  * @return N/A
  */
 static string all_tests() {
-	/** Test: linked_list. */
-	test(test_ll_add_get_remove);
-	test(test_ll_create_free);
+	/** Test: datastructures/queue. */
+	test(test_queue_create_free);
+	test(test_queue_push_peek_pop);
+	
+	/** Test: util/string. */
+	test(test_string_concat);
+	test(test_string_equals);
 	return 0;
 }
 
