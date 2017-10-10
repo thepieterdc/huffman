@@ -4,6 +4,7 @@
  * Project: huffman
  */
 
+#include <stdlib.h>
 #include "test_unit.h"
 #include "test_util_string.h"
 #include "../src/util/string.h"
@@ -19,6 +20,8 @@ char *test_string_concat() {
 	string s1s2s3 = str_concat(s1s2, s3);
 	assertThat(str_equals(s1s2s3, "firstlasteverything"));
 	
+	free(s1s2);
+	free(s1s2s3);
 	return 0;
 }
 
