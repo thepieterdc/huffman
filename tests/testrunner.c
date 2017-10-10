@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "test_unit.h"
 
-#include "test_util_bitprinter.h"
+#include "test_util_bitstream.h"
 
 /**
  * Runs all tests.
@@ -15,10 +15,8 @@
  * @return N/A
  */
 static char *all_tests() {
-	/** Test: test_util_bitprinter. */
-	test(test_bp_create_free);
-	test(test_bp_print_bit);
-	test(test_bp_print_bitstring);
+	/** Test: test_util_bitstream. */
+	test(test_bs_create_free);
 	return 0;
 }
 
