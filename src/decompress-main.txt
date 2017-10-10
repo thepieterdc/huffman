@@ -42,42 +42,42 @@ int main(void) {
 	int bitsread = build_tree(tree, "\0", volgorde_codes);
 	
 	/* Padding */
-//	while (bitsread % 8 != 0) {
-//		getchar();
-//		bitsread++;
-//	}
-//
-//	/** Codes lezen en mappen. */
-//	size_t amtcodes = volgorde_codes->size;
-//	for (int i = 0; i < amtcodes; ++i) {
-//		char *code = da_get(volgorde_codes, (size_t) i);
-//		huffman_node *cursor = tree;
-//		for(int j = 0; j < strlen(code); ++j) {
-//			if(code[j] == '1') {
-//				cursor = cursor->right;
-//			} else {
-//				cursor = cursor->left;
-//			}
-//		}
-//		cursor->value = getchar();
-//	}
-//
-//	int c;
-//	huffman_node *cursor = tree;
-//
-//	while ((c = getchar()) > -1) {
-//		char ch = (char) c;
-//
-//		if (ch == '1') {
-//			cursor = cursor->right;
-//		} else {
-//			cursor = cursor->left;
-//		}
-//
-//		if (cursor->type == LEAF) {
-//			printf("%c", (char) cursor->value);
-//			cursor = tree;
-//		}
-//	}
+	while (bitsread % 8 != 0) {
+		getchar();
+		bitsread++;
+	}
+	
+	/** Codes lezen en mappen. */
+	size_t amtcodes = volgorde_codes->size;
+	for (int i = 0; i < amtcodes; ++i) {
+		char *code = da_get(volgorde_codes, (size_t) i);
+		huffman_node *cursor = tree;
+		for(int j = 0; j < strlen(code); ++j) {
+			if(code[j] == '1') {
+				cursor = cursor->right;
+			} else {
+				cursor = cursor->left;
+			}
+		}
+		cursor->value = getchar();
+	}
+
+	int c;
+	huffman_node *cursor = tree;
+
+	while ((c = getchar()) > -1) {
+		char ch = (char) c;
+
+		if (ch == '1') {
+			cursor = cursor->right;
+		} else {
+			cursor = cursor->left;
+		}
+
+		if (cursor->type == LEAF) {
+			printf("%c", (char) cursor->value);
+			cursor = tree;
+		}
+	}
 	return 0;
 }
