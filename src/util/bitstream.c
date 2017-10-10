@@ -4,6 +4,8 @@
  * Project: huffman
  */
 
+#define BS_BUFFER_SIZE 256
+
 #include "bitstream.h"
 
 bitprinter *bp_create(FILE *channel) {
