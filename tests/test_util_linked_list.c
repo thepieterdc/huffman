@@ -20,12 +20,14 @@ char *test_ll_add_get_remove() {
 	char middle = (char) ll_get(ll, 1);
 	assertThat(middle == 'B');
 	assertThat(ll->size == 3);
-	
+
 	char last = (char) ll_remove_index(ll, 2);
 	assertThat(last == 'C');
 	assertThat(ll->size == 2);
 	
 	ll_free(ll);
+	
+	return 0;
 }
 
 char *test_ll_create_free() {

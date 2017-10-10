@@ -29,11 +29,7 @@ void write_message(FILE *channel, const char type[], const char colour[], string
 }
 
 void error(int code) {
-#ifndef IS_DEBUG
 	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, _error_messages[code]);
-#else
-	write_message(stdout, "ERROR", COLOUR_LOG_ERROR, _error_messages[code]);
-#endif
 #ifndef IS_TEST
 	exit(code + 1);
 #endif
