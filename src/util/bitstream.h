@@ -9,12 +9,13 @@
 #define HUFFMAN_UTIL_BITSTREAM_H
 
 #include <unistd.h>
+#include "../datastructures/queue.h"
 
 /**
  * A bitstream.
  */
 typedef struct {
-	int *buffer;
+	queue *buffer;
 	int current_byte;
 	size_t current_byte_cursor;
 } bitstream;

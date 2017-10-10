@@ -11,7 +11,7 @@
 
 queue *queue_create() {
 	queue *q = (queue *) malloc(sizeof(queue));
-	if (q == NULL) {
+	if (!q) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
 		q->size = 0;
@@ -57,7 +57,7 @@ void *queue_pop(queue *q) {
 
 void queue_push(queue *q, void *data) {
 	queue_item *newitem = (queue_item *) malloc(sizeof(queue_item));
-	if (newitem == NULL) {
+	if (!newitem) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
 		newitem->data = data;

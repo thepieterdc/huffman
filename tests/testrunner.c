@@ -22,6 +22,9 @@ static char *all_tests() {
 	test(test_queue_create_free);
 	test(test_queue_push_peek_pop);
 	
+	/** Test: util/bitstream. */
+	test(test_bs_create_free);
+	
 	/** Test: util/string. */
 	test(test_string_concat);
 	test(test_string_equals);

@@ -4,18 +4,24 @@
  * Project: huffman
  */
 
-#define BS_BUFFER_SIZE 256
-
+#include <stdlib.h>
 #include "bitstream.h"
+#include "logging.h"
+#include "errors.h"
 
-bitprinter *bp_create(FILE *channel) {
-	bitprinter *ret = malloc(sizeof(bitprinter));
-	if (ret == NULL) {
+bitstream *bs_create() {
+	bitstream *ret = (bitstream *) malloc(sizeof(bitstream));
+	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
-		ret->buffer = 0;
-		ret->cursor = 0;
-		ret->channel = channel;
+		ret->buffer = queue_create();
+		ret->current_byte = 0;
+		ret->current_byte_cursor = 0;
 	}
 	return ret;
+}
+
+void bs_free(bitstream *bs) {
+	free(bs->buffer);
+	free(bs);
 }

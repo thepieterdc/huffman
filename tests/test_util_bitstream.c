@@ -12,8 +12,8 @@
 #include "../src/util/string.h"
 
 char *test_bs_create_free() {
-	bitstream *bs = bs_create(NULL);
+	bitstream *bs = bs_create();
 	assertThat(bs != NULL);
-	bs_free(bs, false);
+	bs_free(bs);
 	return 0;
 }
