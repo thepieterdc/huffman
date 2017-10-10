@@ -4,9 +4,9 @@
  * Project: huffman
  */
 
+#include "test_unit.h"
 #include "test_datastructure_queue.h"
 #include "../src/datastructures/queue.h"
-#include "test_unit.h"
 #include "../src/util/string.h"
 
 char *test_queue_create_free() {

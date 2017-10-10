@@ -4,9 +4,9 @@
  * Project: huffman
  */
 
+#include "test_unit.h"
 #include "test_util_string.h"
 #include "../src/util/string.h"
-#include "test_unit.h"
 
 char *test_string_concat() {
 	char s1[] = "first";
