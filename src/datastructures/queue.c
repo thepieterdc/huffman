@@ -6,13 +6,19 @@
 
 #include <stdlib.h>
 #include "queue.h"
+#include "../util/logging.h"
+#include "../util/errors.h"
 
-/**
- * Creates a new queue.
- *
- * @return the created queue
- */
-queue *queue_create();
+queue *queue_create() {
+	queue *q = (queue *) malloc(sizeof(queue));
+	if (q == NULL) {
+		error(ERROR_MALLOC_FAILED);
+	} else {
+		q->size = 0;
+		q->first = q->last = NULL;
+	}
+	return q;
+}
 
 void queue_free(queue *q) {
 	queue_item *cursor = q->first;
@@ -27,26 +33,40 @@ void queue_free(queue *q) {
 	free(q);
 }
 
-/**
- * Gets the first item in the queue.
- *
- * @param q the queue
- * @return the first item in the queue
- */
-void *queue_peek(queue *q);
+void *queue_peek(queue *q) {
+	if (q->first == NULL) {
+		return NULL;
+	}
+	return q->first->data;
+}
 
-/**
- * Pops the first item from the queue.
- *
- * @param q the queue
- * @return the first item in the queue, that has been removed
- */
-void *queue_pop(queue *q);
+void *queue_pop(queue *q) {
+	if (q->first == NULL) {
+		return NULL;
+	}
+	
+	queue_item *first = q->first;
+	void *ret = first->data;
+	
+	q->first = first->next;
+	q->size--;
+	free(first);
+	
+	return ret;
+}
 
-/**
- * Pushes an item to the back of the queue.
- *
- * @param q the queue
- * @param item the item to push
- */
-void queue_push(queue *q, void *item);
+void queue_push(queue *q, void *data) {
+	queue_item *newitem = (queue_item *) malloc(sizeof(queue_item));
+	if (newitem == NULL) {
+		error(ERROR_MALLOC_FAILED);
+	} else {
+		newitem->data = data;
+		if (q->last != NULL) {
+			q->last->next = newitem;
+		} else {
+			q->first = newitem;
+		}
+		q->last = newitem;
+		q->size++;
+	}
+}

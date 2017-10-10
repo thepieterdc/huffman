@@ -60,8 +60,8 @@ void *queue_pop(queue *q);
  * Pushes an item to the back of the queue.
  *
  * @param q the queue
- * @param item the item to push
+ * @param data the data to push
  */
-void queue_push(queue *q, void *item);
+void queue_push(queue *q, void *data);
 
 #endif /* HUFFMAN_DATASTRUCTURES_QUEUE_H */

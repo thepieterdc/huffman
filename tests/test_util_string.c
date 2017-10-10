@@ -14,8 +14,9 @@ char *test_string_concat() {
 	char s3[] = "everything";
 	
 	string s1s2 = str_concat(s1, s2);
-	string s1s2s3 = str_concat(s1s2, s3);
+	assertThat(str_equals(s1s2, "firstlast"));
 	
+	string s1s2s3 = str_concat(s1s2, s3);
 	assertThat(str_equals(s1s2s3, "firstlasteverything"));
 	
 	return 0;

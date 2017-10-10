@@ -4,6 +4,7 @@
  * Project: huffman
  */
 
+#include <stdlib.h>
 #include "test_unit.h"
 #include "test_datastructure_queue.h"
 #include "../src/datastructures/queue.h"
@@ -19,12 +20,12 @@ char *test_queue_create_free() {
 char *test_queue_push_peek_pop() {
 	queue *q = queue_create();
 	assertThat(q != NULL);
-	
+
 	queue_push(q, (void *) "fifty");
 	queue_push(q, (void *) "sixty");
 	queue_push(q, (void *) "seventy");
 	assertThat(q->size == 3);
-	
+
 	char *fifty = (char *) queue_pop(q);
 	assertThat(str_equals(fifty, "fifty"));
 	assertThat(q->size == 2);
