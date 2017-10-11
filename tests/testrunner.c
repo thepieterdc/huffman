@@ -7,9 +7,9 @@
 #include <stdio.h>
 #include "test_unit.h"
 
-#include "test_util_bitstream.h"
-
 #include "test_datastructure_queue.h"
+#include "test_util_bit.h"
+#include "test_util_bitstream.h"
 #include "test_util_string.h"
 
 /**
@@ -21,6 +21,10 @@ static char *all_tests() {
 	/** Test: datastructures/queue. */
 	test(test_queue_create_free);
 	test(test_queue_push_peek_pop);
+	
+	/** Test: util/bit. */
+	test(test_bitchar_to_bit);
+	test(test_bitstring_to_byte);
 	
 	/** Test: util/bitstream. */
 	test(test_bs_add_bit);

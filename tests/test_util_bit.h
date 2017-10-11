@@ -7,10 +7,10 @@
 #ifndef HUFFMAN_TEST_UTIL_BIT_H
 #define HUFFMAN_TEST_UTIL_BIT_H
 
-/** Tests: str_concat(). */
-char *test_string_concat();
+/** Tests: bitchar_to_bit(). */
+char *test_bitchar_to_bit();
 
-/** Tests: str_equals(). */
-char *test_string_equals();
+/** Tests: bitstring_to_byte(). */
+char *test_bitstring_to_byte();
 
 #endif /* HUFFMAN_TEST_UTIL_BIT_H */
