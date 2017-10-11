@@ -5,12 +5,9 @@
  */
 
 #include <stdlib.h>
-#include "input_stream.h"
-#include "../../util/logging.h"
-#include "../../util/errors.h"
-#include "int_input_stream.h"
-#include "../../util/string.h"
 #include "byte_input_stream.h"
+#include "../../util/errors.h"
+#include "../../util/logging.h"
 
 void byis_consume(byte_input_stream *bis) {
 	int c;

@@ -8,7 +8,6 @@
 #define HUFFMAN_IO_INPUT_INT_INPUTSTREAM_H
 
 #include <stdio.h>
-#include "../../datastructures/queue.h"
 #include "input_stream.h"
 
 /**

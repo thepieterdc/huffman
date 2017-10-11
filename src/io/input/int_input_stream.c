@@ -5,11 +5,10 @@
  */
 
 #include <stdlib.h>
-#include "input_stream.h"
-#include "../../util/logging.h"
-#include "../../util/errors.h"
 #include "int_input_stream.h"
 #include "../../util/string.h"
+#include "../../util/errors.h"
+#include "../../util/logging.h"
 
 void iis_consume(int_input_stream *iis) {
 	int c;

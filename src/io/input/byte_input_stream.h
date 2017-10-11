@@ -7,8 +7,6 @@
 #ifndef HUFFMAN_IO_INPUT_BYTE_INPUTSTREAM_H
 #define HUFFMAN_IO_INPUT_BYTE_INPUTSTREAM_H
 
-#include <stdio.h>
-#include "../../datastructures/queue.h"
 #include "input_stream.h"
 #include "../../datatypes/bit.h"
 
