@@ -10,7 +10,7 @@
 
 #include <unistd.h>
 #include <stdbool.h>
-#include "bit.h"
+#include "binary.h"
 #include "../datastructures/queue.h"
 
 /**

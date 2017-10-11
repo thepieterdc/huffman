@@ -4,8 +4,8 @@
  * Project: huffman
  */
 
-#ifndef HUFFMAN_UTIL_BIT_H
-#define HUFFMAN_UTIL_BIT_H
+#ifndef HUFFMAN_UTIL_BINARY_H
+#define HUFFMAN_UTIL_BINARY_H
 
 #include <stdint.h>
 #include "string.h"
@@ -29,4 +29,4 @@ bit bitchar_to_bit(char c);
  */
 byte bitstring_to_byte(string s);
 
-#endif /* HUFFMAN_UTIL_BIT_H */
+#endif /* HUFFMAN_UTIL_BINARY_H */

@@ -8,7 +8,7 @@
 #include "test_unit.h"
 
 #include "test_datastructure_queue.h"
-#include "test_util_bit.h"
+#include "test_util_binary.h"
 #include "test_util_bitstream.h"
 #include "test_util_string.h"
 

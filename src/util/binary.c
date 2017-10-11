@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include <unistd.h>
-#include "bit.h"
+#include "binary.h"
 
 bit bitchar_to_bit(char c) {
 	return c == 49;

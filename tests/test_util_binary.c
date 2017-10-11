@@ -5,8 +5,8 @@
  */
 
 #include "test_unit.h"
-#include "test_util_bit.h"
-#include "../src/util/bit.h"
+#include "test_util_binary.h"
+#include "../src/util/binary.h"
 
 char *test_bitchar_to_bit() {
 	assertThat(bitchar_to_bit('1') == 1);
