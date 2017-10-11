@@ -26,9 +26,9 @@ typedef struct {
  * Adds a bit to the current byte and eventually to the buffer.
  *
  * @param bs the bitstream
- * @param bit the bit to add
+ * @param b the bit to add
  */
-void bs_add_bit(bitstream *bs, bool bit);
+void bs_add_bit(bitstream *bs, bit b);
 
 /**
  * Adds a byte to the current buffer.
