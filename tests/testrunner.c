@@ -6,13 +6,13 @@
 
 #include <stdio.h>
 #include "test_unit.h"
-
 #include "test_datastructure_queue.h"
-#include "test_util_binary.h"
-#include "test_io_input_inputstream.h"
-#include "test_util_string.h"
+#include "test_io_input_bitinputstream.h"
 #include "test_io_input_byteinputstream.h"
+#include "test_io_input_inputstream.h"
 #include "test_io_input_intinputstream.h"
+#include "test_util_binary.h"
+#include "test_util_string.h"
 
 /**
  * Runs all tests.
@@ -24,6 +24,12 @@ static char *all_tests() {
 	test(test_queue_create_free);
 	test(test_queue_empty);
 	test(test_queue_push_peek_pop);
+	
+	/** Test: io/input/bit_input_stream. */
+	test(test_io_bis_create_free);
+	test(test_io_bis_consume_read_count);
+	test(test_io_bis_feed_bit_read_count);
+	test(test_io_bis_feed_byte_read_count);
 	
 	/** Test: io/input/byte_input_stream. */
 	test(test_io_byis_create_free);
