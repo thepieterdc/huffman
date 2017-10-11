@@ -10,8 +10,8 @@
 
 #include <unistd.h>
 #include <stdbool.h>
-#include "binary.h"
 #include "../datastructures/queue.h"
+#include "../datatypes/bit.h"
 
 /**
  * A bitstream.

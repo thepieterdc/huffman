@@ -8,10 +8,8 @@
 #define HUFFMAN_UTIL_BINARY_H
 
 #include <stdint.h>
-#include "string.h"
-
-typedef bool bit;
-typedef uint8_t byte;
+#include "../datatypes/bit.h"
+#include "../datatypes/string.h"
 
 /**
  * Converts a character to a bit.

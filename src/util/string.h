@@ -8,8 +8,7 @@
 #define HUFFMAN_UTIL_STRING_H
 
 #include <stdbool.h>
-
-typedef char* string;
+#include "../datatypes/string.h"
 
 /**
  * Concatenates 2 strings into one.
