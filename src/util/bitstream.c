@@ -38,6 +38,6 @@ bitstream *bs_create() {
 }
 
 void bs_free(bitstream *bs) {
-	free(bs->buffer);
+	queue_free(bs->buffer);
 	free(bs);
 }
