@@ -9,16 +9,21 @@
 #include "test_unit.h"
 #include "../src/io/input/bit_input_stream.h"
 
-//static char *test_read_count(byte_input_stream *bis) {
-//	assertThat(byis_count(bis) == 9);
-//
-//	for (size_t i = 1; i <= 9; ++i) {
-//		assertThat(byis_read(bis) == (byte) i);
-//	}
-//	assertThat(byis_count(bis) == 0);
-//
-//	return 0;
-//}
+static char *test_read_bit_count(bit_input_stream *bis) {
+	assertThat(bis_count(bis) == 16);
+	
+	for (size_t i = 0; i < 8; ++i) {
+		assertThat(bis_read_bit(bis) % 2 == i % 2);
+	}
+	
+	for (size_t i = 0; i < 8; ++i) {
+		assertThat(bis_read_bit(bis) % 2 != i % 2);
+	}
+	
+	assertThat(bis_count(bis) == 0);
+	
+	return 0;
+}
 
 char *test_io_bis_create_free() {
 	bit_input_stream *bis = bis_create(stdin);
@@ -28,30 +33,40 @@ char *test_io_bis_create_free() {
 	return 0;
 }
 
-char *test_io_bis_consume_read_count() {
-//	char *buf;
-//	size_t size;
-//	FILE *memfile = open_memstream(&buf, &size);
-//
-//	byte_input_stream *bis = byis_create(memfile);
-//
-//	assertThat(byis_count(bis) == 0);
-//
-//	for (size_t i = 1; i <= 9; ++i) {
-//		fprintf(memfile, "%c", (byte) i);
-//	}
-//
-//	byis_consume(bis);
-//
-//	assertThat(test_read_count(bis) == 0);
-//
-//	byis_free(bis);
-//	free(buf);
+char *test_io_bis_consume_read_bit_count() {
+	char *buf;
+	size_t size;
+	FILE *memfile = open_memstream(&buf, &size);
+
+	bit_input_stream *bis = bis_create(memfile);
+
+	assertThat(bis_count(bis) == 0);
+
+	fprintf(memfile, "%d", 0b01010101);
+	fprintf(memfile, "%d", 0b10101010);
+
+	bis_consume(bis);
+
+//	assertThat(test_read_bit_count(bis) == 0);
+	assertThat(bis_count(bis) == 16);
 	
-	return 1;
+	for (size_t i = 0; i < 8; ++i) {
+		assertThat(bis_read_bit(bis) % 2 == i % 2);
+	}
+	
+	for (size_t i = 0; i < 8; ++i) {
+		assertThat(bis_read_bit(bis) % 2 != i % 2);
+	}
+	
+	assertThat(bis_count(bis) == 0);
+	
+	bis_free(bis);
+	free(buf);
+	
+	return 0;
 }
 
-char *test_io_bis_feed_bit_read_count() {
+char *test_io_bis_feed_bit_read_bit_count() {
 //	byte_input_stream *bis = byis_create(stdin);
 //
 //	assertThat(byis_count(bis) == 0);
@@ -67,7 +82,7 @@ char *test_io_bis_feed_bit_read_count() {
 	return 1;
 }
 
-char *test_io_bis_feed_byte_read_count() {
+char *test_io_bis_feed_byte_read_byte_count() {
 //	byte_input_stream *bis = byis_create(stdin);
 //
 //	assertThat(byis_count(bis) == 0);

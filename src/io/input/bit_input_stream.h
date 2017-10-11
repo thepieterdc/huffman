@@ -14,8 +14,7 @@
  */
 typedef struct {
 	byte_input_stream *bytestream;
-	size_t current_byte;
-	size_t curent_cursor;
+	size_t current_cursor;
 } bit_input_stream;
 
 /**
@@ -70,6 +69,14 @@ void bis_free(bit_input_stream *bis);
  * @param bis the bit input stream
  * @return the bit
  */
-bit bis_read(bit_input_stream *bis);
+bit bis_read_bit(bit_input_stream *bis);
+
+/**
+ * Reads one byte from the bit input stream
+ *
+ * @param bis the bit input stream
+ * @return the byte
+ */
+byte bis_read_byte(bit_input_stream *bis);
 
 #endif /* HUFFMAN_IO_INPUT_BIT_INPUTSTREAM_H */

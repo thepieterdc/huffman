@@ -16,7 +16,7 @@ byte bitstring_to_byte(string s) {
 	byte ret = 0;
 	for (size_t c = 0; c < strlen(s); ++c) {
 		ret <<= 1;
-		ret += bitchar_to_bit(s[c]);
+		ret |= bitchar_to_bit(s[c]);
 	}
 	return ret;
 }
