@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <assert.h>
 #include "test_unit.h"
 
 int testunit_tests_ok = 0;

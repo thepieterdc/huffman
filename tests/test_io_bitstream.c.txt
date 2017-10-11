@@ -8,7 +8,7 @@
 #include "test_unit.h"
 
 #include "test_io_bitstream.h"
-#include "../src/io/bitstream.h"
+#include "../src/io/bitstream.h.txt"
 
 char *test_bs_create_free() {
 	bitstream *bs = bs_create();

@@ -20,8 +20,8 @@ file(GLOB datatypes_SRC
 		)
 
 file(GLOB io_SRC
-		"src/io/*.h"
-		"src/io/*.c"
+		"src/io/**/*.h"
+		"src/io/**/*.c"
 		)
 
 file(GLOB tests_SRC

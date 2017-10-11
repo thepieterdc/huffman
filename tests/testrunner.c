@@ -9,8 +9,9 @@
 
 #include "test_datastructure_queue.h"
 #include "test_util_binary.h"
-#include "test_io_bitstream.h"
+#include "test_io_input_inputstream.h"
 #include "test_util_string.h"
+#include "test_io_input_intinputstream.h"
 
 /**
  * Runs all tests.
@@ -23,10 +24,13 @@ static char *all_tests() {
 	test(test_queue_empty);
 	test(test_queue_push_peek_pop);
 	
-	/** Test: io/bitstream. */
-	test(test_bs_add_bit);
-	test(test_bs_add_byte);
-	test(test_bs_create_free);
+	/** Test: io/input/inputstream. */
+	test(test_io_is_create_free);
+	test(test_io_is_feed_read_size);
+	
+	/** Test: io/input/intinputstream. */
+	test(test_io_iis_create_free);
+	
 	
 	/** Test: util/bit. */
 	test(test_bitchar_to_bit);
