@@ -9,7 +9,7 @@
 
 #include "test_datastructure_queue.h"
 #include "test_util_binary.h"
-#include "test_util_bitstream.h"
+#include "test_io_bitstream.h"
 #include "test_util_string.h"
 
 /**
@@ -23,14 +23,14 @@ static char *all_tests() {
 	test(test_queue_empty);
 	test(test_queue_push_peek_pop);
 	
-	/** Test: util/bit. */
-	test(test_bitchar_to_bit);
-	test(test_bitstring_to_byte);
-	
-	/** Test: util/bitstream. */
+	/** Test: io/bitstream. */
 	test(test_bs_add_bit);
 	test(test_bs_add_byte);
 	test(test_bs_create_free);
+	
+	/** Test: util/bit. */
+	test(test_bitchar_to_bit);
+	test(test_bitstring_to_byte);
 	
 	/** Test: util/string. */
 	test(test_string_concat);

@@ -15,6 +15,15 @@ file(GLOB datastructures_SRC
 		"src/datastructures/*.c"
 		)
 
+file(GLOB datatypes_SRC
+		"src/datatypes/*.h"
+		)
+
+file(GLOB io_SRC
+		"src/io/*.h"
+		"src/io/*.c"
+		)
+
 file(GLOB tests_SRC
 		"tests/*.h"
 		"tests/*.c"
@@ -25,7 +34,7 @@ file(GLOB util_SRC
 		"src/util/*.c"
 		)
 
-set(huffman_SRC ${datastructures_SRC} ${util_SRC})
+set(huffman_SRC ${datastructures_SRC} ${datatypes_SRC} ${io_SRC} ${util_SRC})
 
 add_executable(huffman src/main.c ${huffman_SRC})
 

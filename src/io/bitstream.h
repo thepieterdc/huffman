@@ -5,8 +5,8 @@
  */
 
 
-#ifndef HUFFMAN_UTIL_BITSTREAM_H
-#define HUFFMAN_UTIL_BITSTREAM_H
+#ifndef HUFFMAN_IO_BITSTREAM_H
+#define HUFFMAN_IO_BITSTREAM_H
 
 #include <unistd.h>
 #include <stdbool.h>
@@ -52,4 +52,4 @@ bitstream *bs_create();
  */
 void bs_free(bitstream *bs);
 
-#endif /* HUFFMAN_UTIL_BITSTREAM_H */
+#endif /* HUFFMAN_IO_BITSTREAM_H */

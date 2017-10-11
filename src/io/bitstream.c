@@ -6,8 +6,8 @@
 
 #include <stdlib.h>
 #include "bitstream.h"
-#include "logging.h"
-#include "errors.h"
+#include "../util/errors.h"
+#include "../util/logging.h"
 
 void bs_add_bit(bitstream *bs, bool bit) {
 	bs->current_byte <<= 1;
