@@ -12,15 +12,15 @@
 #include "../src/util/string.h"
 
 char *test_io_is_create_free() {
-	input_stream *is = is_create(stdin);
+	input_stream *is = is_create();
 	assertThat(is != NULL);
 	assertThat(is->buffer != NULL);
 	is_free(is);
 	return 0;
 }
 
-char *test_io_is_feed_read_size() {
-	input_stream *is = is_create(NULL);
+char *test_io_is_feed_read_count() {
+	input_stream *is = is_create();
 	
 	is_feed(is, "5");
 	is_feed(is, "6");

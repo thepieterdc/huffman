@@ -10,7 +10,7 @@
 /** Tests is_create(), is_free(). */
 char *test_io_is_create_free();
 
-/** Tests is_feed(), is_read(), is_size(). */
-char *test_io_is_feed_read_size();
+/** Tests is_feed(), is_read(), is_count(). */
+char *test_io_is_feed_read_count();
 
 #endif /* HUFFMAN_TEST_IO_INPUT_INPUTSTREAM_H */

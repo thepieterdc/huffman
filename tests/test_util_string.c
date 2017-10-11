@@ -9,6 +9,13 @@
 #include "test_util_string.h"
 #include "../src/util/string.h"
 
+char *test_char_to_int() {
+	for (size_t i = 0; i < 9; ++i) {
+		assertThat(char_to_int(48 + i) == i);
+	}
+	return 0;
+}
+
 char *test_string_concat() {
 	char s1[] = "first";
 	char s2[] = "last";

@@ -26,17 +26,19 @@ static char *all_tests() {
 	
 	/** Test: io/input/inputstream. */
 	test(test_io_is_create_free);
-	test(test_io_is_feed_read_size);
+	test(test_io_is_feed_read_count);
 	
 	/** Test: io/input/intinputstream. */
 	test(test_io_iis_create_free);
-	
+	test(test_io_iis_consume_read_count);
+	test(test_io_iis_feed_read_count);
 	
 	/** Test: util/bit. */
 	test(test_bitchar_to_bit);
 	test(test_bitstring_to_byte);
 	
 	/** Test: util/string. */
+	test(test_char_to_int);
 	test(test_string_concat);
 	test(test_string_equals);
 	return 0;

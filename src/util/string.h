@@ -11,6 +11,14 @@
 #include "../datatypes/string.h"
 
 /**
+ * Converts a character digit to it's corresponding integer.
+ *
+ * @param c the character
+ * @return the corresponding integer
+ */
+int char_to_int(size_t c);
+
+/**
  * Concatenates 2 strings into one.
  *
  * @param s1 the first string

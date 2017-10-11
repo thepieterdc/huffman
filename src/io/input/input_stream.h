@@ -16,7 +16,6 @@
  */
 typedef struct {
 	queue *buffer;
-	FILE *channel;
 } input_stream;
 
 /**
@@ -30,10 +29,9 @@ size_t is_count(input_stream *is);
 /**
  * Creates a new input stream.
  *
- * @param channel the data to feed the stream from
  * @return the created input stream
  */
-input_stream *is_create(FILE *channel);
+input_stream *is_create();
 
 /**
  * Adds data to the input stream.
