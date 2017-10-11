@@ -20,7 +20,7 @@ queue *queue_create() {
 	return q;
 }
 
-void queue_free(queue *q) {
+void queue_empty(queue *q) {
 	queue_item *cursor = q->first;
 	queue_item *next = NULL;
 	
@@ -29,7 +29,11 @@ void queue_free(queue *q) {
 		free(cursor);
 		cursor = next;
 	}
-	
+	q->size = 0;
+}
+
+void queue_free(queue *q) {
+	queue_empty(q);
 	free(q);
 }
 

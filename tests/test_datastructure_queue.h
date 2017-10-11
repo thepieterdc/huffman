@@ -10,6 +10,9 @@
 /** Tests: queue_create(), queue_free(). */
 char *test_queue_create_free();
 
+/** Tests: queue_empty(). */
+char *test_queue_empty();
+
 /** Tests: queue_push(), queue_peek(), queue_pop(). */
 char *test_queue_push_peek_pop();
 

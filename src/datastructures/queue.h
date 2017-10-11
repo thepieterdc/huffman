@@ -34,6 +34,13 @@ typedef struct {
 queue *queue_create();
 
 /**
+ * Removes all items from the queue.
+ *
+ * @param q the queue
+ */
+void queue_empty(queue *q);
+
+/**
  * Frees all memory allocated by the queue.
  *
  * @param q the queue

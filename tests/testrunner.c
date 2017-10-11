@@ -20,6 +20,7 @@
 static char *all_tests() {
 	/** Test: datastructures/queue. */
 	test(test_queue_create_free);
+	test(test_queue_empty);
 	test(test_queue_push_peek_pop);
 	
 	/** Test: util/bit. */
