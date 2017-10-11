@@ -29,7 +29,7 @@ void iis_consume(int_input_stream *iis);
 /**
  * Gets the amount of items in the int input stream buffer.
  *
- * @param is the int input stream
+ * @param iis the int input stream
  * @return the amount of items in the int input stream buffer
  */
 size_t iis_count(int_input_stream *iis);

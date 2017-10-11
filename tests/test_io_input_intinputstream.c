@@ -9,7 +9,7 @@
 #include "test_unit.h"
 #include "../src/io/input/int_input_stream.h"
 
-char *test_read_count(int_input_stream *iis) {
+static char *test_read_count(int_input_stream *iis) {
 	assertThat(iis_count(iis) == 9);
 	
 	for (size_t i = 1; i <= 9; ++i) {

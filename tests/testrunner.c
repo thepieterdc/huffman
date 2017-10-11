@@ -11,6 +11,7 @@
 #include "test_util_binary.h"
 #include "test_io_input_inputstream.h"
 #include "test_util_string.h"
+#include "test_io_input_byteinputstream.h"
 #include "test_io_input_intinputstream.h"
 
 /**
@@ -24,11 +25,16 @@ static char *all_tests() {
 	test(test_queue_empty);
 	test(test_queue_push_peek_pop);
 	
-	/** Test: io/input/inputstream. */
+	/** Test: io/input/byte_input_stream. */
+	test(test_io_byis_create_free);
+	test(test_io_byis_consume_read_count);
+	test(test_io_byis_feed_read_count);
+	
+	/** Test: io/input/input_stream. */
 	test(test_io_is_create_free);
 	test(test_io_is_feed_read_count);
 	
-	/** Test: io/input/intinputstream. */
+	/** Test: io/input/int_input_stream. */
 	test(test_io_iis_create_free);
 	test(test_io_iis_consume_read_count);
 	test(test_io_iis_feed_read_count);
