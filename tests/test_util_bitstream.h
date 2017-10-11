@@ -10,4 +10,10 @@
 /** Tests bs_create(), bs_free(). */
 char *test_bs_create_free();
 
+/** Tests bs_add_bit(). */
+char *test_bs_add_bit();
+
+/** Tests bs_add_byte(). */
+char *test_bs_add_byte();
+
 #endif /* HUFFMAN_TEST_UTIL_BITSTREAM_H */

@@ -9,6 +9,22 @@
 #include "logging.h"
 #include "errors.h"
 
+void bs_add_bit(bitstream *bs, bool bit) {
+	bs->current_byte <<= 1;
+	bs->current_byte += bit;
+	bs->current_byte_cursor++;
+	
+	if (bs->current_byte_cursor == 8) {
+		bs_add_byte(bs, bs->current_byte);
+		bs->current_byte = 0;
+		bs->current_byte_cursor = 0;
+	}
+}
+
+void bs_add_byte(bitstream *bs, byte b) {
+	queue_push(bs->buffer, (void *) b);
+}
+
 bitstream *bs_create() {
 	bitstream *ret = (bitstream *) malloc(sizeof(bitstream));
 	if (!ret) {

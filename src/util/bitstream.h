@@ -9,6 +9,8 @@
 #define HUFFMAN_UTIL_BITSTREAM_H
 
 #include <unistd.h>
+#include <stdbool.h>
+#include "bit.h"
 #include "../datastructures/queue.h"
 
 /**
@@ -16,9 +18,25 @@
  */
 typedef struct {
 	queue *buffer;
-	int current_byte;
+	byte current_byte;
 	size_t current_byte_cursor;
 } bitstream;
+
+/**
+ * Adds a bit to the current byte and eventually to the buffer.
+ *
+ * @param bs the bitstream
+ * @param bit the bit to add
+ */
+void bs_add_bit(bitstream *bs, bool bit);
+
+/**
+ * Adds a byte to the current buffer.
+ *
+ * @param bs the bitstream
+ * @param b the byte to add
+ */
+void bs_add_byte(bitstream *bs, byte b);
 
 /**
  * Creates a new bitstream.
