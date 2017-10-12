@@ -39,5 +39,10 @@ void os_flush(output_stream *os) {
 
 void os_free(output_stream *os) {
 	queue_free(os->buffer);
+	
+	if (os->channel) {
+		fclose(os->channel);
+	}
+	
 	free(os);
 }
