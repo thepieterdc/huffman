@@ -33,6 +33,25 @@ bit_input_stream *bis_create(FILE *channel) {
 	return ret;
 }
 
+void bis_feed_bit(bit_input_stream *bis, bit b) {
+	bis->current_byte <<= 1;
+	bis->current_byte |= b;
+	
+	bis->current_cursor++;
+	
+	if(bis->current_cursor == 8) {
+		byis_feed(bis->bytestream, bis->current_byte);
+		bis->current_byte = 0;
+		bis->current_cursor = 0;
+	}
+}
+
+void bis_feed_byte(bit_input_stream *bis, byte b) {
+	if(bis->empty) {
+	
+	}
+}
+
 void bis_free(bit_input_stream *bis) {
 	byis_free(bis->bytestream);
 	free(bis);
@@ -59,5 +78,12 @@ bit bis_read_bit(bit_input_stream *bis) {
 }
 
 byte bis_read_byte(bit_input_stream *bis) {
-	return 1;
+	if(!bis->empty) {
+		byte ret = bis->current_byte >> bis->current_cursor;
+		bis->current_byte = 0;
+		bis->current_cursor = 0;
+		bis->empty = true;
+		return ret;
+	}
+	return byis_read(bis->bytestream);
 }

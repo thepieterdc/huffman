@@ -14,9 +14,13 @@
  */
 typedef struct {
 	byte_input_stream *bytestream;
-	byte current_byte;
-	size_t current_cursor;
-	bool empty;
+	
+	byte current_feed_byte;
+	size_t current_feed_cursor;
+	
+	byte current_read_byte;
+	size_t current_read_cursor;
+	bool current_read_empty;
 } bit_input_stream;
 
 /**
