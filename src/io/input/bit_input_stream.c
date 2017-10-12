@@ -22,7 +22,7 @@ bit_input_stream *bis_create(FILE *channel) {
 	} else {
 		ret->bytestream = byis_create(channel);
 		ret->current_byte = 0;
-		ret->current_cursor = NULL;
+		ret->current_cursor = 0;
 		ret->empty = true;
 		
 		if (channel) {

@@ -28,7 +28,7 @@ size_t ios_count(int_output_stream *ios);
 /**
  * Creates a new output stream for integers.
  *
- * @param channel the data to feed the stream from
+ * @param channel the output channel to flush to
  * @return the created int output stream
  */
 int_output_stream *ios_create(FILE *channel);

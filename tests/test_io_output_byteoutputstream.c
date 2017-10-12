@@ -10,10 +10,10 @@
 #include "../src/io/output/byte_output_stream.h"
 
 char *test_io_byos_create_free() {
-	byte_output_stream *bis = byos_create(stdin);
-	assertThat(bis != NULL);
-	assertThat(bis->stream != NULL);
-	byos_free(bis);
+	byte_output_stream *bos = byos_create(NULL);
+	assertThat(bos != NULL);
+	assertThat(bos->stream != NULL);
+	byos_free(bos);
 	return 0;
 }
 

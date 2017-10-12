@@ -30,7 +30,7 @@ size_t os_count(output_stream *os);
 /**
  * Creates a new output stream.
  *
- * @param channel the output channel
+ * @param channel the output channel to flush to
  * @return the created output stream
  */
 output_stream *os_create(FILE *channel);

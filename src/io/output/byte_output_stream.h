@@ -28,7 +28,7 @@ size_t byos_count(byte_output_stream *bos);
 /**
  * Creates a new output stream for bytes.
  *
- * @param channel the data to feed the stream from
+ * @param channel the output channel to flush to
  * @return the created byte output stream
  */
 byte_output_stream *byos_create(FILE *channel);
