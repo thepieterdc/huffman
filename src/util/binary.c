@@ -11,11 +11,11 @@
 
 #include <stdio.h>
 
-char bit_to_bitchar(bit b) {
+inline char bit_to_bitchar(bit b) {
 	return (char) (b ? 49 : 48);
 }
 
-bit bitchar_to_bit(char c) {
+inline bit bitchar_to_bit(char c) {
 	return c == 49;
 }
 

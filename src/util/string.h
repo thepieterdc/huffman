@@ -16,7 +16,7 @@
  * @param c the character
  * @return the corresponding integer
  */
-int char_to_int(size_t c);
+int char_to_int(char c);
 
 /**
  * Concatenates 2 strings into one.

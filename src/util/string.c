@@ -8,7 +8,7 @@
 #include <string.h>
 #include "string.h"
 
-int char_to_int(size_t c) {
+inline int char_to_int(char c) {
 	return c - '0';
 }
 
@@ -19,6 +19,6 @@ string str_concat(string s1, string s2) {
 	return result;
 }
 
-bool str_equals(string s1, string s2) {
+inline bool str_equals(string s1, string s2) {
 	return strcmp(s1, s2) == 0;
 }

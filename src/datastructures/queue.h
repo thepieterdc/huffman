@@ -20,7 +20,7 @@ typedef struct queue_item {
 /**
  * A queue.
  */
-typedef struct {
+typedef struct queue {
 	struct queue_item *first;
 	struct queue_item *last;
 	size_t size;
