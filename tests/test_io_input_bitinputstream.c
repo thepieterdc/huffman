@@ -58,10 +58,7 @@ char *test_io_bis_consume_read_bit_count() {
 	assertThat(bis_count(bis) == 8);
 
 	for (size_t i = 0; i < 8; ++i) {
-//		bit rd = bis_read_bit(bis);
-//		printf("%d\n", rd);
-//		assertThat(rd % 2 != i % 2);
-//		printf("OK\n");
+		assertThat(bis_read_bit(bis) % 2 != i % 2);
 	}
 
 	assertThat(bis_count(bis) == 0);

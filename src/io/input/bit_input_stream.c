@@ -39,9 +39,7 @@ void bis_free(bit_input_stream *bis) {
 }
 
 bit bis_read_bit(bit_input_stream *bis) {
-	printf("READ\n");
-	if (bis->current_cursor == 7) {
-		printf("EMPTY\n");
+	if (bis->current_cursor == 8) {
 		bis->empty = true;
 	}
 	
