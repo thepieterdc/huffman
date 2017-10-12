@@ -42,5 +42,7 @@ char *test_io_os_feed_read_count() {
 	
 	os_free(os);
 	
+	free(buf);
+	
 	return 0;
 }

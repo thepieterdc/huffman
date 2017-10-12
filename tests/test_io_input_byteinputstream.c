@@ -46,6 +46,7 @@ char *test_io_byis_consume_read_count() {
 	assertThat(test_read_count(bis) == 0);
 	
 	byis_free(bis);
+	
 	free(buf);
 	
 	return 0;

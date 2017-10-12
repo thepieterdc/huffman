@@ -47,6 +47,8 @@ char *test_io_bos_feed_bit_flush_count() {
 	
 	bos_free(bos);
 	
+	free(buf);
+	
 	return 0;
 }
 
@@ -77,6 +79,8 @@ char *test_io_bos_feed_bit_pad_flush_count() {
 	
 	bos_free(bos);
 	
+	free(buf);
+	
 	return 0;
 }
 
@@ -102,6 +106,8 @@ char *test_io_bos_feed_byte_flush_count() {
 	assertThat((byte) getc(memfile) == 0b10101010);
 
 	bos_free(bos);
+	
+	free(buf);
 	
 	return 0;
 }

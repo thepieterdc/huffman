@@ -42,6 +42,7 @@ char *test_io_bis_read_bit_count() {
 	assertThat(bis_count(bis) == 0);
 
 	bis_free(bis);
+	
 	free(buf);
 	
 	return 0;
@@ -65,6 +66,7 @@ char *test_io_bis_read_byte_count() {
 	assertThat(bis_count(bis) == 0);
 	
 	bis_free(bis);
+	
 	free(buf);
 	
 	return 0;

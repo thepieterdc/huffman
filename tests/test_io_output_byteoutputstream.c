@@ -42,5 +42,7 @@ char *test_io_byos_feed_flush_count() {
 
 	byos_free(byos);
 	
+	free(buf);
+	
 	return 0;
 }

@@ -22,27 +22,28 @@ char *test_io_ios_feed_flush_count() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
-	
+
 	int_output_stream *ios = ios_create(memfile);
-	
+
 	assertThat(ios_count(ios) == 0);
-	
+
 	for (size_t i = 0; i < 10; ++i) {
 		ios_feed(ios, (int) i);
 	}
-	
+
 	assertThat(ios_count(ios) == 10);
-	
+
 	ios_flush(ios);
-	
+
 	assertThat(ios_count(ios) == 0);
-	
+
 	for (size_t i = 0; i < 10; ++i) {
 		assertThat(char_to_int((size_t) getc(memfile)) == (int) i);
 	}
-	
-	
+
 	ios_free(ios);
+	
+	free(buf);
 	
 	return 0;
 }

@@ -43,6 +43,7 @@ char *test_io_iis_consume_read_count() {
 	assertThat(test_read_count(iis) == 0);
 	
 	iis_free(iis);
+	
 	free(buf);
 	
 	return 0;
