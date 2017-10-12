@@ -8,6 +8,7 @@
 #include "test_io_output_intoutputstream.h"
 #include "test_unit.h"
 #include "../src/io/output/int_output_stream.h"
+#include "../src/util/string.h"
 
 char *test_io_ios_create_free() {
 	int_output_stream *ios = ios_create(NULL);
@@ -33,8 +34,8 @@ char *test_io_ios_feed_flush_count() {
 	
 	ios_flush(ios);
 	
-	assertThat(getc(memfile) == 5);
-	assertThat(getc(memfile) == 6);
+	assertThat(char_to_int((size_t) getc(memfile)) == 5);
+	assertThat(char_to_int((size_t) getc(memfile)) == 6);
 	
 	assertThat(ios_count(ios) == 0);
 	
