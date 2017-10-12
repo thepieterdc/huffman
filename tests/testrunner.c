@@ -28,8 +28,8 @@ static char *all_tests() {
 	/** Test: io/input/bit_input_stream. */
 	test(test_io_bis_create_free);
 	test(test_io_bis_consume_read_bit_count);
-	test(test_io_bis_feed_bit_read_bit_count);
-	test(test_io_bis_feed_byte_read_byte_count);
+//	test(test_io_bis_feed_bit_read_bit_count);
+//	test(test_io_bis_feed_byte_read_byte_count);
 	
 	/** Test: io/input/byte_input_stream. */
 	test(test_io_byis_create_free);
@@ -45,9 +45,11 @@ static char *all_tests() {
 	test(test_io_iis_consume_read_count);
 	test(test_io_iis_feed_read_count);
 	
-	/** Test: util/bit. */
+	/** Test: util/binary. */
+	test(test_bit_to_bitchar);
 	test(test_bitchar_to_bit);
 	test(test_bitstring_to_byte);
+	test(test_byte_to_bitstring);
 	
 	/** Test: util/string. */
 	test(test_char_to_int);
@@ -68,5 +70,5 @@ int main(void) {
 	} else {
 		warning(msg);
 	}
-	return 0;
+	return testunit_tests_ok != testunit_tests_total;
 }
