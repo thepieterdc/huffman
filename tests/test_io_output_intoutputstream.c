@@ -27,17 +27,20 @@ char *test_io_ios_feed_flush_count() {
 	
 	assertThat(ios_count(ios) == 0);
 	
-	ios_feed(ios, 5);
-	ios_feed(ios, 6);
+	for (size_t i = 0; i < 10; ++i) {
+		ios_feed(ios, (int) i);
+	}
 	
-	assertThat(ios_count(ios) == 2);
+	assertThat(ios_count(ios) == 10);
 	
 	ios_flush(ios);
 	
-	assertThat(char_to_int((size_t) getc(memfile)) == 5);
-	assertThat(char_to_int((size_t) getc(memfile)) == 6);
-	
 	assertThat(ios_count(ios) == 0);
+	
+	for (size_t i = 0; i < 10; ++i) {
+		assertThat(char_to_int((size_t) getc(memfile)) == (int) i);
+	}
+	
 	
 	ios_free(ios);
 	
