@@ -37,7 +37,9 @@ void byis_feed(byte_input_stream *bis, byte b) {
 
 void byis_free(byte_input_stream *bis) {
 	is_free(bis->stream);
-	fclose(bis->channel);
+	if(bis->channel) {
+		fclose(bis->channel);
+	}
 	free(bis);
 }
 

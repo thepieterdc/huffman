@@ -10,14 +10,9 @@
 #include "../../util/logging.h"
 #include "../../util/binary.h"
 
-
-void bis_consume(bit_input_stream *bis) {
-	byis_consume(bis->bytestream);
-}
-
 size_t bis_count(bit_input_stream *bis) {
-	size_t bufsize = bis->empty ? 0 : (8 - bis->current_cursor);
-	return byis_count(bis->bytestream) * 8 + bufsize;
+	size_t buffer = bis->empty ? 0 : (8 - bis->current_cursor);
+	return byis_count(bis->bytestream) * 8 + buffer;
 }
 
 bit_input_stream *bis_create(FILE *channel) {
@@ -27,29 +22,14 @@ bit_input_stream *bis_create(FILE *channel) {
 	} else {
 		ret->bytestream = byis_create(channel);
 		ret->current_byte = 0;
-		ret->current_cursor = 0;
+		ret->current_cursor = NULL;
 		ret->empty = true;
+		
+		if (channel) {
+			byis_consume(ret->bytestream);
+		}
 	}
 	return ret;
-}
-
-void bis_feed_bit(bit_input_stream *bis, bit b) {
-	bis->current_byte <<= 1;
-	bis->current_byte |= b;
-	
-	bis->current_cursor++;
-	
-	if(bis->current_cursor == 8) {
-		byis_feed(bis->bytestream, bis->current_byte);
-		bis->current_byte = 0;
-		bis->current_cursor = 0;
-	}
-}
-
-void bis_feed_byte(bit_input_stream *bis, byte b) {
-	if(bis->empty) {
-	
-	}
 }
 
 void bis_free(bit_input_stream *bis) {

@@ -15,20 +15,10 @@
 typedef struct {
 	byte_input_stream *bytestream;
 	
-	byte current_feed_byte;
-	size_t current_feed_cursor;
-	
-	byte current_read_byte;
-	size_t current_read_cursor;
-	bool current_read_empty;
+	byte current_byte;
+	size_t current_cursor;
+	bool empty;
 } bit_input_stream;
-
-/**
- * Consumes the entire input channel and saves it to the buffer.
- *
- * @param bis the bit input stream
- */
-void bis_consume(bit_input_stream *bis);
 
 /**
  * Gets the amount of items in the bit input stream buffer.
@@ -45,22 +35,6 @@ size_t bis_count(bit_input_stream *bis);
  * @return the created byte input stream
  */
 bit_input_stream *bis_create(FILE *channel);
-
-/**
- * Feeds the stream with one bit.
- *
- * @param bis the bit input stream
- * @param b the bit to feed
- */
-void bis_feed_bit(bit_input_stream *bis, bit b);
-
-/**
- * Feeds the stream with one byte.
- *
- * @param bis the bit input stream
- * @param b the byte to feed
- */
-void bis_feed_byte(bit_input_stream *bis, byte b);
 
 /**
  * Frees the memory allocated by the bit input stream.
