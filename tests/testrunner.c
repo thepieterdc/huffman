@@ -11,6 +11,7 @@
 #include "test_io_input_byteinputstream.h"
 #include "test_io_input_inputstream.h"
 #include "test_io_input_intinputstream.h"
+#include "test_io_output_outputstream.h"
 #include "test_util_binary.h"
 #include "test_util_string.h"
 
@@ -43,6 +44,10 @@ static char *all_tests() {
 	test(test_io_iis_create_free);
 	test(test_io_iis_consume_read_count);
 	test(test_io_iis_feed_read_count);
+	
+	/** Test: io/output/output_stream. */
+	test(test_io_os_create_free);
+	test(test_io_os_feed_read_count);
 	
 	/** Test: util/binary. */
 	test(test_bit_to_bitchar);
