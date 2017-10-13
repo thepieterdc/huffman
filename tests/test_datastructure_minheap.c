@@ -36,8 +36,6 @@ char *test_minheap_insert_find_extract_min() {
 	char testcases[8] = {'E', 'H', 'B', 'A', 'C', 'G', 'F', 'D'};
 	
 	for (size_t i = 0; i < 8; ++i) {
-		
-		printf("%c - %c\n", (unsigned char) minheap_find_min(heap), testcases[i]);
 		assertThat((char) minheap_find_min(heap) == testcases[i]);
 		assertThat((char) minheap_extract_min(heap) == testcases[i]);
 		assertThat(heap->size == 8 - 1 - i);

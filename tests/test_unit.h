@@ -10,7 +10,7 @@
 #include "../src/util/logging.h"
 
 #define assertThat(test) do { if (!(test)) return _testunit_assert_failed(__func__, __LINE__, #test); } while (0)
-#define test(test) do { testunit_tests_total++; char *message = test(); if (message) warning(message); else { success((char*) #test); testunit_tests_ok++; } } while (0)
+#define test(test) do { testunit_tests_total++; char *message = test(); if (message) error(message); else { success((char*) #test); testunit_tests_ok++; } } while (0)
 
 /** The amount of passed tests. */
 extern int testunit_tests_ok;

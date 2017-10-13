@@ -9,10 +9,12 @@
 
 void huffman_standard_compress(FILE *input, FILE *output) {
 	info("Using algorithm: Standard Huffman.");
-	info("Mode: compress");
+	info("Mode: Compress");
+	
+	
 }
 
 void huffman_standard_decompress(FILE *input, FILE *output) {
 	info("Using algorithm: Standard Huffman.");
-	info("Mode: decompress");
+	info("Mode: Decompress");
 }
