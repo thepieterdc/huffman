@@ -26,61 +26,61 @@
  */
 static char *all_tests() {
 	/** Test: datastructures/min_heap. */
-//	test(test_minheap_create_free);
+	test(test_minheap_create_free);
 	test(test_minheap_insert_find_extract_min);
-//
-//	/** Test: datastructures/queue. */
-//	test(test_queue_create_free);
-//	test(test_queue_empty);
-//	test(test_queue_push_peek_pop);
-//
-//	/** Test: io/input/bit_input_stream. */
-//	test(test_io_bis_create_free);
-//	test(test_io_bis_read_bit_count);
-//	test(test_io_bis_read_byte_count);
-//
-//	/** Test: io/input/byte_input_stream. */
-//	test(test_io_byis_create_free);
-//	test(test_io_byis_consume_read_count);
-//	test(test_io_byis_feed_read_count);
-//
-//	/** Test: io/input/input_stream. */
-//	test(test_io_is_create_free);
-//	test(test_io_is_feed_read_count);
-//
-//	/** Test: io/input/int_input_stream. */
-//	test(test_io_iis_create_free);
-//	test(test_io_iis_consume_read_count);
-//	test(test_io_iis_feed_read_count);
-//
-//	/** Test: io/output/bit_output_stream. */
-//	test(test_io_bos_create_free);
-//	test(test_io_bos_feed_bit_flush_count);
-//	test(test_io_bos_feed_bit_pad_flush_count);
-//	test(test_io_bos_feed_byte_flush_count);
-//
-//	/** Test: io/output/byte_output_stream. */
-//	test(test_io_byos_create_free);
-//	test(test_io_byos_feed_flush_count);
-//
-//	/** Test: io/output/int_output_stream. */
-//	test(test_io_ios_create_free);
-//	test(test_io_ios_feed_flush_count);
-//
-//	/** Test: io/output/output_stream. */
-//	test(test_io_os_create_free);
-//	test(test_io_os_feed_read_count);
-//
-//	/** Test: util/binary. */
-//	test(test_bit_to_bitchar);
-//	test(test_bitchar_to_bit);
-//	test(test_bitstring_to_byte);
-//	test(test_byte_to_bitstring);
-//
-//	/** Test: util/string. */
-//	test(test_char_to_int);
-//	test(test_string_concat);
-//	test(test_string_equals);
+
+	/** Test: datastructures/queue. */
+	test(test_queue_create_free);
+	test(test_queue_empty);
+	test(test_queue_push_peek_pop);
+
+	/** Test: io/input/bit_input_stream. */
+	test(test_io_bis_create_free);
+	test(test_io_bis_read_bit_count);
+	test(test_io_bis_read_byte_count);
+
+	/** Test: io/input/byte_input_stream. */
+	test(test_io_byis_create_free);
+	test(test_io_byis_consume_read_count);
+	test(test_io_byis_feed_read_count);
+
+	/** Test: io/input/input_stream. */
+	test(test_io_is_create_free);
+	test(test_io_is_feed_read_count);
+
+	/** Test: io/input/int_input_stream. */
+	test(test_io_iis_create_free);
+	test(test_io_iis_consume_read_count);
+	test(test_io_iis_feed_read_count);
+
+	/** Test: io/output/bit_output_stream. */
+	test(test_io_bos_create_free);
+	test(test_io_bos_feed_bit_flush_count);
+	test(test_io_bos_feed_bit_pad_flush_count);
+	test(test_io_bos_feed_byte_flush_count);
+
+	/** Test: io/output/byte_output_stream. */
+	test(test_io_byos_create_free);
+	test(test_io_byos_feed_flush_count);
+
+	/** Test: io/output/int_output_stream. */
+	test(test_io_ios_create_free);
+	test(test_io_ios_feed_flush_count);
+
+	/** Test: io/output/output_stream. */
+	test(test_io_os_create_free);
+	test(test_io_os_feed_read_count);
+
+	/** Test: util/binary. */
+	test(test_bit_to_bitchar);
+	test(test_bitchar_to_bit);
+	test(test_bitstring_to_byte);
+	test(test_byte_to_bitstring);
+
+	/** Test: util/string. */
+	test(test_char_to_int);
+	test(test_string_concat);
+	test(test_string_equals);
 	return 0;
 }
 

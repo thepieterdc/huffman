@@ -42,32 +42,31 @@
  * @param position the position to start (recursive)
  */
 static void min_heapify(min_heap *heap) {
-	if (heap->size != 0) {
-		int left = heap_left(0);
-		int right = heap_right(0);
-		
-		int index = 0;
+	int index = 0;
+	int left = heap_left(index);
+	int right = heap_right(index);
+	
+	while (index < heap->size) {
 		int swap = index;
-		while (true) {
-			if (left < heap->size && heap->heap[left]->key < heap->heap[index]->key) {
-				swap = left;
-			}
+		
+		if (left < heap->size && heap->heap[left]->key < heap->heap[index]->key) {
+			swap = left;
+		}
+		
+		if (right < heap->size && heap->heap[right]->key < heap->heap[swap]->key) {
+			swap = right;
+		}
+		
+		if (index != swap) {
+			heap_node *tmp = heap->heap[index];
+			heap->heap[index] = heap->heap[swap];
+			heap->heap[swap] = tmp;
 			
-			if (right < heap->size && heap->heap[right]->key < heap->heap[swap]->key) {
-				swap = right;
-			}
-			
-			if (index != swap) {
-				heap_node *tmp = heap->heap[index];
-				heap->heap[index] = heap->heap[swap];
-				heap->heap[swap] = tmp;
-				
-				index = swap;
-				left = heap_left(index);
-				right = heap_right(index);
-			} else {
-				break;
-			}
+			index = swap;
+			left = heap_left(index);
+			right = heap_right(index);
+		} else {
+			break;
 		}
 	}
 }
@@ -90,28 +89,11 @@ void *minheap_extract_min(min_heap *heap) {
 		error(ERROR_EMPTY_HEAP);
 	}
 	
-	printf("\n");
-	
 	void *min = heap->heap[0]->data;
-	
-	for (size_t j = 0; j < heap->size; ++j) {
-		printf("%c - ", (unsigned char) heap->heap[j]->data);
-	}
-	
-	printf("\n");
 	
 	free(heap->heap[0]);
 	
-	for (size_t j = 0; j < heap->size; ++j) {
-		printf("%c - ", (unsigned char) heap->heap[j]->data);
-	}
-	
-	printf("\n");
-	
-	if (heap->size > 1) {
-		heap->heap[0] = heap->heap[heap->size - 1];
-	}
-	heap->heap[heap->size--] = NULL;
+	heap->heap[0] = heap->heap[--heap->size];
 	
 	min_heapify(heap);
 	
