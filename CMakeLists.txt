@@ -10,6 +10,11 @@ set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O4")
 set(CMAKE_C_STANDARD 99)
 
+file(GLOB algorithms_SRC
+		"src/algorithms/*h"
+		"src/algorithms/*.c"
+		)
+
 file(GLOB datastructures_SRC
 		"src/datastructures/*.h"
 		"src/datastructures/*.c"
@@ -34,8 +39,7 @@ file(GLOB util_SRC
 		"src/util/*.c"
 		)
 
-set(huffman_SRC ${datastructures_SRC} ${datatypes_SRC} ${io_SRC} ${util_SRC})
-
+set(huffman_SRC ${algorithms_SRC} ${datastructures_SRC} ${datatypes_SRC} ${io_SRC} ${util_SRC})
 add_executable(huffman src/main.c ${huffman_SRC})
 
 add_executable(huffman_tests tests/testrunner.c ${huffman_SRC} ${tests_SRC})
