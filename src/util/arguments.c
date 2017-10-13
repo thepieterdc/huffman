@@ -9,24 +9,28 @@
 #include <unistd.h>
 #include "arguments.h"
 #include "../algorithms/standard.h"
+#include "logging.h"
+#include "errors.h"
 
-_compressionfunction compressionfunctions[1] = {huffman_standard_compress};
+_huffmanfunction compressionfunctions[1] = {huffman_standard_compress};
 
-_decompressionfunction decompressionfunction[1] = {huffman_standard_decompress};
+_huffmanfunction decompressionfunction[1] = {huffman_standard_decompress};
 
-//
-//arguments *argument_parse(int argc, char **argv) {
-//	arguments *args = (arguments *) malloc(sizeof(arguments));
-//
-//	int c;
-//	while((c = getopt(argc, argv, "t:cd")) != -1) {
-//		switch(c) {
-//			case 't':
-//				args->algorithm = ;
-//				break;
-//		}
-//		printf("%d\n%s\n", c, optarg);
-//	}
-//
-//	return args;
-//}
+enum algorithm algorithm_from_opt(char opt) {
+	int optval = char_to_int(opt);
+	if (optval < 1 || optval > 5) {
+		error(ERROR_ARGUMENT_ALGORITHM);
+	}
+	return (enum algorithm) (optval - 1);
+}
+
+enum mode mode_from_opt(char opt) {
+	if (opt != 'c' && opt != 'd') {
+		error(ERROR_ARGUMENT_MODE);
+	}
+	
+	if (opt == 'c') {
+		return COMPRESS;
+	}
+	return DECOMPRESS;
+}

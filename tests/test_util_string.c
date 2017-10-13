@@ -11,7 +11,7 @@
 
 char *test_char_to_int() {
 	for (size_t i = 0; i < 9; ++i) {
-		assertThat(char_to_int(48 + i) == i);
+		assertThat(char_to_int((char) (48 + i)) == i);
 	}
 	return 0;
 }
