@@ -7,14 +7,22 @@
 #ifndef HUFFMAN_ALGORITHMS_STANDARD_H
 #define HUFFMAN_ALGORITHMS_STANDARD_H
 
+#include <stdio.h>
+
 /**
  * Standard Huffman compression.
+ *
+ * @param input the input data to process
+ * @param output the output channel
  */
-void huffman_standard_compress();
+void huffman_standard_compress(FILE *input, FILE *output);
 
 /**
  * Standard Huffman decompression.
+ *
+ * @param input the input data to process
+ * @param output the output channel
  */
-void huffman_standard_decompress();
+void huffman_standard_decompress(FILE *input, FILE *output);
 
 #endif /* HUFFMAN_ALGORITHMS_STANDARD_H */

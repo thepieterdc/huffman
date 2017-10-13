@@ -24,6 +24,10 @@ enum algorithm algorithm_from_opt(char opt) {
 	return (enum algorithm) (optval - 1);
 }
 
+_huffmanfunction *argument_parse(int argc, char **argv) {
+
+}
+
 enum mode mode_from_opt(char opt) {
 	if (opt != 'c' && opt != 'd') {
 		error(ERROR_ARGUMENT_MODE);

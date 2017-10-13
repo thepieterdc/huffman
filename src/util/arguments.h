@@ -7,12 +7,16 @@
 #ifndef HUFFMAN_UTIL_ARGUMENTS_H
 #define HUFFMAN_UTIL_ARGUMENTS_H
 
+#include <stdio.h>
 #include "string.h"
 
 /**
- * A compression or decompression function.
+ * A Huffman compression or decompression function.
+ *
+ * @param input the input data to process
+ * @param output the output channel
  */
-typedef void (*_huffmanfunction)();
+typedef void (*_huffmanfunction)(FILE *input, FILE *output);
 
 /**
  * Algorithms.

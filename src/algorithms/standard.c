@@ -7,12 +7,12 @@
 #include "standard.h"
 #include "../util/logging.h"
 
-void huffman_standard_compress() {
-	info("Using algorithm: Standard.");
+void huffman_standard_compress(FILE *input, FILE *output) {
+	info("Using algorithm: Standard Huffman.");
 	info("Mode: compress");
 }
 
-void huffman_standard_decompress() {
-	info("Using algorithm: Standard.");
+void huffman_standard_decompress(FILE *input, FILE *output) {
+	info("Using algorithm: Standard Huffman.");
 	info("Mode: decompress");
 }
