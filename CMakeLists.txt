@@ -15,6 +15,11 @@ file(GLOB algorithms_SRC
 		"src/algorithms/*.c"
 		)
 
+file(GLOB datastructures_SRC
+		"src/datastructures/*.h"
+		"src/datastructures/*.c"
+		)
+
 file(GLOB tests_SRC
 		"tests/*.h"
 		"tests/*.c"
@@ -25,9 +30,8 @@ file(GLOB util_SRC
 		"src/util/*.c"
 		)
 
-set(huffman_SRC ${algorithms_SRC} ${util_SRC})
-
-add_executable(huffman src/main.c ${util_SRC})
+set(huffman_SRC ${algorithms_SRC} ${datastructures_SRC} ${util_SRC})
+add_executable(huffman src/main.c ${huffman_SRC})
 
 add_executable(huffman_tests tests/testrunner.c ${huffman_SRC} ${tests_SRC})
 target_compile_definitions(huffman_tests PRIVATE IS_TEST=True)
