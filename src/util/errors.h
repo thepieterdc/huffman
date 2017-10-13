@@ -12,6 +12,7 @@
 #define ERROR_EMPTY_HEAP 2
 #define ERROR_ARGUMENT_ALGORITHM 3
 #define ERROR_ARGUMENT_MODE 4
+#define ERROR_SYNTAX_INVALID 5
 
 /**
  * Contains all error messages; keys are defined above.

@@ -57,7 +57,7 @@ enum algorithm algorithm_from_opt(char opt);
  * @param argv the arguments
  * @return the required Huffman function
  */
-_huffmanfunction *argument_parse(int argc, char **argv);
+_huffmanfunction argument_parse(int argc, char **argv);
 
 /**
  * Gets the correct mode for a given option flag.
