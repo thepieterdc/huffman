@@ -40,19 +40,13 @@ void error(char *msg) {
 #endif
 
 void info(char *msg) {
-#ifdef IS_DEBUG
 	write_message(stdout, "INFO", COLOUR_LOG_INFO, msg);
-#endif
 }
 
 void success(char *msg) {
-#ifdef IS_DEBUG
 	write_message(stdout, "OK", COLOUR_LOG_SUCCESS, msg);
-#endif
 }
 
 void warning(char *msg) {
-#ifdef IS_DEBUG
 	write_message(stderr, "WARNING", COLOUR_LOG_WARNING, msg);
-#endif
 }

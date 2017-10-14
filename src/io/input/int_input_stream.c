@@ -13,7 +13,7 @@
 void iis_consume(int_input_stream *iis) {
 	int c;
 	while ((c = getc(iis->channel)) != EOF) {
-		iis_feed(iis, char_to_int((size_t) c));
+		iis_feed(iis, char_to_int((char) c));
 	}
 }
 
