@@ -15,7 +15,7 @@
 #include "../util/logging.h"
 #include "../util/binary.h"
 
-static uint_least64_t MSB = 1 << 63;
+static uint_least64_t uint64_msb = ((uint_least64_t) 1) << 63;
 
 /**
  * A 256-bit integer.
@@ -94,7 +94,11 @@ void uint256_set_lsb(uint256_t *value, bit lsb) {
  * @return a new uint256 with the modified MSB
  */
 void uint256_set_msb(uint256_t *value, bit msb) {
-	value->value[0] |= (msb << 63);
+	if (msb) {
+		value->value[0] |= uint64_msb;
+	} else {
+		value->value[0] &= ~(uint64_msb);
+	}
 }
 
 /**
@@ -108,7 +112,7 @@ uint256_t *uint256_shift_left(uint256_t *value) {
 	ret->value[0] = value->value[0] << 1;
 	bit carry = 0;
 	for (size_t p = 1; p < 4; ++p) {
-		carry = (bit) (value->value[p] & MSB);
+		carry = (bit) (value->value[p] & uint64_msb);
 		ret->value[p] = value->value[p] << 1;
 		ret->value[p - 1] |= carry;
 	}
@@ -124,7 +128,7 @@ void uint256_shift_left_assign(uint256_t *value) {
 	value->value[0] = value->value[0] << 1;
 	bit carry = 0;
 	for (size_t p = 2; p >= 0; p--) {
-		carry = (bit) (value->value[p] & MSB);
+		carry = (bit) (value->value[p] & uint64_msb);
 		value->value[p] = value->value[p] << 1;
 		value->value[p + 1] |= carry;
 	}
@@ -143,7 +147,7 @@ uint256_t *uint256_shift_right(const uint256_t *value) {
 	for (size_t p = 1; p < 3; ++p) {
 		carry = (bit) (value->value[p] & 1);
 		ret->value[p] = value->value[p] >> 1;
-		ret->value[p - 1] |= (carry << MSB);
+		ret->value[p - 1] |= (carry << uint64_msb);
 	}
 	return ret;
 }
@@ -159,7 +163,7 @@ void uint256_shift_right_assign(uint256_t *value) {
 	for (size_t p = 1; p < 3; ++p) {
 		carry = (bit) (value->value[p] & 1);
 		value->value[p] = value->value[p] >> 1;
-		value->value[p - 1] |= (carry << MSB);
+		value->value[p - 1] |= (carry << uint64_msb);
 	}
 }
 
