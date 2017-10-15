@@ -41,7 +41,12 @@ static char *all_tests() {
 	test(test_queue_push_peek_pop);
 	
 	/** Test: datatypes/uint256_t. */
-	test(test_uint256t_create_free);
+	test(test_uint256t_copy);
+	test(test_uint256t_create);
+	test(test_uint256t_equals);
+	test(test_uint256t_set_lsb_msb);
+	test(test_uint256t_shift);
+	test(test_uint256t_to_bitstring);
 	
 	/** Test: io/input/bit_input_stream. */
 	test(test_io_bis_create_free);
@@ -102,8 +107,9 @@ int main(void) {
 	
 	all_tests();
 	
-	char msg[25];
-	sprintf(msg, "%d/%d tests succeeded.", testunit_tests_ok, testunit_tests_total);
+	char msg[60];
+	sprintf(msg, "%d/%d tests succeeded. %d assertions tested.", testunit_tests_ok, testunit_tests_total,
+	        testunit_assertions);
 	if (testunit_tests_ok == testunit_tests_total) {
 		success(msg);
 	} else {

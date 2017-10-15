@@ -8,6 +8,7 @@
 #include <assert.h>
 #include "test_unit.h"
 
+int testunit_assertions = 0;
 int testunit_tests_ok = 0;
 int testunit_tests_total = 0;
 

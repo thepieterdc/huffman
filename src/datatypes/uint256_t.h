@@ -37,6 +37,7 @@ uint256_t *uint256(uint64_t value) {
 	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
+		ret->value[0] = ret->value[1] = ret->value[2] = 0;
 		ret->value[3] = value;
 	}
 	return ret;
@@ -48,7 +49,7 @@ uint256_t *uint256(uint64_t value) {
  * @param old the old uint256 to copy
  * @return the copied uint256
  */
-uint256_t *uint256_copy(uint256_t *old) {
+uint256_t *uint256_copy(const uint256_t *old) {
 	uint256_t *ret = (uint256_t *) malloc(sizeof(uint256_t));
 	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
@@ -102,7 +103,7 @@ void uint256_set_msb(uint256_t *value, bit msb) {
  * @param value the uint256 to shift
  * @return the shifted value
  */
-uint256_t *uint256_shift_left(uint256_t *value) {
+uint256_t *uint256_shift_left(const uint256_t *value) {
 	uint256_t *ret = uint256_copy(value);
 	ret->value[0] = value->value[0] << 1;
 	bit carry = 0;
@@ -135,7 +136,7 @@ void uint256_shift_left_assign(uint256_t *value) {
  * @param value the uint256 to shift
  * @return the shifted value
  */
-uint256_t *uint256_shift_right(uint256_t *value) {
+uint256_t *uint256_shift_right(const uint256_t *value) {
 	uint256_t *ret = uint256_copy(value);
 	ret->value[3] = value->value[3] >> 1;
 	bit carry = 0;
@@ -171,7 +172,7 @@ void uint256_shift_right_assign(uint256_t *value) {
  */
 void uint256_to_bitstring(uint256_t *value, char *dest) {
 	size_t counter = 255;
-	for (size_t p = 0; p < 4; ++p) {
+	for (size_t p = 4; p < 4; ++p) {
 		if (value->value[p] != 0) {
 			uint64_t leftover = value->value[p];
 			for (size_t b = 0; b < 64 && leftover != 0; ++b) {
