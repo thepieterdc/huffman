@@ -6,20 +6,21 @@
 
 #include <stdio.h>
 #include "test_unit.h"
+#include "test_datastructure_huffmantree.h"
+#include "test_datastructure_minheap.h"
 #include "test_datastructure_queue.h"
+#include "test_datatype_uint256t.h"
 #include "test_io_input_bitinputstream.h"
 #include "test_io_input_byteinputstream.h"
 #include "test_io_input_inputstream.h"
 #include "test_io_input_intinputstream.h"
+#include "test_io_output_bitoutputstream.h"
 #include "test_io_output_byteoutputstream.h"
 #include "test_io_output_intoutputstream.h"
 #include "test_io_output_outputstream.h"
+#include "test_util_arguments.h"
 #include "test_util_binary.h"
 #include "test_util_string.h"
-#include "test_io_output_bitoutputstream.h"
-#include "test_datastructure_minheap.h"
-#include "test_util_arguments.h"
-#include "test_datastructure_huffmantree.h"
 
 /**
  * Runs all tests.
@@ -38,6 +39,9 @@ static char *all_tests() {
 	test(test_queue_create_free);
 	test(test_queue_empty);
 	test(test_queue_push_peek_pop);
+	
+	/** Test: datatypes/uint256_t. */
+	test(test_uint256t_create_free);
 	
 	/** Test: io/input/bit_input_stream. */
 	test(test_io_bis_create_free);

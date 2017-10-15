@@ -32,10 +32,9 @@ string byte_to_bitstring(byte b) {
 	string ret = (string) malloc((8 + 1) * sizeof(char));
 	ret[8] = '\0';
 	
-	byte buf = b;
 	for (size_t i = 0; i < 8; ++i) {
-		ret[7 - i] = bit_to_bitchar((bit) (buf & 1));
-		buf >>= 1;
+		ret[7 - i] = bit_to_bitchar((bit) (b & 1));
+		b >>= 1;
 	}
 	return ret;
 }

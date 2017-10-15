@@ -12,9 +12,13 @@
 #include "../datastructures/huffman_tree.h"
 
 void huffman_standard_compress(FILE *input, FILE *output) {
+	/* Reset the order numbers. */
+	huffman_reset_ordercounter();
+	
 	/* Create a buffer to store the input. */
 	byte_input_stream *inputStream = byis_create(NULL);
 	
+	/* Determine the frequencies of each byte. */
 	size_t frequencies[256];
 	
 	int in;
@@ -23,6 +27,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		byis_feed(inputStream, (byte) in);
 	}
 	
+	/* Add all bytes to a heap. */
 	min_heap *heap = minheap_create(256);
 	for (size_t i = 0; i < 256; ++i) {
 		if (frequencies[i] > 0) {
@@ -31,6 +36,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		}
 	}
 	
+	/* Create the Huffman tree. */
 	while (heap->size > 1) {
 		huffman_node *left = minheap_extract_min(heap);
 		huffman_node *right = minheap_extract_min(heap);
@@ -39,8 +45,9 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	}
 	
 	huffman_node *tree = minheap_find_min(heap);
-//
-//
+
+	/* */
+
 //	char **codes_dictionary = (char **) malloc(256 * sizeof(char *));
 //	dynamic_array *volgorde_letters = da_create();
 //
