@@ -59,6 +59,44 @@ uint256_t *uint256_copy(uint256_t *old) {
 }
 
 /**
+ * Compares two uint256's for equality.
+ *
+ * @param first first value
+ * @param second second value
+ * @return true if both are equal
+ */
+bool uint256_equals(uint256_t *first, uint256_t *second) {
+	bool equal = true;
+	for (size_t p = 0; p < 4; ++p) {
+		if (first->value[p] != second->value[p]) {
+			return false;
+		}
+	}
+	return equal;
+}
+
+/**
+ * Sets the least significant bit.
+ *
+ * @param value the uint256 to modify
+ * @param lsb the value (0 or 1) to set the lsb to
+ */
+void uint256_set_lsb(uint256_t *value, bit lsb) {
+	value->value[3] |= lsb;
+}
+
+/**
+ * Sets the most significant bit.
+ *
+ * @param value the uint256 to modify
+ * @param msb the value (0 or 1) to set the MSB to
+ * @return a new uint256 with the modified MSB
+ */
+void uint256_set_msb(uint256_t *value, bit msb) {
+	value->value[0] |= (msb << 63);
+}
+
+/**
  * Shifts the supplied uint256 to the left over 1 bit (<<).
  *
  * @param value the uint256 to shift
@@ -77,6 +115,21 @@ uint256_t *uint256_shift_left(uint256_t *value) {
 }
 
 /**
+ * Shifts the given uint256 to the left over 1 bit (<<=).
+ *
+ * @param value the uint256 to shift
+ */
+void uint256_shift_left_assign(uint256_t *value) {
+	value->value[0] = value->value[0] << 1;
+	bit carry = 0;
+	for (size_t p = 2; p >= 0; --p) {
+		carry = (bit) (value->value[p] & MSB);
+		value->value[p] = value->value[p] << 1;
+		value->value[p + 1] |= carry;
+	}
+}
+
+/**
  * Shifts the supplied uint256 to the right over 1 bit (logical >>).
  *
  * @param value the uint256 to shift
@@ -92,6 +145,21 @@ uint256_t *uint256_shift_right(uint256_t *value) {
 		ret->value[p - 1] |= (carry << MSB);
 	}
 	return ret;
+}
+
+/**
+ * Shifts the given uint256 to the right over 1 bit (logical >>=).
+ *
+ * @param value the uint256 to shift
+ */
+void uint256_shift_right_assign(uint256_t *value) {
+	value->value[3] = value->value[3] >> 1;
+	bit carry = 0;
+	for (size_t p = 1; p < 3; ++p) {
+		carry = (bit) (value->value[p] & 1);
+		value->value[p] = value->value[p] >> 1;
+		value->value[p - 1] |= (carry << MSB);
+	}
 }
 
 /**
