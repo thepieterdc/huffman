@@ -40,10 +40,10 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right) {
 		ret->right = right;
 		ret->data = 0;
 		ret->weight = 0;
-		if(left != NULL) {
+		if (left != NULL) {
 			ret->weight += left->weight;
 		}
-		if(right != NULL) {
+		if (right != NULL) {
 			ret->weight += right->weight;
 		}
 	}
@@ -51,11 +51,13 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right) {
 }
 
 void huffman_free(huffman_node *node) {
-	if (node->type == NODE) {
-		huffman_free(node->left);
-		huffman_free(node->right);
+	if (node) {
+		if (node->type == NODE) {
+			huffman_free(node->left);
+			huffman_free(node->right);
+		}
+		free(node);
 	}
-	free(node);
 }
 
 void huffman_reset_ordercounter() {
