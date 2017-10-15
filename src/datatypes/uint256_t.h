@@ -103,14 +103,14 @@ void uint256_set_msb(uint256_t *value, bit msb) {
  * @param value the uint256 to shift
  * @return the shifted value
  */
-uint256_t *uint256_shift_left(const uint256_t *value) {
+uint256_t *uint256_shift_left(uint256_t *value) {
 	uint256_t *ret = uint256_copy(value);
 	ret->value[0] = value->value[0] << 1;
 	bit carry = 0;
-	for (size_t p = 2; p >= 0; --p) {
+	for (size_t p = 1; p < 4; ++p) {
 		carry = (bit) (value->value[p] & MSB);
 		ret->value[p] = value->value[p] << 1;
-		ret->value[p + 1] |= carry;
+		ret->value[p - 1] |= carry;
 	}
 	return ret;
 }
@@ -123,7 +123,7 @@ uint256_t *uint256_shift_left(const uint256_t *value) {
 void uint256_shift_left_assign(uint256_t *value) {
 	value->value[0] = value->value[0] << 1;
 	bit carry = 0;
-	for (size_t p = 2; p >= 0; --p) {
+	for (size_t p = 2; p >= 0; p--) {
 		carry = (bit) (value->value[p] & MSB);
 		value->value[p] = value->value[p] << 1;
 		value->value[p + 1] |= carry;
