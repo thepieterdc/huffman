@@ -15,7 +15,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
 	byte_input_stream *inputStream = byis_create(NULL);
 	
-	size_t *frequencies = (size_t *) malloc(256 * sizeof(size_t));
+	size_t frequencies[256];
 	
 	int in;
 	while ((in = getc(input)) != EOF) {
@@ -30,39 +30,16 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 			minheap_insert(heap, leaf->weight, leaf);
 		}
 	}
+	
+	while (heap->size > 1) {
+		huffman_node *left = minheap_extract_min(heap);
+		huffman_node *right = minheap_extract_min(heap);
+		huffman_node *parent = huffman_create_node(left, right);
+		minheap_insert(heap, parent->weight, parent);
+	}
+	
+	huffman_node *tree = minheap_find_min(heap);
 //
-//	while (heap->size > 1) {
-//		huffman_node *minnode1 = da_get(heap, 0);
-//		int minnode1_idx = 0;
-//		for (int i = 1; i < heap->size; ++i) {
-//			huffman_node *node = da_get(heap, (size_t) i);
-//			if (node->weight < minnode1->weight) {
-//				minnode1 = node;
-//				minnode1_idx = i;
-//			}
-//		}
-//		da_remove_index(heap, (size_t) minnode1_idx);
-//
-//		huffman_node *minnode2 = da_get(heap, 0);
-//		int minnode2_idx = 0;
-//		for (int i = 1; i < heap->size; ++i) {
-//			huffman_node *node = da_get(heap, (size_t) i);
-//			if (node->weight < minnode2->weight) {
-//				minnode2 = node;
-//				minnode2_idx = i;
-//			}
-//		}
-//		da_remove_index(heap, (size_t) minnode2_idx);
-//
-//		huffman_node *node = (huffman_node *) malloc(sizeof(huffman_node));
-//		node->type = NODE;
-//		node->left = minnode1;
-//		node->right = minnode2;
-//		node->weight = minnode1->weight + minnode2->weight;
-//		da_add(heap, node);
-//	}
-//
-//	huffman_node *tree = da_get(heap, 0);
 //
 //	char **codes_dictionary = (char **) malloc(256 * sizeof(char *));
 //	dynamic_array *volgorde_letters = da_create();
@@ -82,6 +59,12 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 //		bp_print_bitstring(bp, codes_dictionary[(int) da_get(raw_string, (size_t) i)]);
 //	}
 //	bp_flush(bp);
+	
+	minheap_free(heap);
+	
+	huffman_free(tree);
+	
+	byis_free(inputStream);
 }
 
 void huffman_standard_decompress(FILE *input, FILE *output) {
