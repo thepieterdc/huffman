@@ -15,7 +15,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
 	byte_input_stream *inputStream = byis_create(NULL);
 	
-	int *frequencies = (int *) malloc(256 * sizeof(int));
+	size_t *frequencies = (size_t *) malloc(256 * sizeof(size_t));
 	
 	int in;
 	while ((in = getc(input)) != EOF) {
@@ -24,25 +24,12 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	}
 	
 	min_heap *heap = minheap_create(256);
-	for(size_t i = 0; i < 256; ++i) {
-		if(frequencies[i] > 0) {
-			huffman_node *node = CREATEHUFFMANNODE();
+	for (size_t i = 0; i < 256; ++i) {
+		if (frequencies[i] > 0) {
+			huffman_node *leaf = huffman_create_leaf((byte) i, frequencies[i]);
+			minheap_insert(heap, leaf->weight, leaf);
 		}
 	}
-	
-//
-//	dynamic_array *heap = da_create();
-//	for (int i = 0; i < 256; ++i) {
-//		if (frequencies[i] > 0) {
-//			huffman_node *node = (huffman_node *) malloc(sizeof(huffman_node));
-//			node->type = LEAF;
-//			node->left = NULL;
-//			node->right = NULL;
-//			node->value = i;
-//			node->weight = (size_t) frequencies[i];
-//			da_add(heap, node);
-//		}
-//	}
 //
 //	while (heap->size > 1) {
 //		huffman_node *minnode1 = da_get(heap, 0);

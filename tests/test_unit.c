@@ -14,7 +14,7 @@ int testunit_tests_total = 0;
 static char message_string[255 + 1];
 
 char *_testunit_assert_failed(const char *func, int line, const char *code) {
-	snprintf(message_string, 10240, "%s (assertion: %s @ line: %d)", func, code, line);
+	snprintf(message_string, 255, "%s (assertion: %s @ line: %d)", func, code, line);
 	
 	message_string[255] = '\0';
 	

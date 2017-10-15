@@ -38,6 +38,7 @@ dkms.conf
 
 ### CLion
 cmake-build-debug/
+cmake-build-release/
 .idea/
 *.iws
 .idea_modules/

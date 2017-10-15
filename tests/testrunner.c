@@ -19,6 +19,7 @@
 #include "test_io_output_bitoutputstream.h"
 #include "test_datastructure_minheap.h"
 #include "test_util_arguments.h"
+#include "test_datastructure_huffmantree.h"
 
 /**
  * Runs all tests.
@@ -26,6 +27,9 @@
  * @return N/A
  */
 static char *all_tests() {
+	/** Test: datastructures/huffman_tree. */
+	test(test_huffmantree_create_free_reset_counter);
+	
 	/** Test: datastructures/min_heap. */
 	test(test_minheap_create_free);
 	test(test_minheap_insert_find_extract_min);
