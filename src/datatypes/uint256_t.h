@@ -77,6 +77,19 @@ bool uint256_equals(uint256_t *first, uint256_t *second) {
 }
 
 /**
+ * Returns whether an uint256 equals to zero.
+ *
+ * @param value the value to check
+ * @return true if zero, false otherwise
+ */
+bool uint256_is_zero(uint256_t *value) {
+	for (size_t p = 0; p < 4; ++p) {
+		if (value->value[p] != 0) return false;
+	}
+	return true;
+}
+
+/**
  * Sets the least significant bit.
  *
  * @param value the uint256 to modify

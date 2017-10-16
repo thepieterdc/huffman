@@ -7,20 +7,16 @@
 #ifndef HUFFMAN_DATATYPES_HUFFMAN_CODE_H
 #define HUFFMAN_DATATYPES_HUFFMAN_CODE_H
 
+#include <unistd.h>
 #include "bit.h"
+#include "uint256_t.h"
 
 /**
  * A code in a Huffman tree
  */
 typedef struct huffman_code {
-	uint64_t upper;
-	uint_fast8_t upper_padding;
-	uint64_t middle_upper;
-	uint_fast8_t middle_upper_padding;
-	uint64_t middle_lower;
-	uint_fast8_t middle_lower_padding;
-	uint64_t lower;
-	uint_fast8_t lower_padding;
+	uint256_t *code;
+	size_t padding;
 } huffman_code;
 
 /**
@@ -28,7 +24,16 @@ typedef struct huffman_code {
  *
  * @return the created Huffman code.
  */
-huffman_code *huffmancode_create();
+huffman_code *huffmancode_create(bit start) {
+	huffman_code *ret = (huffman_code *) malloc(sizeof(huffman_code));
+	if (!ret) {
+		error(ERROR_MALLOC_FAILED);
+	} else {
+		ret->code = uint256((uint64_t) start);
+		ret->padding = 0;
+	}
+	return ret;
+}
 
 /**
  * Creates a new Huffman code, left of its parent.
@@ -51,6 +56,9 @@ huffman_code *huffmancode_create_right(huffman_code *parent);
  *
  * @param code the Huffman code
  */
-void *huffmancode_free(huffman_code *code);
+void huffmancode_free(huffman_code *code) {
+	free(code->code);
+	free(code);
+}
 
 #endif /* HUFFMAN_DATATYPES_HUFFMAN_CODE_H */

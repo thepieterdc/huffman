@@ -13,8 +13,8 @@ char *test_uint256t_copy();
 /** Tests: uint256_create(). */
 char *test_uint256t_create();
 
-/** Tests: uint256_copy(). */
-char *test_uint256t_equals();
+/** Tests: uint256_equals(), uint256_is_zero(). */
+char *test_uint256t_equals_is_zero();
 
 /** Tests: uint256_set_lsb(), uint256_set_msb(). */
 char *test_uint256t_set_lsb_msb();

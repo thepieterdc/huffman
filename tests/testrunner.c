@@ -43,7 +43,7 @@ static char *all_tests() {
 	/** Test: datatypes/uint256_t. */
 	test(test_uint256t_copy);
 	test(test_uint256t_create);
-	test(test_uint256t_equals);
+	test(test_uint256t_equals_is_zero);
 	test(test_uint256t_set_lsb_msb);
 	test(test_uint256t_shift);
 	

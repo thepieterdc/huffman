@@ -33,7 +33,7 @@ char *test_uint256t_create() {
 	return 0;
 }
 
-char *test_uint256t_equals() {
+char *test_uint256t_equals_is_zero() {
 	uint256_t *inst = uint256(500);
 	assertThat(inst != NULL);
 	
@@ -50,9 +50,16 @@ char *test_uint256t_equals() {
 	assertThat(uint256_equals(anotherone, inst));
 	assertThat(!uint256_equals(anotherone, other));
 	
+	uint256_t *zero = uint256(0);
+	assertThat(uint256_is_zero(zero));
+	assertThat(!uint256_is_zero(inst));
+	assertThat(!uint256_is_zero(other));
+	assertThat(!uint256_is_zero(anotherone));
+	
 	free(inst);
 	free(other);
 	free(anotherone);
+	free(zero);
 	
 	return 0;
 }
