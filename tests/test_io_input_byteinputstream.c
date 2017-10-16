@@ -11,11 +11,13 @@
 
 static char *test_read_count(byte_input_stream *bis) {
 	assertThat(byis_count(bis) == 9);
+	assertThat(!byis_empty(bis));
 	
 	for (size_t i = 1; i <= 9; ++i) {
 		assertThat(byis_read(bis) == (byte) i);
 	}
 	assertThat(byis_count(bis) == 0);
+	assertThat(byis_empty(bis));
 	
 	return 0;
 }
@@ -28,7 +30,7 @@ char *test_io_byis_create_free() {
 	return 0;
 }
 
-char *test_io_byis_consume_read_count() {
+char *test_io_byis_consume_read_count_empty() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
@@ -36,6 +38,7 @@ char *test_io_byis_consume_read_count() {
 	byte_input_stream *bis = byis_create(memfile);
 	
 	assertThat(byis_count(bis) == 0);
+	assertThat(byis_empty(bis));
 	
 	for (size_t i = 1; i <= 9; ++i) {
 		fprintf(memfile, "%c", (byte) i);
@@ -52,10 +55,11 @@ char *test_io_byis_consume_read_count() {
 	return 0;
 }
 
-char *test_io_byis_feed_read_count() {
+char *test_io_byis_feed_read_count_empty() {
 	byte_input_stream *bis = byis_create(stdin);
 	
 	assertThat(byis_count(bis) == 0);
+	assertThat(byis_empty(bis));
 	
 	for (size_t i = 1; i <= 9; ++i) {
 		byis_feed(bis, (byte) i);

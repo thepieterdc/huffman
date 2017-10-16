@@ -8,6 +8,7 @@
 #include "byte_input_stream.h"
 #include "../../util/errors.h"
 #include "../../util/logging.h"
+#include "input_stream.h"
 
 void byis_consume(byte_input_stream *bis) {
 	int c;
@@ -31,13 +32,17 @@ byte_input_stream *byis_create(FILE *channel) {
 	return ret;
 }
 
+bool byis_empty(byte_input_stream *bis) {
+	return bis->stream->buffer->size == 0;
+}
+
 void byis_feed(byte_input_stream *bis, byte b) {
 	is_feed(bis->stream, (void *) b);
 }
 
 void byis_free(byte_input_stream *bis) {
 	is_free(bis->stream);
-	if(bis->channel) {
+	if (bis->channel) {
 		fclose(bis->channel);
 	}
 	free(bis);

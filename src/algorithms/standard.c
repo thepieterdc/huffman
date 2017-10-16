@@ -11,32 +11,28 @@
 #include "../datastructures/min_heap.h"
 #include "../datastructures/huffman_tree.h"
 #include "../io/output/bit_output_stream.h"
+#include "../io/input/input_stream.h"
 
 /**
- * Traverses the tree in a DFS manner and prints all codes while filling the
- * dictionary.
+ * Traverses the tree in a DFS manner and prints all bytes while filling the
+ * code dictionary.
  *
  * @param root the root of the tree
  * @param dictionary the dictionary to fill
  * @param out the output stream
  */
-static void print_huffman_codes(huffman_node *root, huffman_code *dictionary, bit_output_stream *out) {
-
-//	if (tree->type == LEAF) {
-//		bp_print_bit(bp, 1);
-//
-//		codes[tree->value] = currentcode;
-//		da_add(order_letters, (void *) tree->value);
-//	} else {
-//		bp_print_bit(bp, 0);
-//
-//		char *leftcode = (char *) malloc(strlen(currentcode) + 2);
-//		char *rightcode = (char *) malloc(strlen(currentcode) + 2);
-//		sprintf(leftcode, "%s0", currentcode);
-//		sprintf(rightcode, "%s1", currentcode);
-//		print_tree_update_codes(tree->left, leftcode, codes, order_letters, bp);
-//		print_tree_update_codes(tree->right, rightcode, codes, order_letters, bp);
-//	}
+static void
+build_dictionary(huffman_node *root, huffman_code *current_code, huffman_code **dictionary, bit_output_stream *out) {
+	if (root->type == LEAF) {
+		dictionary[root->data] = current_code;
+//		bos_feed_byte(out, root->data);
+	} else {
+		huffman_code *leftcode = huffmancode_create_left(current_code);
+		build_dictionary(root->left, leftcode, dictionary, out);
+		huffman_code *rightcode = huffmancode_create_right(current_code);
+		build_dictionary(root->right, rightcode, dictionary, out);
+		huffmancode_free(current_code);
+	}
 }
 
 void huffman_standard_compress(FILE *input, FILE *output) {
@@ -77,33 +73,21 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	huffman_node *tree = minheap_find_min(heap);
 	
-	/* Print the Huffman tree. */
-	huffman_print_tree(tree, outputStream);
+	/* Print the Huffman tree and apply padding. */
+//	huffman_print_tree(tree, outputStream);
+//	bos_pad(outputStream);
 	
 	/* Create a dictionary to save the codes for fast encoding. */
-	huffman_code codes_dictionary[256];
+	huffman_code *codes_dictionary[256];
 	
 	/* Print the characters from left to right and fill the dictionary. */
-	print_huffman_codes(tree, codes_dictionary, outputStream);
+	build_dictionary(tree, huffmancode_create(), codes_dictionary, outputStream);
 
-//	char **codes_dictionary = (char **) malloc(256 * sizeof(char *));
-//	dynamic_array *volgorde_letters = da_create();
-//
-//	// Print tree
-//	print_tree_update_codes(tree, "\0", codes_dictionary, volgorde_letters, bp);
-//	bp_flush(bp);
-//
-//	// Print letters DFS based
-//	for (int i = 0; i < volgorde_letters->size; ++i) {
-//		printf("%c", (char) (int) da_get(volgorde_letters, (size_t) i));
-//	}
-//	fflush(stdout);
-//
-//	// Print encoded word
-//	for (int i = 0; i < raw_string->size; ++i) {
-//		bp_print_bitstring(bp, codes_dictionary[(int) da_get(raw_string, (size_t) i)]);
-//	}
-//	bp_flush(bp);
+	/* Encode every character in the input string. */
+	while(!byis_empty(inputStream)) {
+		huffman_code *encode = codes_dictionary[byis_read(inputStream)];
+		bos_feed_huffmancode(outputStream, encode);
+	}
 	
 	bos_flush(outputStream);
 	

@@ -42,6 +42,14 @@ size_t byis_count(byte_input_stream *bis);
 byte_input_stream *byis_create(FILE *channel);
 
 /**
+ * Returns whether a byte input stream is empty.
+ *
+ * @param bis the byte input stream
+ * @return true if the stream contains no more bytes
+ */
+bool byis_empty(byte_input_stream *bis);
+
+/**
  * Feeds the stream with one byte.
  *
  * @param bis the byte input stream

@@ -58,8 +58,8 @@ static char *all_tests() {
 	
 	/** Test: io/input/byte_input_stream. */
 	test(test_io_byis_create_free);
-	test(test_io_byis_consume_read_count);
-	test(test_io_byis_feed_read_count);
+	test(test_io_byis_consume_read_count_empty);
+	test(test_io_byis_feed_read_count_empty);
 	
 	/** Test: io/input/input_stream. */
 	test(test_io_is_create_free);
