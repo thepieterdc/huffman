@@ -9,6 +9,7 @@
 
 #include <unistd.h>
 #include "../datatypes/bit.h"
+#include "../datatypes/huffman_code.h"
 
 /**
  * Different types of nodes.
@@ -22,6 +23,7 @@ enum huffman_node_type {
  */
 typedef struct huffman_node {
 	enum huffman_node_type type;
+	huffman_code *code;
 	byte data;
 	uint8_t order_no;
 	size_t weight;

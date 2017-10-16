@@ -51,13 +51,16 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right) {
 }
 
 void huffman_free(huffman_node *node) {
-	if (node) {
-		if (node->type == NODE) {
-			huffman_free(node->left);
-			huffman_free(node->right);
-		}
-		free(node);
+	if (node->code) {
+		huffmancode_free(node->code);
 	}
+	if (node->left) {
+		huffman_free(node->left);
+	}
+	if (node->right) {
+		huffman_free(node->right);
+	}
+	free(node);
 }
 
 void huffman_reset_ordercounter() {
