@@ -85,10 +85,8 @@ void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 				}
 			}
 		}
-		
 		frontzeroes = true;
 	}
-	
 }
 
 void bos_flush(bit_output_stream *bos) {

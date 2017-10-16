@@ -67,11 +67,7 @@ char *test_io_bos_feed_bit_pad_flush_count() {
 	
 	assertThat(bos_count(bos) == 4);
 	
-	printf("PRE SHIFT: %d\n", bos->current_byte);
-	
 	assertThat(bos_pad(bos) == 4);
-	
-	printf("PRE SHIFT: %d\n", bos->current_byte);
 	
 	assertThat(bos_count(bos) == 8);
 	
