@@ -12,6 +12,32 @@
 #include "../datastructures/huffman_tree.h"
 #include "../io/output/bit_output_stream.h"
 
+/**
+ * Traverses the tree in a DFS manner and prints all codes while filling the
+ * dictionary.
+ *
+ * @param root the root of the tree
+ * @param dictionary the dictionary to fill
+ * @param out the output stream
+ */
+static void print_huffman_codes(huffman_node *root, huffman_code *dictionary, bit_output_stream *out) {
+//	if (tree->type == LEAF) {
+//		bp_print_bit(bp, 1);
+//
+//		codes[tree->value] = currentcode;
+//		da_add(order_letters, (void *) tree->value);
+//	} else {
+//		bp_print_bit(bp, 0);
+//
+//		char *leftcode = (char *) malloc(strlen(currentcode) + 2);
+//		char *rightcode = (char *) malloc(strlen(currentcode) + 2);
+//		sprintf(leftcode, "%s0", currentcode);
+//		sprintf(rightcode, "%s1", currentcode);
+//		print_tree_update_codes(tree->left, leftcode, codes, order_letters, bp);
+//		print_tree_update_codes(tree->right, rightcode, codes, order_letters, bp);
+//	}
+}
+
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Reset the order numbers. */
 	huffman_reset_ordercounter();
@@ -55,7 +81,9 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Create a dictionary to save the codes for fast encoding. */
 	huffman_code codes_dictionary[256];
-	/* */
+	
+	/* Print the characters from left to right and fill the dictionary. */
+	print_huffman_codes(tree, &codes_dictionary, outputStream);
 
 //	char **codes_dictionary = (char **) malloc(256 * sizeof(char *));
 //	dynamic_array *volgorde_letters = da_create();

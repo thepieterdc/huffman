@@ -13,7 +13,7 @@
 #include "output_stream.h"
 
 static void add_buffer_to_stream(bit_output_stream *bos) {
-	bos->current_byte <<= (8-bos->current_cursor);
+	bos->current_byte <<= (8 - bos->current_cursor);
 	byos_feed(bos->stream, bos->current_byte);
 	bos->current_byte = 0;
 	bos->current_cursor = 0;
@@ -104,7 +104,7 @@ void bos_free(bit_output_stream *bos) {
 size_t bos_pad(bit_output_stream *bos) {
 	size_t padding = 8 - bos->current_cursor;
 	bos->current_byte <<= padding;
-	
+	bos->current_cursor = 8;
 	add_buffer_to_stream(bos);
 	
 	return padding;
