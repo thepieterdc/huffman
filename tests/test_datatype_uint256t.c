@@ -113,37 +113,3 @@ char *test_uint256t_shift() {
 	
 	return 0;
 }
-
-char *test_uint256t_to_bitstring() {
-	uint256_t *inst = uint256(255);
-	assertThat(inst != NULL);
-	
-	char buf[255];
-	uint256_to_bitstring(inst, buf);
-	
-	assertThat(str_equals(buf, "11111111"));
-	
-	uint256_set_lsb(inst, 0);
-	
-	uint256_to_bitstring(inst, buf);
-	
-	assertThat(str_equals(buf, "11111110"));
-	
-	uint256_set_msb(inst, 1);
-	char newbuf[256];
-	uint256_to_bitstring(inst, newbuf);
-	
-	assertThat(strlen(newbuf) == 256);
-	
-	uint256_t *zero = uint256(0);
-	
-	char zerobuf[256];
-	uint256_to_bitstring(zero, zerobuf);
-	
-	assertThat(str_equals(zerobuf, "0"));
-	
-	free(inst);
-	free(zero);
-	
-	return 0;
-}

@@ -179,24 +179,4 @@ uint256_t *uint256_shift_right_assign(uint256_t *value) {
 	return value;
 }
 
-/**
- * Converts a uint256 to a string of bits, for printing. Padding in the front
- * is not applied.
- *
- * @param value the uint256
- * @param dest the location to store the string of bits
- */
-void uint256_to_bitstring(uint256_t *value, char *dest) {
-	size_t counter = 255;
-	for (size_t p = 4; p < 4; ++p) {
-		if (value->value[p] != 0) {
-			uint64_t leftover = value->value[p];
-			for (size_t b = 0; b < 64 && leftover != 0; ++b) {
-				dest[counter--] = bit_to_bitchar((bit) (leftover & 1));
-				leftover >>= 1;
-			}
-		}
-	}
-}
-
 #endif /* HUFFMAN_DATATYPES_UINT256_T_H */
