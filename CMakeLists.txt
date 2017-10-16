@@ -22,6 +22,7 @@ file(GLOB datastructures_SRC
 
 file(GLOB datatypes_SRC
 		"src/datatypes/*.h"
+		"src/datatypes/*.c"
 		)
 
 file(GLOB io_SRC

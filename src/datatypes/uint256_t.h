@@ -7,15 +7,8 @@
 #ifndef HUFFMAN_DATATYPES_UINT256_T_H
 #define HUFFMAN_DATATYPES_UINT256_T_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <memory.h>
+#include <unistd.h>
 #include "bit.h"
-#include "../util/errors.h"
-#include "../util/logging.h"
-#include "../util/binary.h"
-
-static uint_least64_t uint64_msb = ((uint_least64_t) 1) << 63;
 
 /**
  * A 256-bit integer.
@@ -32,16 +25,7 @@ typedef struct uint256_t {
  * @param value the value to assign
  * @return the created uint256
  */
-uint256_t *uint256(uint64_t value) {
-	uint256_t *ret = (uint256_t *) malloc(sizeof(uint256_t));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->value[0] = ret->value[1] = ret->value[2] = 0;
-		ret->value[3] = value;
-	}
-	return ret;
-}
+uint256_t *uint256(uint64_t value);
 
 /**
  * Creates a new uint256 from an existing uint256.
@@ -49,15 +33,7 @@ uint256_t *uint256(uint64_t value) {
  * @param old the old uint256 to copy
  * @return the copied uint256
  */
-uint256_t *uint256_copy(const uint256_t *old) {
-	uint256_t *ret = (uint256_t *) malloc(sizeof(uint256_t));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		memcpy(&ret->value, &old->value, 4 * sizeof(uint64_t));
-	}
-	return ret;
-}
+uint256_t *uint256_copy(const uint256_t *old);
 
 /**
  * Compares two uint256's for equality.
@@ -66,15 +42,7 @@ uint256_t *uint256_copy(const uint256_t *old) {
  * @param second second value
  * @return true if both are equal
  */
-bool uint256_equals(uint256_t *first, uint256_t *second) {
-	bool equal = true;
-	for (size_t p = 0; p < 4; ++p) {
-		if (first->value[p] != second->value[p]) {
-			return false;
-		}
-	}
-	return equal;
-}
+bool uint256_equals(uint256_t *first, uint256_t *second);
 
 /**
  * Returns whether an uint256 equals to zero.
@@ -82,12 +50,7 @@ bool uint256_equals(uint256_t *first, uint256_t *second) {
  * @param value the value to check
  * @return true if zero, false otherwise
  */
-bool uint256_is_zero(uint256_t *value) {
-	for (size_t p = 0; p < 4; ++p) {
-		if (value->value[p] != 0) return false;
-	}
-	return true;
-}
+bool uint256_is_zero(uint256_t *value);
 
 /**
  * Sets the least significant bit.
@@ -95,13 +58,7 @@ bool uint256_is_zero(uint256_t *value) {
  * @param value the uint256 to modify
  * @param lsb the value (0 or 1) to set the lsb to
  */
-void uint256_set_lsb(uint256_t *value, bit lsb) {
-	if (lsb) {
-		value->value[3] |= 1;
-	} else {
-		value->value[3] &= 0;
-	}
-}
+void uint256_set_lsb(uint256_t *value, bit lsb);
 
 /**
  * Sets the most significant bit.
@@ -110,13 +67,7 @@ void uint256_set_lsb(uint256_t *value, bit lsb) {
  * @param msb the value (0 or 1) to set the MSB to
  * @return a new uint256 with the modified MSB
  */
-void uint256_set_msb(uint256_t *value, bit msb) {
-	if (msb) {
-		value->value[0] |= uint64_msb;
-	} else {
-		value->value[0] &= ~(uint64_msb);
-	}
-}
+void uint256_set_msb(uint256_t *value, bit msb);
 
 /**
  * Shifts the supplied uint256 to the left over 1 bit (<<).
@@ -124,17 +75,7 @@ void uint256_set_msb(uint256_t *value, bit msb) {
  * @param value the uint256 to shift
  * @return the shifted value
  */
-uint256_t *uint256_shift_left(uint256_t *value) {
-	uint256_t *ret = uint256_copy(value);
-	ret->value[0] = value->value[0] << 1;
-	bit carry = 0;
-	for (size_t p = 1; p < 4; ++p) {
-		carry = (bit) (value->value[p] & uint64_msb);
-		ret->value[p] = value->value[p] << 1;
-		ret->value[p - 1] |= carry;
-	}
-	return ret;
-}
+uint256_t *uint256_shift_left(uint256_t *value);
 
 /**
  * Shifts the given uint256 to the left over 1 bit (<<=).
@@ -142,16 +83,7 @@ uint256_t *uint256_shift_left(uint256_t *value) {
  * @param value the uint256 to shift
  * @return the modified uint256 (fluent)
  */
-uint256_t *uint256_shift_left_assign(uint256_t *value) {
-	value->value[0] = value->value[0] << 1;
-	bit carry = 0;
-	for (size_t p = 1; p < 4; ++p) {
-		carry = (bit) (value->value[p] & uint64_msb);
-		value->value[p] = value->value[p] << 1;
-		value->value[p - 1] |= carry;
-	}
-	return value;
-}
+uint256_t *uint256_shift_left_assign(uint256_t *value);
 
 /**
  * Shifts the supplied uint256 to the right over 1 bit (logical >>).
@@ -159,19 +91,7 @@ uint256_t *uint256_shift_left_assign(uint256_t *value) {
  * @param value the uint256 to shift
  * @return the shifted value
  */
-uint256_t *uint256_shift_right(const uint256_t *value) {
-	uint256_t *ret = uint256_copy(value);
-	ret->value[3] = value->value[3] >> 1;
-	bit carry = 0;
-	for (size_t p = 3; p > 0; --p) {
-		carry = (bit) (value->value[p - 1] & 1);
-		ret->value[p - 1] = value->value[p - 1] >> 1;
-		if (carry == 1) {
-			ret->value[p] |= uint64_msb;
-		}
-	}
-	return ret;
-}
+uint256_t *uint256_shift_right(const uint256_t *value);
 
 /**
  * Shifts the given uint256 to the right over 1 bit (logical >>=).
@@ -179,17 +99,6 @@ uint256_t *uint256_shift_right(const uint256_t *value) {
  * @param value the uint256 to shift
  * @return the modified uint256 (fluent)
  */
-uint256_t *uint256_shift_right_assign(uint256_t *value) {
-	value->value[3] = value->value[3] >> 1;
-	bit carry = 0;
-	for (size_t p = 3; p > 0; --p) {
-		carry = (bit) (value->value[p - 1] & 1);
-		value->value[p - 1] = value->value[p - 1] >> 1;
-		if (carry == 1) {
-			value->value[p] |= uint64_msb;
-		}
-	}
-	return value;
-}
+uint256_t *uint256_shift_right_assign(uint256_t *value);
 
 #endif /* HUFFMAN_DATATYPES_UINT256_T_H */

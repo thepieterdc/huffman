@@ -24,16 +24,7 @@ typedef struct huffman_code {
  *
  * @return the created Huffman code.
  */
-huffman_code *huffmancode_create(bit start) {
-	huffman_code *ret = (huffman_code *) malloc(sizeof(huffman_code));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->code = uint256((uint64_t) start);
-		ret->padding = 0;
-	}
-	return ret;
-}
+huffman_code *huffmancode_create(bit start);
 
 /**
  * Creates a new Huffman code, left of its parent.
@@ -56,9 +47,6 @@ huffman_code *huffmancode_create_right(huffman_code *parent);
  *
  * @param code the Huffman code
  */
-void huffmancode_free(huffman_code *code) {
-	free(code->code);
-	free(code);
-}
+void huffmancode_free(huffman_code *code);
 
 #endif /* HUFFMAN_DATATYPES_HUFFMAN_CODE_H */

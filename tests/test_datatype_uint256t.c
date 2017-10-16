@@ -4,10 +4,10 @@
  * Project: huffman
  */
 
+#include <stdlib.h>
 #include "test_datatype_uint256t.h"
-#include "../src/datatypes/uint256_t.h"
 #include "test_unit.h"
-#include "../src/util/string.h"
+#include "../src/datatypes/uint256_t.h"
 
 char *test_uint256t_copy() {
 	uint256_t *inst = uint256(500);

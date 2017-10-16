@@ -21,6 +21,7 @@
 #include "test_util_arguments.h"
 #include "test_util_binary.h"
 #include "test_util_string.h"
+#include "test_datatype_huffmancode.h"
 
 /**
  * Runs all tests.
@@ -39,6 +40,9 @@ static char *all_tests() {
 	test(test_queue_create_free);
 	test(test_queue_empty);
 	test(test_queue_push_peek_pop);
+	
+	/** Test: datatypes/huffman_code. */
+	test(test_huffmancode_create_left_right_free);
 	
 	/** Test: datatypes/uint256_t. */
 	test(test_uint256t_copy);
