@@ -53,6 +53,15 @@ bool uint256_equals(uint256_t *first, uint256_t *second);
 bool uint256_is_zero(uint256_t *value);
 
 /**
+ * Gets the value of the n-th bit (starting from LSB).
+ *
+ * @param value the uint256
+ * @param n the n-th bit will be returned
+ * @return the n-th bit of the value
+ */
+bit uint256_nth_bit(uint256_t *value, uint8_t n);
+
+/**
  * Sets the least significant bit.
  *
  * @param value the uint256 to modify

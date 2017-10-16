@@ -16,6 +16,9 @@ char *test_uint256t_create();
 /** Tests: uint256_equals(), uint256_is_zero(). */
 char *test_uint256t_equals_is_zero();
 
+/** Tests: uint256_nth_bit(). */
+char *test_uint256t_nth_bit();
+
 /** Tests: uint256_set_lsb(), uint256_set_msb(). */
 char *test_uint256t_set_lsb_msb();
 

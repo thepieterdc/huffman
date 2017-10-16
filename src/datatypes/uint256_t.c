@@ -54,6 +54,17 @@ bool uint256_is_zero(uint256_t *value) {
 	return true;
 }
 
+bit uint256_nth_bit(uint256_t *value, uint8_t n) {
+	if(n < 64) {
+		return (value->value[3] & (((uint_fast64_t) 1) << n)) != 0;
+	} else if(n < 128) {
+		return (value->value[2] & (((uint_fast64_t) 1) << n - 64)) != 0;
+	} else if(n < 192) {
+		return (value->value[1] & (((uint_fast64_t) 1) << n - 128)) != 0;
+	}
+	return (value->value[0] & (((uint_fast64_t) 1) << n - 192)) != 0;
+}
+
 void uint256_set_lsb(uint256_t *value, bit lsb) {
 	if (lsb) {
 		value->value[3] |= 1;

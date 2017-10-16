@@ -48,6 +48,7 @@ static char *all_tests() {
 	test(test_uint256t_copy);
 	test(test_uint256t_create);
 	test(test_uint256t_equals_is_zero);
+	test(test_uint256t_nth_bit);
 	test(test_uint256t_set_lsb_msb);
 	test(test_uint256t_shift);
 	

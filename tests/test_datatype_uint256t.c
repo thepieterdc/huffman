@@ -64,6 +64,17 @@ char *test_uint256t_equals_is_zero() {
 	return 0;
 }
 
+char *test_uint256t_nth_bit() {
+	uint256_t *inst = uint256(0xFFFFFFFFFFFFFFFF);
+	assertThat(inst != NULL);
+	
+	for (size_t i = 0; i < 63; ++i) {
+		assertThat(uint256_nth_bit(inst, (uint8_t) i) == 1);
+	}
+	
+	return 0;
+}
+
 char *test_uint256t_set_lsb_msb() {
 	uint256_t *inst = uint256(256);
 	assertThat(inst != NULL);
