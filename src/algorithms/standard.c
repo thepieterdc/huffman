@@ -23,7 +23,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Determine the frequencies of each byte. */
-	size_t frequencies[256];
+	uint_least64_t frequencies[256] = {0};
 	
 	int in;
 	while ((in = getc(input)) != EOF) {
@@ -55,7 +55,6 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Create a dictionary to save the codes for fast encoding. */
 	huffman_code codes_dictionary[256];
-	
 	/* */
 
 //	char **codes_dictionary = (char **) malloc(256 * sizeof(char *));
