@@ -9,16 +9,16 @@
 #include "../src/datatypes/huffman_code.h"
 
 char *test_huffmancode_create_left_right_free() {
-	huffman_code *code = huffmancode_create(1);
+	huffman_code *code = huffmancode_create();
 	assertThat(code != NULL);
 	
 	huffman_code *left = huffmancode_create_left(code);
 	assertThat(left != NULL);
-	assertThat(left->code->value[3] == 2);
+	assertThat(left->code->value[3] == 0);
 	
 	huffman_code *right = huffmancode_create_right(code);
 	assertThat(right != NULL);
-	assertThat(right->code->value[3] == 3);
+	assertThat(right->code->value[3] == 1);
 	
 	huffmancode_free(code);
 	huffmancode_free(left);

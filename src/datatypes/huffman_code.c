@@ -9,12 +9,12 @@
 #include "../util/logging.h"
 #include "../util/errors.h"
 
-huffman_code *huffmancode_create(bit start) {
+huffman_code *huffmancode_create() {
 	huffman_code *ret = (huffman_code *) malloc(sizeof(huffman_code));
 	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
-		ret->code = uint256((uint64_t) start);
+		ret->code = uint256(0);
 		ret->padding = 0;
 	}
 	return ret;

@@ -21,6 +21,7 @@
  * @param out the output stream
  */
 static void print_huffman_codes(huffman_node *root, huffman_code *dictionary, bit_output_stream *out) {
+
 //	if (tree->type == LEAF) {
 //		bp_print_bit(bp, 1);
 //
@@ -83,7 +84,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	huffman_code codes_dictionary[256];
 	
 	/* Print the characters from left to right and fill the dictionary. */
-	print_huffman_codes(tree, &codes_dictionary, outputStream);
+	print_huffman_codes(tree, codes_dictionary, outputStream);
 
 //	char **codes_dictionary = (char **) malloc(256 * sizeof(char *));
 //	dynamic_array *volgorde_letters = da_create();

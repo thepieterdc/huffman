@@ -24,7 +24,7 @@ typedef struct huffman_code {
  *
  * @return the created Huffman code.
  */
-huffman_code *huffmancode_create(bit start);
+huffman_code *huffmancode_create();
 
 /**
  * Creates a new Huffman code, left of its parent.
