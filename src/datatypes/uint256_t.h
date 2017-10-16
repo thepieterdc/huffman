@@ -83,7 +83,11 @@ bool uint256_equals(uint256_t *first, uint256_t *second) {
  * @param lsb the value (0 or 1) to set the lsb to
  */
 void uint256_set_lsb(uint256_t *value, bit lsb) {
-	value->value[3] |= lsb;
+	if (lsb) {
+		value->value[3] |= 1;
+	} else {
+		value->value[3] &= 0;
+	}
 }
 
 /**
@@ -123,15 +127,17 @@ uint256_t *uint256_shift_left(uint256_t *value) {
  * Shifts the given uint256 to the left over 1 bit (<<=).
  *
  * @param value the uint256 to shift
+ * @return the modified uint256 (fluent)
  */
-void uint256_shift_left_assign(uint256_t *value) {
+uint256_t *uint256_shift_left_assign(uint256_t *value) {
 	value->value[0] = value->value[0] << 1;
 	bit carry = 0;
-	for (size_t p = 2; p >= 0; p--) {
+	for (size_t p = 1; p < 4; ++p) {
 		carry = (bit) (value->value[p] & uint64_msb);
 		value->value[p] = value->value[p] << 1;
-		value->value[p + 1] |= carry;
+		value->value[p - 1] |= carry;
 	}
+	return value;
 }
 
 /**
@@ -144,10 +150,12 @@ uint256_t *uint256_shift_right(const uint256_t *value) {
 	uint256_t *ret = uint256_copy(value);
 	ret->value[3] = value->value[3] >> 1;
 	bit carry = 0;
-	for (size_t p = 1; p < 3; ++p) {
-		carry = (bit) (value->value[p] & 1);
-		ret->value[p] = value->value[p] >> 1;
-		ret->value[p - 1] |= (carry << uint64_msb);
+	for (size_t p = 3; p > 0; --p) {
+		carry = (bit) (value->value[p - 1] & 1);
+		ret->value[p - 1] = value->value[p - 1] >> 1;
+		if (carry == 1) {
+			ret->value[p] |= uint64_msb;
+		}
 	}
 	return ret;
 }
@@ -156,15 +164,19 @@ uint256_t *uint256_shift_right(const uint256_t *value) {
  * Shifts the given uint256 to the right over 1 bit (logical >>=).
  *
  * @param value the uint256 to shift
+ * @return the modified uint256 (fluent)
  */
-void uint256_shift_right_assign(uint256_t *value) {
+uint256_t *uint256_shift_right_assign(uint256_t *value) {
 	value->value[3] = value->value[3] >> 1;
 	bit carry = 0;
-	for (size_t p = 1; p < 3; ++p) {
-		carry = (bit) (value->value[p] & 1);
-		value->value[p] = value->value[p] >> 1;
-		value->value[p - 1] |= (carry << uint64_msb);
+	for (size_t p = 3; p > 0; --p) {
+		carry = (bit) (value->value[p - 1] & 1);
+		value->value[p - 1] = value->value[p - 1] >> 1;
+		if (carry == 1) {
+			value->value[p] |= uint64_msb;
+		}
 	}
+	return value;
 }
 
 /**

@@ -45,7 +45,7 @@ static char *all_tests() {
 	test(test_uint256t_create);
 	test(test_uint256t_equals);
 	test(test_uint256t_set_lsb_msb);
-//	test(test_uint256t_shift);
+	test(test_uint256t_shift);
 //	test(test_uint256t_to_bitstring);
 	
 	/** Test: io/input/bit_input_stream. */

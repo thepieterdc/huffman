@@ -98,10 +98,18 @@ char *test_uint256t_shift() {
 	uint256_shift_right_assign(twofivesix);
 	assertThat(uint256_equals(twofivesix, sixtyfour));
 	
+	uint256_t *one = uint256(1);
+	uint256_t *one_copy = uint256_copy(one);
+	
+	assertThat(uint256_equals(one, one_copy));
+	assertThat(uint256_equals(one, uint256_shift_right_assign(uint256_shift_left_assign(one_copy))));
+	
 	free(sixtyfour);
 	free(sixtyfour_128);
 	free(twofivesix);
 	free(twofivesix_128);
+	free(one);
+	free(one_copy);
 	
 	return 0;
 }
