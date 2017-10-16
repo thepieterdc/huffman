@@ -8,13 +8,14 @@
 #define HUFFMAN_IO_OUTPUT_BIT_OUTPUTSTREAM_H
 
 #include "byte_output_stream.h"
+#include "../../datatypes/uint256_t.h"
+#include "../../datatypes/huffman_code.h"
 
 /**
  * An output stream for bits.
  */
 typedef struct {
 	byte_output_stream *stream;
-	
 	byte current_byte;
 	size_t current_cursor;
 } bit_output_stream;
@@ -50,6 +51,14 @@ void bos_feed_bit(bit_output_stream *bos, bit b);
  * @param b the byte to feed
  */
 void bos_feed_byte(bit_output_stream *bos, byte b);
+
+/**
+ * Feeds the stream with a Huffman code.
+ *
+ * @param bos the bit output stream
+ * @param hc the Huffman code to feed
+ */
+void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc);
 
 /**
  * Flushes the output buffer.
