@@ -63,6 +63,17 @@ void huffman_free(huffman_node *node) {
 	free(node);
 }
 
+void huffman_print_tree(huffman_node *root, bit_output_stream *out) {
+	if(root->type == LEAF) {
+		bos_feed_bit(out, 1);
+	} else {
+		bos_feed_bit(out, 0);
+		
+		huffman_print_tree(root->left, out);
+		huffman_print_tree(root->right, out);
+	}
+}
+
 void huffman_reset_ordercounter() {
 	node_counter = 0;
 }

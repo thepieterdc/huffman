@@ -10,6 +10,7 @@
 #include "../io/input/byte_input_stream.h"
 #include "../datastructures/min_heap.h"
 #include "../datastructures/huffman_tree.h"
+#include "../io/output/bit_output_stream.h"
 
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Reset the order numbers. */
@@ -17,6 +18,9 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Create a buffer to store the input. */
 	byte_input_stream *inputStream = byis_create(NULL);
+	
+	/* Create a buffer to store the output. */
+	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Determine the frequencies of each byte. */
 	size_t frequencies[256];
@@ -45,7 +49,13 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	}
 	
 	huffman_node *tree = minheap_find_min(heap);
-
+	
+	/* Print the Huffman tree. */
+	huffman_print_tree(tree, outputStream);
+	
+	/* Create a dictionary to save the codes for fast encoding. */
+	huffman_code codes_dictionary[256];
+	
 	/* */
 
 //	char **codes_dictionary = (char **) malloc(256 * sizeof(char *));
@@ -67,10 +77,13 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 //	}
 //	bp_flush(bp);
 	
+	bos_flush(outputStream);
+	
 	minheap_free(heap);
 	
 	huffman_free(tree);
 	
+	bos_free(outputStream);
 	byis_free(inputStream);
 }
 

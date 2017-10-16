@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include "../datatypes/bit.h"
 #include "../datatypes/huffman_code.h"
+#include "../io/output/bit_output_stream.h"
 
 /**
  * Different types of nodes.
@@ -55,6 +56,14 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right);
  * @param node the node to free
  */
 void huffman_free(huffman_node *node);
+
+/**
+ * Prints a Huffman tree to the supplied output stream.
+ *
+ * @param root the root of the tree to print
+ * @param out the output stream to write to
+ */
+void huffman_print_tree(huffman_node *root, bit_output_stream *out);
 
 /**
  * Resets the order-no counter.
