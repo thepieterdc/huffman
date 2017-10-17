@@ -7,6 +7,9 @@
 #include "util/arguments.h"
 
 int main(int argc, char **argv) {
+//	FILE *in = fopen("/home/pieter/Downloads/loremout.out", "rb");
+//
+	
 	FILE *in = stdin;
 	FILE *out = stdout;
 	
