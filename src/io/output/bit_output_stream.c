@@ -87,7 +87,9 @@ void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 }
 
 void bos_flush(bit_output_stream *bos) {
-	add_buffer_to_stream(bos);
+	if(bos->current_cursor != 0) {
+		add_buffer_to_stream(bos);
+	}
 	byos_flush(bos->stream);
 }
 
