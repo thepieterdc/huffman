@@ -28,16 +28,10 @@ void write_message(FILE *channel, const char type[], const char colour[], string
 	fflush(channel);
 }
 
-#ifndef IS_TEST
 void error(int code) {
 	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, _error_messages[code]);
 	exit(code + 100);
 }
-#else
-void error(char *msg) {
-	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, msg);
-}
-#endif
 
 void info(char *msg) {
 	write_message(stdout, "INFO", COLOUR_LOG_INFO, msg);

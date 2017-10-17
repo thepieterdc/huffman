@@ -15,11 +15,7 @@
  * @param code the error code
  * @param exit true to exit the program after throwing this error
  */
-#ifndef IS_TEST
 void error(int code);
-#else
-void error(char *msg);
-#endif
 
 /**
  * Shows an informational message to stdout.
