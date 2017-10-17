@@ -39,6 +39,12 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		}
 	}
 	
+	/* Failsafe for strings containing 1 character. */
+	if (heap->size == 1) {
+		huffman_node *nullnode = huffman_create_leaf(0, 1);
+		minheap_insert(heap, nullnode->weight, nullnode);
+	}
+	
 	/* Create the Huffman tree. */
 	while (heap->size > 1) {
 		huffman_node *left = minheap_extract_min(heap);
