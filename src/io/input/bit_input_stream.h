@@ -21,6 +21,13 @@ typedef struct {
 } bit_input_stream;
 
 /**
+ * Clears the current byte from the buffer.
+ *
+ * @param bis the input stream to clear
+ */
+void bis_clear_buffer(bit_input_stream *bis);
+
+/**
  * Gets the amount of items in the bit input stream buffer.
  *
  * @param bis the bit input stream

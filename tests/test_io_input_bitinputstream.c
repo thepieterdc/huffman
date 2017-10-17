@@ -17,14 +17,14 @@ char *test_io_bis_create_free() {
 	return 0;
 }
 
-char *test_io_bis_read_bit_count() {
+char *test_io_bis_read_bit_count_clear_buffer() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
 	
 	fprintf(memfile, "%c", 0b01010101);
 	fprintf(memfile, "%c", 0b10101010);
-
+	
 	bit_input_stream *bis = bis_create(memfile);
 	
 	assertThat(bis_count(bis) == 16);
@@ -32,15 +32,19 @@ char *test_io_bis_read_bit_count() {
 	for (size_t i = 0; i < 8; ++i) {
 		assertThat(bis_read_bit(bis) % 2 == i % 2);
 	}
-
+	
 	assertThat(bis_count(bis) == 8);
-
-	for (size_t i = 0; i < 8; ++i) {
+	
+	for (size_t i = 0; i < 6; ++i) {
 		assertThat(bis_read_bit(bis) % 2 != i % 2);
 	}
-
+	
+	assertThat(bis_count(bis) == 2);
+	
+	bis_clear_buffer(bis);
+	
 	assertThat(bis_count(bis) == 0);
-
+	
 	bis_free(bis);
 	
 	free(buf);

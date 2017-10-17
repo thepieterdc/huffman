@@ -12,6 +12,7 @@
 #include "../datastructures/huffman_tree.h"
 #include "../io/output/bit_output_stream.h"
 #include "../io/input/input_stream.h"
+#include "../io/input/bit_input_stream.h"
 
 /**
  * Traverses the tree in a DFS manner and prints all bytes while filling the
@@ -36,9 +37,6 @@ build_dictionary(huffman_node *root, huffman_code *current_code, huffman_code **
 }
 
 void huffman_standard_compress(FILE *input, FILE *output) {
-	/* Reset the order numbers. */
-	huffman_reset_ordercounter();
-	
 	/* Create a buffer to store the input. */
 	byte_input_stream *inputStream = byis_create(NULL);
 	
@@ -82,9 +80,9 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Print the characters from left to right and fill the dictionary. */
 	build_dictionary(tree, huffmancode_create(), codes_dictionary, outputStream);
-
+	
 	/* Encode every character in the input string. */
-	while(!byis_empty(inputStream)) {
+	while (!byis_empty(inputStream)) {
 		huffman_code *encode = codes_dictionary[byis_read(inputStream)];
 		bos_feed_huffmancode(outputStream, encode);
 	}
@@ -106,6 +104,63 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 }
 
 void huffman_standard_decompress(FILE *input, FILE *output) {
-	info("Using algorithm: Standard Huffman.");
-	info("Mode: Decompress");
+	/* Create a buffer to store the input. */
+	bit_input_stream *inputStream = bis_create(input);
+	
+	/* Create a buffer to store the output. */
+	byte_output_stream *outputStream = byos_create(output);
+	
+	/* Build up the Huffman tree. */
+	huffman_node *tree = huffman_create_node(NULL, NULL);
+	huffman_build_tree(tree, inputStream);
+	
+	printf("%d\n", (int) tree->weight);
+
+//	dynamic_array *volgorde_codes = da_create();
+//
+//	/** Boom opbouwen */
+//	huffman_node *tree = malloc(sizeof(huffman_node));
+//	int bitsread = build_tree(tree, "\0", volgorde_codes);
+//
+//	/* Padding */
+//	while (bitsread % 8 != 0) {
+//		getchar();
+//		bitsread++;
+//	}
+//
+//	/** Codes lezen en mappen. */
+//	size_t amtcodes = volgorde_codes->size;
+//	for (int i = 0; i < amtcodes; ++i) {
+//		char *code = da_get(volgorde_codes, (size_t) i);
+//		huffman_node *cursor = tree;
+//		for(int j = 0; j < strlen(code); ++j) {
+//			if(code[j] == '1') {
+//				cursor = cursor->right;
+//			} else {
+//				cursor = cursor->left;
+//			}
+//		}
+//		cursor->value = getchar();
+//	}
+//
+//	int c;
+//	huffman_node *cursor = tree;
+//
+//	while ((c = getchar()) > -1) {
+//		char ch = (char) c;
+//
+//		if (ch == '1') {
+//			cursor = cursor->right;
+//		} else {
+//			cursor = cursor->left;
+//		}
+//
+//		if (cursor->type == LEAF) {
+//			printf("%c", (char) cursor->value);
+//			cursor = tree;
+//		}
+//	}
+	
+	byos_free(outputStream);
+	bis_free(inputStream);
 }

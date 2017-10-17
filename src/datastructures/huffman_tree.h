@@ -11,6 +11,7 @@
 #include "../datatypes/bit.h"
 #include "../datatypes/huffman_code.h"
 #include "../io/output/bit_output_stream.h"
+#include "../io/input/bit_input_stream.h"
 
 /**
  * Different types of nodes.
@@ -31,6 +32,14 @@ typedef struct huffman_node {
 	struct huffman_node *left;
 	struct huffman_node *right;
 } huffman_node;
+
+/**
+ * Creates a Huffman tree from a binary representation.
+ *
+ * @param root the root of the tree
+ * @param input the input stream
+ */
+void huffman_build_tree(huffman_node *root, bit_input_stream *input);
 
 /**
  * Creates a new Huffman leaf-node.

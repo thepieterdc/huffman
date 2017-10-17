@@ -10,6 +10,12 @@
 #include "../../util/logging.h"
 #include "../../util/binary.h"
 
+void bis_clear_buffer(bit_input_stream *bis) {
+	bis->current_byte = 0;
+	bis->current_cursor = 8;
+	bis->empty = true;
+}
+
 size_t bis_count(bit_input_stream *bis) {
 	size_t buffer = bis->empty ? 0 : (8 - bis->current_cursor);
 	return byis_count(bis->bytestream) * 8 + buffer;
