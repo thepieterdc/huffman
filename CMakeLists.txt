@@ -10,8 +10,8 @@ set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O4")
 set(CMAKE_C_STANDARD 99)
 
-file(GLOB algorithms_SRC
-		"src/algorithms/*h"
+file(GLOB_RECURSE algorithms_SRC
+		"src/algorithms/*.h"
 		"src/algorithms/*.c"
 		)
 
@@ -25,9 +25,9 @@ file(GLOB datatypes_SRC
 		"src/datatypes/*.c"
 		)
 
-file(GLOB io_SRC
-		"src/io/**/*.h"
-		"src/io/**/*.c"
+file(GLOB_RECURSE io_SRC
+		"src/io/*.h"
+		"src/io/*.c"
 		)
 
 file(GLOB tests_SRC

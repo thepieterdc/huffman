@@ -67,6 +67,15 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right);
 void huffman_free(huffman_node *node);
 
 /**
+ * Prints a Huffman character represented by a given code.
+ *
+ * @param tree the Huffman tree
+ * @param code the Huffman code to find
+ * @param out the output stream to write to
+ */
+void huffman_print_character(huffman_node *tree, huffman_code *code,bit_output_stream *out);
+
+/**
  * Prints a Huffman tree to the supplied output stream.
  *
  * @param root the root of the tree to print
