@@ -6,6 +6,7 @@
 
 #include "standard.h"
 #include "../../io/input/bit_input_stream.h"
+#include "../../util/logging.h"
 
 void assign_characters(huffman_node *root, bit_input_stream *in) {
 	if (root->type == LEAF) {

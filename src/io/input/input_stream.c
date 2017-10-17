@@ -33,5 +33,8 @@ void is_free(input_stream *is) {
 }
 
 void *is_read(input_stream *is) {
+	if (is->buffer->size == 0) {
+		error(ERROR_END_OF_INPUT);
+	}
 	return queue_pop(is->buffer);
 }
