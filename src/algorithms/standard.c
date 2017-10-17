@@ -25,7 +25,7 @@ static void
 build_dictionary(huffman_node *root, huffman_code *current_code, huffman_code **dictionary, bit_output_stream *out) {
 	if (root->type == LEAF) {
 		dictionary[root->data] = current_code;
-//		bos_feed_byte(out, root->data);
+		bos_feed_byte(out, root->data);
 	} else {
 		huffman_code *leftcode = huffmancode_create_left(current_code);
 		build_dictionary(root->left, leftcode, dictionary, out);
@@ -74,8 +74,8 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	huffman_node *tree = minheap_find_min(heap);
 	
 	/* Print the Huffman tree and apply padding. */
-//	huffman_print_tree(tree, outputStream);
-//	bos_pad(outputStream);
+	huffman_print_tree(tree, outputStream);
+	bos_pad(outputStream);
 	
 	/* Create a dictionary to save the codes for fast encoding. */
 	huffman_code *codes_dictionary[256];
@@ -89,12 +89,18 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		bos_feed_huffmancode(outputStream, encode);
 	}
 	
+	/* Apply padding after the last bits. */
+	size_t padding = bos_pad(outputStream);
+	
+	/* Print how many padding was added. */
+	bos_feed_byte(outputStream, (byte) padding);
+	
+	/* Print the output buffer. */
 	bos_flush(outputStream);
 	
+	/* Cleanup allocated memory. */
 	minheap_free(heap);
-	
 	huffman_free(tree);
-	
 	bos_free(outputStream);
 	byis_free(inputStream);
 }

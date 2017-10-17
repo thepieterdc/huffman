@@ -55,45 +55,35 @@ void bos_feed_byte(bit_output_stream *bos, byte b) {
 }
 
 void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
-	printf("----[Printing code %d]----\n", hc->code->value[3]);
-	
 	for (size_t pad = 0; pad < hc->padding; ++pad) {
-		printf("Padding\n");
 		bos_feed_bit(bos, 0);
 	}
 	
 	bool skip = true;
-	bool frontzeroes = false;
 	for (size_t p = 0; p < 4; ++p) {
 		if (skip) {
 			if (hc->code->value[p] == 0) {
 				continue;
 			}
 			skip = false;
-		}
-		
-		if (frontzeroes) {
-			for (size_t b = 0; b < 64; ++b) {
-				bos_feed_bit(bos, (bit) (hc->code->value[p] & (1 << (63 - b))) != 0);
-			}
-		} else {
+			
 			bool print_zero = false;
 			for (size_t b = 0; b < 64; ++b) {
-				bit bt = (bit) (hc->code->value[p] & (1 << (63 - b))) != 0;
+				bit bt = uint256_nth_bit(hc->code, (uint8_t) ((255 - (p * 64)) - b));
 				if (bt != 0) {
-					printf("Printing %d - %d\n", b, bt);
 					print_zero = true;
-					//bos_feed_bit(bos, bt);
-				} else if (print_zero) {
-					printf("Printing %d - %d\n", b, bt);
-					//bos_feed_bit(bos, bt);
+				} else if (!print_zero) {
+					continue;
 				}
+				bos_feed_bit(bos, bt);
+			}
+		} else {
+			for (size_t b = 0; b < 64; ++b) {
+				bit bt = uint256_nth_bit(hc->code, (uint8_t) ((255 - (p * 64)) - b));
+				bos_feed_bit(bos, bt);
 			}
 		}
-		frontzeroes = true;
 	}
-	
-	printf("Done\n");
 }
 
 void bos_flush(bit_output_stream *bos) {
