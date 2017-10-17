@@ -13,9 +13,16 @@
  * Throws an error message to stderr.
  *
  * @param code the error code
- * @param exit true to exit the program after throwing this error
  */
 void error(int code);
+
+/**
+ * Throws a custom error message to stderr.
+ *
+ * @param msg the error message
+ * @param exit true to exit the program after throwing this error
+ */
+void error_custom(char *msg, bool exit);
 
 /**
  * Shows an informational message to stdout.

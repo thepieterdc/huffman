@@ -33,6 +33,13 @@ void error(int code) {
 	exit(code + 100);
 }
 
+void error_custom(char *msg, bool e) {
+	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, msg);
+	if (e) {
+		exit(100);
+	}
+}
+
 void info(char *msg) {
 	write_message(stdout, "INFO", COLOUR_LOG_INFO, msg);
 }
