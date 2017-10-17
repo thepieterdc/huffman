@@ -29,6 +29,20 @@ void build_dictionary(huffman_node *root, huffman_code *code, huffman_code **dic
 	}
 }
 
+void build_tree(huffman_node *root, bit_input_stream *input) {
+	bit rd = bis_read_bit(input);
+	root->type = rd ? LEAF : NODE;
+	if (!rd) {
+		root->left = huffman_create_node(NULL, NULL);
+		root->left->code = huffmancode_create_left(root->code);
+		build_tree(root->left, input);
+		
+		root->right = huffman_create_node(NULL, NULL);
+		root->right->code = huffmancode_create_right(root->code);
+		build_tree(root->right, input);
+	}
+}
+
 byte decode_character(huffman_node *tree, bit_input_stream *in) {
 	huffman_node *cursor = tree;
 	while (cursor->type != LEAF) {

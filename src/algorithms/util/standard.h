@@ -30,6 +30,14 @@ void assign_characters(huffman_node *root, bit_input_stream *in);
 void build_dictionary(huffman_node *root, huffman_code *code, huffman_code **dictionary, bit_output_stream *out);
 
 /**
+ * Creates a Huffman tree from a binary representation.
+ *
+ * @param root the root of the tree
+ * @param input the input stream
+ */
+void build_tree(huffman_node *root, bit_input_stream *input);
+
+/**
  * Decodes the next character in the input stream.
  *
  * @param tree the Huffman tree to use

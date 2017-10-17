@@ -14,20 +14,6 @@
  */
 static uint8_t node_counter = 0;
 
-void huffman_build_tree(huffman_node *root, bit_input_stream *input) {
-	bit rd = bis_read_bit(input);
-	root->type = rd ? LEAF : NODE;
-	if (!rd) {
-		root->left = huffman_create_node(NULL, NULL);
-		root->left->code = huffmancode_create_left(root->code);
-		huffman_build_tree(root->left, input);
-		
-		root->right = huffman_create_node(NULL, NULL);
-		root->right->code = huffmancode_create_right(root->code);
-		huffman_build_tree(root->right, input);
-	}
-}
-
 huffman_node *huffman_create_leaf(byte data, size_t weight) {
 	huffman_node *ret = (huffman_node *) malloc(sizeof(huffman_node));
 	if (!ret) {
@@ -75,10 +61,6 @@ void huffman_free(huffman_node *node) {
 		huffman_free(node->right);
 	}
 	free(node);
-}
-
-void huffman_print_character(huffman_node *tree, huffman_code *code,bit_output_stream *out) {
-
 }
 
 void huffman_print_tree(huffman_node *root, bit_output_stream *out) {
