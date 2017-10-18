@@ -23,41 +23,48 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 	while ((dp = readdir(testvectors)) != NULL) {
 		string ext = strrchr(dp->d_name, '.');
 		if (ext && str_equals(ext, ".txt")) {
-
+			
 			char *vector = str_concat(TEST_ALGORITHM_TESTVECTORS, dp->d_name);
-
+			
 			FILE *input = fopen(vector, "rb");
 			assertThat(input != NULL);
-
+			
 			char *encoded;
 			size_t encoded_size;
-//
-//			char *decoded;
-//			size_t decoded_size;
-//
+
+			char *decoded;
+			size_t decoded_size;
+
 			encode(input, open_memstream(&encoded, &encoded_size));
-//
-//			FILE *encoded_stream = fmemopen(encoded, encoded_size, "rb");
-//
-//			decode(encoded_stream, open_memstream(&decoded, &decoded_size));
-//
-//			input = fopen(vector, "rb");
-//			assertThat(input != NULL);
-//
-//			fseek(input, 0, SEEK_END);
-//			size_t raw_size = (size_t) ftell(input);
-//			fseek(input, 0, SEEK_SET);
-//			char *raw = (char *) malloc(raw_size * sizeof(char));
-//			if (raw == NULL) {
-//				error(ERROR_MALLOC_FAILED);
-//			} else {
-//				fread(raw, 1, raw_size, input);
+
+			FILE *encoded_stream = fmemopen(encoded, encoded_size, "rb");
+
+			decode(encoded_stream, open_memstream(&decoded, &decoded_size));
+
+			input = fopen(vector, "rb");
+			assertThat(input != NULL);
+
+			fseek(input, 0, SEEK_END);
+			size_t raw_size = (size_t) ftell(input);
+			fseek(input, 0, SEEK_SET);
+			char *raw = (char *) malloc(raw_size * sizeof(char));
+			if (raw == NULL) {
+				error(ERROR_MALLOC_FAILED);
+			} else {
+				fread(raw, 1, raw_size, input);
 //				raw[raw_size] = '\0';
-//			}
-//
+			}
+
 //			assertThat(raw_size == decoded_size);
 //			assertThat(str_equals(decoded, raw));
-
+			
+			fclose(input);
+			
+			free(raw);
+			
+			free(decoded);
+			free(encoded);
+			
 			free(vector);
 		}
 	}
