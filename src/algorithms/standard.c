@@ -25,14 +25,15 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Determine the frequencies of each character. */
 	uint_least64_t frequencies[256] = {0};
 	
-	if(byis_empty(inputStream)) {
-		error(ERROR_EMPTY_INPUT);
-	}
-	
 	int in;
 	while ((in = getc(input)) != EOF) {
 		frequencies[in]++;
 		byis_feed(inputStream, (byte) in);
+	}
+	
+	/* Failsafe for empty input. */
+	if(byis_empty(inputStream)) {
+		error(ERROR_EMPTY_INPUT);
 	}
 	
 	/* Add all bytes to a heap. */
@@ -98,6 +99,11 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	
 	/* Create a buffer to store the output. */
 	byte_output_stream *outputStream = byos_create(output);
+	
+	/* Failsafe for empty input. */
+	if(bis_empty(inputStream)) {
+		error(ERROR_EMPTY_INPUT);
+	}
 	
 	/* Build up the Huffman tree. */
 	huffman_node *tree = huffman_create_node(NULL, NULL);

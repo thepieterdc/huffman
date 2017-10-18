@@ -9,6 +9,8 @@
 #include "../src/datastructures/huffman_tree.h"
 
 char *test_huffmantree_create_free_reset_counter() {
+	huffman_reset_ordercounter();
+	
 	huffman_node *leaf = huffman_create_leaf(5, 1);
 	assertThat(leaf != NULL);
 	assertThat(leaf->order_no == 0);

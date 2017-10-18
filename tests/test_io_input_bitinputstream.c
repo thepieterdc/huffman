@@ -17,7 +17,7 @@ char *test_io_bis_create_free() {
 	return 0;
 }
 
-char *test_io_bis_read_bit_count_clear_buffer() {
+char *test_io_bis_read_bit_count_clear_buffer_empty() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
@@ -40,10 +40,12 @@ char *test_io_bis_read_bit_count_clear_buffer() {
 	}
 	
 	assertThat(bis_count(bis) == 2);
+	assertThat(!bis_empty(bis));
 	
 	bis_clear_buffer(bis);
 	
 	assertThat(bis_count(bis) == 0);
+	assertThat(bis_empty(bis));
 	
 	bis_free(bis);
 	

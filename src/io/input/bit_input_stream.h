@@ -44,6 +44,14 @@ size_t bis_count(bit_input_stream *bis);
 bit_input_stream *bis_create(FILE *channel);
 
 /**
+ * Returns whether a bit input stream is empty.
+ *
+ * @param bis the bit input stream
+ * @return true if the stream contains no more bits
+ */
+bool bis_empty(bit_input_stream *bis);
+
+/**
  * Frees the memory allocated by the bit input stream.
  *
  * @param bis the bit input stream

@@ -58,7 +58,7 @@ static char *all_tests() {
 	
 	/** Test: io/input/bit_input_stream. */
 	test(test_io_bis_create_free);
-	test(test_io_bis_read_bit_count_clear_buffer);
+	test(test_io_bis_read_bit_count_clear_buffer_empty);
 	test(test_io_bis_read_byte_count);
 	
 	/** Test: io/input/byte_input_stream. */

@@ -6,13 +6,15 @@
 
 #include <dirent.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "test_algorithm.h"
 #include "test_unit.h"
 #include "../src/util/logging.h"
 
 #define TEST_ALGORITHM_TESTVECTORS "./tests/testvectors/"
 
-char *test_huffman_algorithm(_huffmanfunction encoder, _huffmanfunction decoder) {
+char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 	DIR *testvectors = opendir(TEST_ALGORITHM_TESTVECTORS);
 	assertThat(testvectors != NULL);
 	
@@ -20,30 +22,34 @@ char *test_huffman_algorithm(_huffmanfunction encoder, _huffmanfunction decoder)
 	while ((dp = readdir(testvectors)) != NULL) {
 		if (dp->d_type == DT_REG) {
 			string ext = strrchr(dp->d_name, '.');
-			if(!ext || !str_equals(ext, ".txt")) {
+			if (!ext || !str_equals(ext, ".txt")) {
 				continue;
 			}
+		} else {
+			continue;
 		}
 		
 		char *vector = str_concat(TEST_ALGORITHM_TESTVECTORS, dp->d_name);
 		
 		FILE *input = fopen(vector, "rb");
 		assertThat(input != NULL);
-
-		char *encoded_buf;
+		
+		char *encoded;
 		size_t encoded_size;
-		FILE *encoded = open_memstream(&encoded_buf, &encoded_size);
-
-		char *decoded_buf;
+		
+		char *decoded;
 		size_t decoded_size;
-		FILE *decoded = open_memstream(&decoded_buf, &decoded_size);
 		
-		encoder(input, encoded);
-//		decoder(encoded, decoded);
+		encode(input, open_memstream(&encoded, &encoded_size));
 		
-		//* TODO TEST decoded */
+		FILE *encoded_stream = fmemopen(encoded, encoded_size, "rb");
 		
+		decode(encoded_stream, open_memstream(&decoded, &decoded_size));
+		
+		fclose(encoded_stream);
 		fclose(input);
+		
+		free(vector);
 	}
 	
 	closedir(testvectors);
