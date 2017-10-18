@@ -21,6 +21,7 @@ huffman_node *huffman_create_leaf(byte data, size_t weight) {
 	} else {
 		ret->order_no = node_counter++;
 		ret->type = LEAF;
+		ret->code = NULL;
 		ret->left = NULL;
 		ret->right = NULL;
 		ret->data = data;
@@ -36,6 +37,7 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right) {
 	} else {
 		ret->order_no = node_counter++;
 		ret->type = NODE;
+		ret->code = NULL;
 		ret->left = left;
 		ret->right = right;
 		ret->data = 0;
@@ -51,13 +53,13 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right) {
 }
 
 void huffman_free(huffman_node *node) {
-	if (node->code) {
+	if (node->code != NULL) {
 		huffmancode_free(node->code);
 	}
-	if (node->left) {
+	if (node->left != NULL) {
 		huffman_free(node->left);
 	}
-	if (node->right) {
+	if (node->right != NULL) {
 		huffman_free(node->right);
 	}
 	free(node);

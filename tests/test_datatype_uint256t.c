@@ -72,6 +72,8 @@ char *test_uint256t_nth_bit() {
 		assertThat(uint256_nth_bit(inst, (uint8_t) i) == 1);
 	}
 	
+	free(inst);
+	
 	return 0;
 }
 
