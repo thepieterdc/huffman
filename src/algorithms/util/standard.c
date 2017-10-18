@@ -19,6 +19,7 @@ void assign_characters(huffman_node *root, bit_input_stream *in) {
 
 void build_dictionary(huffman_node *root, huffman_code *code, huffman_code **dictionary, bit_output_stream *out) {
 	if (root->type == LEAF) {
+		root->code = code;
 		dictionary[root->data] = code;
 		bos_feed_byte(out, root->data);
 	} else {

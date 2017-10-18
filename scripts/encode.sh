@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./huffman -t $1 -c < $2 > $3
+valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -v ./huffman -t 1 -c

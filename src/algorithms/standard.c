@@ -31,6 +31,9 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		byis_feed(inputStream, (byte) in);
 	}
 	
+	/* Close the input channel. */
+	fclose(input);
+	
 	/* Failsafe for empty input. */
 	if(byis_empty(inputStream)) {
 		error(ERROR_EMPTY_INPUT);

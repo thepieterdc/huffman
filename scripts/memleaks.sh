@@ -1,3 +1,3 @@
 #!/bin/bash
 
-valgrind --leak-check=full --track-origins=yes -v $1
+valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -v $1
