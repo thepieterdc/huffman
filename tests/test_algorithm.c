@@ -31,36 +31,31 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 			
 			char *encoded;
 			size_t encoded_size;
-
+			
 			char *decoded;
 			size_t decoded_size;
-
+			
 			encode(input, open_memstream(&encoded, &encoded_size));
-
+			
 			FILE *encoded_stream = fmemopen(encoded, encoded_size, "rb");
-
+			
 			decode(encoded_stream, open_memstream(&decoded, &decoded_size));
-
-			input = fopen(vector, "rb");
-			assertThat(input != NULL);
-
-			fseek(input, 0, SEEK_END);
-			size_t raw_size = (size_t) ftell(input);
-			fseek(input, 0, SEEK_SET);
-			char *raw = (char *) malloc(raw_size * sizeof(char));
-			if (raw == NULL) {
-				error(ERROR_MALLOC_FAILED);
-			} else {
-				fread(raw, 1, raw_size, input);
-//				raw[raw_size] = '\0';
-			}
-
-//			assertThat(raw_size == decoded_size);
-//			assertThat(str_equals(decoded, raw));
 			
-			fclose(input);
+			FILE *raw = fopen(vector, "rb");
+			assertThat(raw != NULL);
 			
-			free(raw);
+			fseek(raw, 0, SEEK_END);
+			size_t raw_size = (size_t) ftell(raw);
+			fseek(raw, 0, SEEK_SET);
+			
+			char raw_buffer[raw_size + 1];
+			size_t last = fread(raw_buffer, sizeof(char), raw_size, raw);
+			raw_buffer[last] = '\0';
+			
+			assertThat(raw_size == decoded_size);
+			assertThat(str_equals(decoded, raw_buffer));
+
+			fclose(raw);
 			
 			free(decoded);
 			free(encoded);
