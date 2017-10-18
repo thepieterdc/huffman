@@ -13,6 +13,7 @@
 #include "../io/output/bit_output_stream.h"
 #include "../io/input/input_stream.h"
 #include "../io/input/bit_input_stream.h"
+#include "../util/errors.h"
 
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
@@ -23,6 +24,10 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Determine the frequencies of each character. */
 	uint_least64_t frequencies[256] = {0};
+	
+	if(byis_empty(inputStream)) {
+		error(ERROR_EMPTY_INPUT);
+	}
 	
 	int in;
 	while ((in = getc(input)) != EOF) {

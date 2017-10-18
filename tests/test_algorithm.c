@@ -25,19 +25,21 @@ char *test_huffman_algorithm(_huffmanfunction encoder, _huffmanfunction decoder)
 			}
 		}
 		
-		FILE *input = fopen(dp->d_name, "rb");
-		assertThat(input != NULL);
+		char *vector = str_concat(TEST_ALGORITHM_TESTVECTORS, dp->d_name);
 		
+		FILE *input = fopen(vector, "rb");
+		assertThat(input != NULL);
+
 		char *encoded_buf;
 		size_t encoded_size;
 		FILE *encoded = open_memstream(&encoded_buf, &encoded_size);
-		
+
 		char *decoded_buf;
 		size_t decoded_size;
 		FILE *decoded = open_memstream(&decoded_buf, &decoded_size);
 		
 		encoder(input, encoded);
-		decoder(encoded, decoded);
+//		decoder(encoded, decoded);
 		
 		//* TODO TEST decoded */
 		
