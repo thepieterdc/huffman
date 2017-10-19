@@ -35,12 +35,12 @@ enum mode {
 /**
  * Compression functions.
  */
-extern _huffmanfunction compressionfunctions[1];
+extern _huffmanfunction compressionfunctions[];
 
 /**
  * Decompression functions.
  */
-extern _huffmanfunction decompressionfunctions[1];
+extern _huffmanfunction decompressionfunctions[];
 
 /**
  * Gets the correct algorithm for a given option flag.

@@ -6,11 +6,9 @@
 
 #include "errors.h"
 
-char *_error_messages[8] = {"Failed allocating memory.",
+char *_error_messages[6] = {"Failed allocating memory.",
                             "Requested index is out of bounds.",
                             "The heap contains no more elements.",
-                            "Invalid algorithm parameter.",
-                            "Invalid mode parameter.",
                             "Syntax: ./huffman -t [1..5] [-c|-d]",
                             "Reached end of input while reading.",
 							"Input is empty."};

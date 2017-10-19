@@ -6,8 +6,6 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Wall")
-set(CMAKE_C_FLAGS_DEBUG "-g -DIS_DEBUG")
-set(CMAKE_C_FLAGS_RELEASE "-O4")
 set(CMAKE_C_STANDARD 99)
 
 file(GLOB_RECURSE algorithms_SRC

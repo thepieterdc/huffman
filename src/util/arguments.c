@@ -10,15 +10,18 @@
 #include "../algorithms/standard.h"
 #include "logging.h"
 #include "errors.h"
+#include "../algorithms/adaptive.h"
 
-_huffmanfunction compressionfunctions[1] = {(_huffmanfunction) huffman_standard_compress};
+_huffmanfunction compressionfunctions[2] = {(_huffmanfunction) huffman_standard_compress,
+                                            (_huffmanfunction) huffman_adaptive_compress};
 
-_huffmanfunction decompressionfunctions[1] = {(_huffmanfunction) huffman_standard_decompress};
+_huffmanfunction decompressionfunctions[2] = {(_huffmanfunction) huffman_standard_decompress,
+                                              (_huffmanfunction) huffman_adaptive_decompress};
 
 enum algorithm algorithm_from_opt(char opt) {
 	int optval = char_to_int(opt);
 	if (optval < 1 || optval > 5) {
-		error(ERROR_ARGUMENT_ALGORITHM);
+		error(ERROR_SYNTAX_INVALID);
 	}
 	return (enum algorithm) (optval - 1);
 }
@@ -67,7 +70,7 @@ _huffmanfunction argument_parse(int argc, char **argv) {
 
 enum mode mode_from_opt(char opt) {
 	if (opt != 'c' && opt != 'd') {
-		error(ERROR_ARGUMENT_MODE);
+		error(ERROR_SYNTAX_INVALID);
 	}
 	
 	if (opt == 'c') {

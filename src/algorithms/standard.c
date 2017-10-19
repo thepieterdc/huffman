@@ -89,7 +89,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Print the output buffer. */
 	bos_flush(outputStream);
 	
-	/* Cleanup allocated memory. */
+	/* Release allocated memory. */
 	minheap_free(heap);
 	huffman_free(tree);
 	bos_free(outputStream);
