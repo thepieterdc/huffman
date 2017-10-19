@@ -27,7 +27,7 @@ typedef struct huffman_node {
 	enum huffman_node_type type;
 	huffman_code *code;
 	byte data;
-	uint8_t order_no;
+	uint_fast64_t order_no;
 	size_t weight;
 	struct huffman_node *left;
 	struct huffman_node *right;
@@ -65,6 +65,13 @@ void huffman_free(huffman_node *node);
  * @param out the output stream to write to
  */
 void huffman_print_tree(huffman_node *root, bit_output_stream *out);
+
+/**
+ * Prints a Huffman tree to stderr.
+ *
+ * @param root the root of the tree
+ */
+void huffman_visualise_tree(huffman_node *root);
 
 /**
  * Resets the order-no counter.

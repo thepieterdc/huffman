@@ -12,7 +12,7 @@
 /**
  * Counts order numbers.
  */
-static uint8_t node_counter = 0;
+static uint_fast64_t node_counter = 0;
 
 huffman_node *huffman_create_leaf(byte data, size_t weight) {
 	huffman_node *ret = (huffman_node *) malloc(sizeof(huffman_node));
@@ -75,6 +75,38 @@ void huffman_print_tree(huffman_node *root, bit_output_stream *out) {
 		huffman_print_tree(root->right, out);
 	}
 }
+
+/**
+ * Recursive step to visualise a Huffman tree.
+ *
+ * @param root the root of the subtree
+ * @param indent the identation level
+ */
+static void huffman_visualise_tree_rec(huffman_node *root, uint_fast64_t indent) {
+	for (size_t i = 0; i < indent; ++i) {
+		fprintf(stderr, "\t");
+	}
+	fprintf(stderr, "Data: %d, weight: %d, order: %d\n", root->data, (int) root->weight, (int) root->order_no);
+	
+	if (root->left != NULL) {
+		huffman_visualise_tree_rec(root->left, indent + 1);
+	}
+	if (root->right != NULL) {
+		huffman_visualise_tree_rec(root->right, indent + 1);
+	}
+}
+
+void huffman_visualise_tree(huffman_node *root) {
+	fprintf(stderr, "ROOT -- data: %d, weight: %d, order: %d\n", root->data, (int) root->weight, (int) root->order_no);
+	
+	if (root->left != NULL) {
+		huffman_visualise_tree_rec(root->left, 1);
+	}
+	if (root->right != NULL) {
+		huffman_visualise_tree_rec(root->right, 1);
+	}
+}
+
 
 void huffman_reset_ordercounter() {
 	node_counter = 0;
