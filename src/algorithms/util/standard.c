@@ -61,8 +61,8 @@ void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte b, size
 			bit rd = (bit) (b & (1 << 7));
 			cursor = rd ? cursor->right : cursor->left;
 			b <<= 1;
+			--amount;
 		}
 		byos_feed(out, cursor->data);
-		--amount;
 	}
 }
