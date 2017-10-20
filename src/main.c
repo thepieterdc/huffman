@@ -47,30 +47,23 @@ huffman_node *find_tbar(huffman_node *tree, huffman_node *t) {
 huffman_node *find_parent_of_node(huffman_node *tree, huffman_node *node) {
 	huffman_node *partialres = NULL;
 	if (tree->left != NULL) {
-		if (tree->left->data == node->data && tree->left->type == node->type) {
+		if (tree->left == node) {
 			return tree;
-		} else {
-			partialres = find_parent_of_node(tree->left, node);
 		}
-		
-		if (partialres != NULL) {
-			return partialres;
-		}
+		partialres = find_parent_of_node(tree->left, node);
 	}
 	
 	if (tree->right != NULL) {
-		if (tree->right->data == node->data && tree->right->type == node->type) {
+		if (tree->right == node) {
 			return tree;
-		} else {
-			partialres = find_parent_of_node(tree->right, node);
 		}
 		
-		if (partialres != NULL) {
-			return partialres;
+		if (partialres == NULL) {
+			partialres = find_parent_of_node(tree->right, node);
 		}
 	}
 	
-	return NULL;
+	return partialres;
 }
 
 int main(int argc, char **argv) {
@@ -78,7 +71,7 @@ int main(int argc, char **argv) {
 	
 	// nyt = node met data 0; blad met data 0 zou \0 zijn
 	huffman_node *nyt = huffman_create_node(NULL, NULL);
-	nyt->weight = 0;
+	nyt->weight = 500000;
 	
 	huffman_node *nodes[256] = {};
 	
@@ -103,6 +96,7 @@ int main(int argc, char **argv) {
 			z_node->weight = 1;
 			z_node->order_no = 1;
 			huffman_node *o_node = huffman_create_node(nyt, z_node);
+			o_node->weight = 1;
 			
 			//insert into original tree//
 			if (parent_node != NULL) {
@@ -111,6 +105,8 @@ int main(int argc, char **argv) {
 				increment_all_ordernumbers(tree);
 				nyt->order_no = 0;
 				o_node->order_no = 2;
+				
+				fprintf(stderr, "Left node van parent: %d\n", parent_node->left->weight);
 				
 				parent_node->left = o_node;
 				t = parent_node;
