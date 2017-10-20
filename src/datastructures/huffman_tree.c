@@ -60,46 +60,33 @@ void huffman_free(huffman_node *node) {
 	free(node);
 }
 
-void huffman_print_tree(huffman_node *root, bit_output_stream *out) {
-	if (root->type == LEAF) {
-		bos_feed_bit(out, 1);
-	} else {
-		bos_feed_bit(out, 0);
-		
-		huffman_print_tree(root->left, out);
-		huffman_print_tree(root->right, out);
-	}
-}
-
 /**
- * Recursive step to visualise a Huffman tree.
+ * Recursive step to print a Huffman tree.
  *
  * @param root the root of the subtree
  * @param indent the identation level
  */
-static void huffman_visualise_tree_rec(huffman_node *root, uint_fast64_t indent) {
+static void huffman_print_tree_rec(huffman_node *root, uint_fast16_t indent) {
 	for (size_t i = 0; i < indent; ++i) {
 		fprintf(stderr, "\t");
 	}
-	fprintf(stderr, "Data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight,
-	        (int) root->order_no + 1);
+	if (root->type == LEAF) {
+		fprintf(stderr, "LEAF[o=%ld, a=%ld, data=%d]", root->order_no, root->weight, root->data);
+	} else {
+		fprintf(stderr, "NODE[o=%ld, a=%ld]", root->order_no, root->weight);
+		huffman_print_tree_rec(root->left, indent + 1);
+		huffman_print_tree_rec(root->right, indent + 1);
+	}
 	
-	if (root->left != NULL) {
-		huffman_visualise_tree_rec(root->left, indent + 1);
-	}
-	if (root->right != NULL) {
-		huffman_visualise_tree_rec(root->right, indent + 1);
-	}
 }
 
-void huffman_visualise_tree(huffman_node *root) {
-	fprintf(stderr, "ROOT -- data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight,
-	        (int) root->order_no + 1);
+void huffman_print_tree(huffman_node *root) {
+	fprintf(stderr, "ROOT[o=%ld, a=%ld\n]", root->order_no, root->weight);
 	
 	if (root->left != NULL) {
-		huffman_visualise_tree_rec(root->left, 1);
+		huffman_print_tree_rec(root->left, 1);
 	}
 	if (root->right != NULL) {
-		huffman_visualise_tree_rec(root->right, 1);
+		huffman_print_tree_rec(root->right, 1);
 	}
 }

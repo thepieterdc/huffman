@@ -56,4 +56,12 @@ byte decode_character(huffman_node *tree, bit_input_stream *in);
  */
 void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte byte, size_t amount);
 
+/**
+ * Prints the Huffman tree to the supplied output stream.
+ *
+ * @param root the root of the tree to print
+ * @param out the output stream to write to
+ */
+void print_tree(huffman_node *root, bit_output_stream *out);
+
 #endif /* HUFFMAN_ALGORITHMS_UTILS_STANDARD */

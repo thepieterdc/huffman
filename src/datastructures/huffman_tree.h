@@ -29,6 +29,7 @@ typedef struct huffman_node {
 	byte data;
 	uint_fast64_t order_no;
 	size_t weight;
+	struct huffman_node *parent;
 	struct huffman_node *left;
 	struct huffman_node *right;
 } huffman_node;
@@ -59,18 +60,10 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right);
 void huffman_free(huffman_node *node);
 
 /**
- * Prints a Huffman tree to the supplied output stream.
+ * Prints a Huffman tree to stderr for debugging purposes.
  *
  * @param root the root of the tree to print
- * @param out the output stream to write to
  */
-void huffman_print_tree(huffman_node *root, bit_output_stream *out);
-
-/**
- * Prints a Huffman tree to stderr.
- *
- * @param root the root of the tree
- */
-void huffman_visualise_tree(huffman_node *root);
+void huffman_print_tree(huffman_node *root);
 
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_H */

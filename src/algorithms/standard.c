@@ -65,7 +65,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	huffman_node *tree = minheap_find_min(heap);
 	
 	/* Print the Huffman tree and apply padding. */
-	huffman_print_tree(tree, outputStream);
+	print_tree(tree, outputStream);
 	bos_pad(outputStream);
 	
 	/* Create a dictionary to save the codes for fast encoding. */

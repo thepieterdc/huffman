@@ -10,7 +10,11 @@
 #include "../util/errors.h"
 
 void huffman_adaptive_compress(FILE *input, FILE *output) {
-	info("Huffman adaptive compress");
+	/* Create a buffer to store the input. */
+	byte_input_stream *inputStream = byis_create(NULL);
+	
+	/* Create a buffer to store the output. */
+	bit_output_stream *outputStream = bos_create(output);
 }
 
 void huffman_adaptive_decompress(FILE *input, FILE *output) {

@@ -66,3 +66,14 @@ void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte b, size
 		byos_feed(out, cursor->data);
 	}
 }
+
+void print_tree(huffman_node *root, bit_output_stream *out) {
+	if (root->type == LEAF) {
+		bos_feed_bit(out, 1);
+	} else {
+		bos_feed_bit(out, 0);
+		
+		huffman_print_tree(root->left, out);
+		huffman_print_tree(root->right, out);
+	}
+}
