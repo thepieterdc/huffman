@@ -23,31 +23,31 @@
  * @param colour the colour to display the message in
  * @param msg the message
  */
-void write_message(FILE *channel, const char type[], const char colour[], string msg) {
-	fprintf(channel, "%s[%s]%s %s\n", colour, type, COLOUR_LOG_CLEAR, msg);
-	fflush(channel);
+void write_message(const char type[], const char colour[], string msg) {
+	fprintf(stderr, "%s[%s]%s %s\n", colour, type, COLOUR_LOG_CLEAR, msg);
+	fflush(stderr);
 }
 
 void error(int code) {
-	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, _error_messages[code]);
+	write_message("ERROR", COLOUR_LOG_ERROR, _error_messages[code]);
 	exit(code + 100);
 }
 
 void error_custom(char *msg, bool e) {
-	write_message(stderr, "ERROR", COLOUR_LOG_ERROR, msg);
+	write_message("ERROR", COLOUR_LOG_ERROR, msg);
 	if (e) {
 		exit(100);
 	}
 }
 
 void info(char *msg) {
-	write_message(stdout, "INFO", COLOUR_LOG_INFO, msg);
+	write_message("INFO", COLOUR_LOG_INFO, msg);
 }
 
 void success(char *msg) {
-	write_message(stdout, "OK", COLOUR_LOG_SUCCESS, msg);
+	write_message("OK", COLOUR_LOG_SUCCESS, msg);
 }
 
 void warning(char *msg) {
-	write_message(stderr, "WARNING", COLOUR_LOG_WARNING, msg);
+	write_message("WARNING", COLOUR_LOG_WARNING, msg);
 }

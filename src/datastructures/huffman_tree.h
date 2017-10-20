@@ -73,9 +73,4 @@ void huffman_print_tree(huffman_node *root, bit_output_stream *out);
  */
 void huffman_visualise_tree(huffman_node *root);
 
-/**
- * Resets the order-no counter.
- */
-void huffman_reset_ordercounter();
-
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_H */

@@ -9,17 +9,12 @@
 #include "../util/logging.h"
 #include "../util/errors.h"
 
-/**
- * Counts order numbers.
- */
-static uint_fast64_t node_counter = 0;
-
 huffman_node *huffman_create_leaf(byte data, size_t weight) {
 	huffman_node *ret = (huffman_node *) malloc(sizeof(huffman_node));
 	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
-		ret->order_no = node_counter++;
+		ret->order_no = 0;
 		ret->type = LEAF;
 		ret->code = NULL;
 		ret->left = NULL;
@@ -35,7 +30,7 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right) {
 	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
 	} else {
-		ret->order_no = node_counter++;
+		ret->order_no = 0;
 		ret->type = NODE;
 		ret->code = NULL;
 		ret->left = left;
@@ -86,7 +81,7 @@ static void huffman_visualise_tree_rec(huffman_node *root, uint_fast64_t indent)
 	for (size_t i = 0; i < indent; ++i) {
 		fprintf(stderr, "\t");
 	}
-	fprintf(stderr, "Data: %d, weight: %d, order: %d\n", root->data, (int) root->weight, (int) root->order_no);
+	fprintf(stderr, "Data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight, (int) root->order_no);
 	
 	if (root->left != NULL) {
 		huffman_visualise_tree_rec(root->left, indent + 1);
@@ -97,7 +92,7 @@ static void huffman_visualise_tree_rec(huffman_node *root, uint_fast64_t indent)
 }
 
 void huffman_visualise_tree(huffman_node *root) {
-	fprintf(stderr, "ROOT -- data: %d, weight: %d, order: %d\n", root->data, (int) root->weight, (int) root->order_no);
+	fprintf(stderr, "ROOT -- data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight, (int) root->order_no);
 	
 	if (root->left != NULL) {
 		huffman_visualise_tree_rec(root->left, 1);
@@ -105,9 +100,4 @@ void huffman_visualise_tree(huffman_node *root) {
 	if (root->right != NULL) {
 		huffman_visualise_tree_rec(root->right, 1);
 	}
-}
-
-
-void huffman_reset_ordercounter() {
-	node_counter = 0;
 }
