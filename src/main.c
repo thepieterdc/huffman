@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 	
 	// nyt = node met data 0; blad met data 0 zou \0 zijn
 	huffman_node *nyt = huffman_create_node(NULL, NULL);
-	nyt->weight = 500000;
+	nyt->weight = 0;
 	
 	huffman_node *nodes[256] = {};
 	
