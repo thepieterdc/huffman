@@ -81,7 +81,8 @@ static void huffman_visualise_tree_rec(huffman_node *root, uint_fast64_t indent)
 	for (size_t i = 0; i < indent; ++i) {
 		fprintf(stderr, "\t");
 	}
-	fprintf(stderr, "Data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight, (int) root->order_no);
+	fprintf(stderr, "Data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight,
+	        (int) root->order_no + 1);
 	
 	if (root->left != NULL) {
 		huffman_visualise_tree_rec(root->left, indent + 1);
@@ -92,7 +93,8 @@ static void huffman_visualise_tree_rec(huffman_node *root, uint_fast64_t indent)
 }
 
 void huffman_visualise_tree(huffman_node *root) {
-	fprintf(stderr, "ROOT -- data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight, (int) root->order_no);
+	fprintf(stderr, "ROOT -- data: %c, weight: %d, order: %d\n", (char) root->data, (int) root->weight,
+	        (int) root->order_no + 1);
 	
 	if (root->left != NULL) {
 		huffman_visualise_tree_rec(root->left, 1);

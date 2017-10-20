@@ -88,7 +88,9 @@ int main(int argc, char **argv) {
 		
 		if (nodes[z] != NULL) {
 			info("Already in tree.\n");
+			info("Incrementing frequency.\n");
 			t = nodes[z];
+			
 		} else {
 			huffman_node *parent_node = find_parent_of_node(tree, nyt);
 			huffman_node *z_node = huffman_create_leaf((byte) z, 0);
@@ -105,8 +107,6 @@ int main(int argc, char **argv) {
 				increment_all_ordernumbers(tree);
 				nyt->order_no = 0;
 				o_node->order_no = 2;
-				
-				fprintf(stderr, "Left node van parent: %d\n", parent_node->left->weight);
 				
 				parent_node->left = o_node;
 				t = parent_node;
@@ -134,6 +134,7 @@ int main(int argc, char **argv) {
 			tbar = find_tbar(tree, t);
 			//t' is niet de ouder van t
 			if (tbar->left != t && tbar->right != t) {
+				fprintf(stderr, "t' not parent; t: orderno=%d; t': orderno=%d\n", t->order_no, tbar->order_no);
 				//swap t en t'//
 				huffman_node t_node = *t;
 				*t = *tbar;
@@ -147,9 +148,13 @@ int main(int argc, char **argv) {
 				uint_fast64_t order_tbar = tbar->order_no;
 				t->order_no = order_tbar;
 				tbar->order_no = order_t;
+			} else {
+				fprintf(stderr, "T' is parent of t\n");
 			}
-			t->weight++;
+			fprintf(stderr, "Incrementing weight of t(%d) to %d\n", tbar->order_no, tbar->weight + 1);
+			tbar->weight++;
 			t = find_parent_of_node(tree, t);
+			fprintf(stderr, "New parent: %d\n", t != NULL ? t->order_no : -1);
 			
 			huffman_visualise_tree(tree);
 		}
