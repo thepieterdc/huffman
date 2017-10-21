@@ -30,10 +30,9 @@ huffman_node *add_character(huffman_node **tree, huffman_node *nyt, byte data) {
 }
 
 huffman_node *create_nyt_tree() {
-	huffman_node *nyt = huffman_create_node(NULL, NULL);
+	huffman_node *nyt = huffman_create_leaf(NULL, 0);
 	nyt->code = huffmancode_create();
 	nyt->order_no = 0;
-	nyt->weight = 0;
 	return nyt;
 }
 

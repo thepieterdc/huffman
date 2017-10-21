@@ -11,7 +11,7 @@
 int main(int argc, char **argv) {
 	FILE *in = fopen("tests/testvectors/aabcdad.txt", "rb");
 	
-//	//FILE *in = stdin;
+	//FILE *in = stdin;
 	FILE *out = stdout;
 
 	_huffmanfunction function = argument_parse(argc, argv);
