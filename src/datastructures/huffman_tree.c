@@ -17,6 +17,7 @@ huffman_node *huffman_create_leaf(byte data, size_t weight) {
 		ret->order_no = 0;
 		ret->type = LEAF;
 		ret->code = NULL;
+		ret->parent = NULL;
 		ret->left = NULL;
 		ret->right = NULL;
 		ret->data = data;
@@ -33,14 +34,17 @@ huffman_node *huffman_create_node(huffman_node *left, huffman_node *right) {
 		ret->order_no = 0;
 		ret->type = NODE;
 		ret->code = NULL;
+		ret->parent = NULL;
 		ret->left = left;
 		ret->right = right;
 		ret->data = 0;
 		ret->weight = 0;
 		if (left != NULL) {
+			left->parent = ret;
 			ret->weight += left->weight;
 		}
 		if (right != NULL) {
+			right->parent = ret;
 			ret->weight += right->weight;
 		}
 	}
@@ -71,9 +75,9 @@ static void huffman_print_tree_rec(huffman_node *root, uint_fast16_t indent) {
 		fprintf(stderr, "\t");
 	}
 	if (root->type == LEAF) {
-		fprintf(stderr, "LEAF[o=%ld, a=%ld, data=%d]", root->order_no, root->weight, root->data);
+		fprintf(stderr, "LEAF[o=%ld, a=%ld, data=%d]\n", root->order_no, root->weight, root->data);
 	} else {
-		fprintf(stderr, "NODE[o=%ld, a=%ld]", root->order_no, root->weight);
+		fprintf(stderr, "NODE[o=%ld, a=%ld]\n", root->order_no, root->weight);
 		huffman_print_tree_rec(root->left, indent + 1);
 		huffman_print_tree_rec(root->right, indent + 1);
 	}
@@ -81,7 +85,7 @@ static void huffman_print_tree_rec(huffman_node *root, uint_fast16_t indent) {
 }
 
 void huffman_print_tree(huffman_node *root) {
-	fprintf(stderr, "ROOT[o=%ld, a=%ld\n]", root->order_no, root->weight);
+	fprintf(stderr, "ROOT[o=%ld, a=%ld]\n", root->order_no, root->weight);
 	
 	if (root->left != NULL) {
 		huffman_print_tree_rec(root->left, 1);

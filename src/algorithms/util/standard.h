@@ -4,8 +4,8 @@
  * Project: huffman
  */
 
-#ifndef HUFFMAN_ALGORITHMS_UTILS_STANDARD_H
-#define HUFFMAN_ALGORITHMS_UTILS_STANDARD_H
+#ifndef HUFFMAN_ALGORITHMS_UTIL_STANDARD_H
+#define HUFFMAN_ALGORITHMS_UTIL_STANDARD_H
 
 #include "../../datastructures/huffman_tree.h"
 
@@ -64,4 +64,4 @@ void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte byte, s
  */
 void print_tree(huffman_node *root, bit_output_stream *out);
 
-#endif /* HUFFMAN_ALGORITHMS_UTILS_STANDARD */
+#endif /* HUFFMAN_ALGORITHMS_UTIL_STANDARD_H */

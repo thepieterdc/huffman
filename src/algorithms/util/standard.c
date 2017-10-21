@@ -73,7 +73,7 @@ void print_tree(huffman_node *root, bit_output_stream *out) {
 	} else {
 		bos_feed_bit(out, 0);
 		
-		huffman_print_tree(root->left, out);
-		huffman_print_tree(root->right, out);
+		print_tree(root->left, out);
+		print_tree(root->right, out);
 	}
 }
