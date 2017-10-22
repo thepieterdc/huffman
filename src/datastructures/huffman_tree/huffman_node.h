@@ -4,20 +4,16 @@
  * Project: huffman
  */
 
-#ifndef HUFFMAN_DATASTRUCTURES_HUFFMANTREE_H
-#define HUFFMAN_DATASTRUCTURES_HUFFMANTREE_H
+#ifndef HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H
+#define HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H
 
-#include <unistd.h>
-#include "../datatypes/bit.h"
-#include "../datatypes/huffman_code.h"
-#include "../io/output/bit_output_stream.h"
-#include "../io/input/bit_input_stream.h"
+#include <stdint.h>
 
 /**
  * Different types of nodes.
  */
 enum huffman_node_type {
-	NODE, LEAF
+	NODE, LEAF, ROOT, NYT
 };
 
 /**
@@ -71,4 +67,4 @@ void huffman_print_tree(huffman_node *root, bit_output_stream *out);
  */
 void huffman_reset_ordercounter();
 
-#endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_H */
+#endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H */

@@ -8,18 +8,15 @@
 #include "input_stream.h"
 #include "../../util/logging.h"
 #include "../../util/errors.h"
+#include "../../util/memory.h"
 
 size_t is_count(input_stream *is) {
 	return is->buffer->size;
 }
 
 input_stream *is_create() {
-	input_stream *ret = (input_stream *) malloc(sizeof(input_stream));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->buffer = queue_create();
-	}
+	input_stream *ret = (input_stream *) mallocate(sizeof(input_stream));
+	ret->buffer = queue_create();
 	return ret;
 }
 

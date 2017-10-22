@@ -5,7 +5,7 @@
  */
 
 #include <stdlib.h>
-#include "huffman_tree.h"
+#include "huffman_node.h"
 #include "../util/logging.h"
 #include "../util/errors.h"
 

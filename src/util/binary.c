@@ -5,11 +5,8 @@
  */
 
 #include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include "binary.h"
-
-#include <stdio.h>
+#include "memory.h"
 
 inline char bit_to_bitchar(bit b) {
 	return (char) (b ? 49 : 48);
@@ -29,7 +26,7 @@ byte bitstring_to_byte(string s) {
 }
 
 string byte_to_bitstring(byte b) {
-	string ret = (string) malloc((8 + 1) * sizeof(char));
+	string ret = (string) mallocate((8 + 1) * sizeof(char));
 	ret[8] = '\0';
 	
 	for (size_t i = 0; i < 8; ++i) {

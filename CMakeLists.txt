@@ -15,12 +15,12 @@ file(GLOB_RECURSE algorithms_SRC
 		"src/algorithms/*.c"
 		)
 
-file(GLOB datastructures_SRC
+file(GLOB_RECURSE datastructures_SRC
 		"src/datastructures/*.h"
 		"src/datastructures/*.c"
 		)
 
-file(GLOB datatypes_SRC
+file(GLOB_RECURSE datatypes_SRC
 		"src/datatypes/*.h"
 		"src/datatypes/*.c"
 		)
@@ -30,12 +30,12 @@ file(GLOB_RECURSE io_SRC
 		"src/io/*.c"
 		)
 
-file(GLOB tests_SRC
+file(GLOB_RECURSE tests_SRC
 		"tests/*.h"
 		"tests/*.c"
 		)
 
-file(GLOB util_SRC
+file(GLOB_RECURSE util_SRC
 		"src/util/*.h"
 		"src/util/*.c"
 		)

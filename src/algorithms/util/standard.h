@@ -7,7 +7,7 @@
 #ifndef HUFFMAN_ALGORITHMS_UTILS_STANDARD_H
 #define HUFFMAN_ALGORITHMS_UTILS_STANDARD_H
 
-#include "../../datastructures/huffman_tree.h"
+#include "../../datastructures/huffman_tree/huffman_node.h"
 
 /**
  * Traverses the tree in a DFS manner and assigns a character value to each

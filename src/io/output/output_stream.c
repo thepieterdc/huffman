@@ -6,22 +6,17 @@
 
 #include <stdlib.h>
 #include "output_stream.h"
-#include "../../util/logging.h"
-#include "../../util/errors.h"
 #include "../../datatypes/bit.h"
+#include "../../util/memory.h"
 
 size_t os_count(output_stream *os) {
 	return os->buffer->size;
 }
 
 output_stream *os_create(FILE *channel) {
-	output_stream *ret = (output_stream *) malloc(sizeof(output_stream));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->buffer = queue_create();
-		ret->channel = channel;
-	}
+	output_stream *ret = (output_stream *) mallocate(sizeof(output_stream));
+	ret->buffer = queue_create();
+	ret->channel = channel;
 	return ret;
 }
 

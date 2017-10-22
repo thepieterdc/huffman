@@ -6,11 +6,10 @@
 
 #include <stdlib.h>
 #include "bit_output_stream.h"
-#include "../../util/errors.h"
-#include "../../util/logging.h"
 #include "../../util/binary.h"
 #include "byte_output_stream.h"
 #include "output_stream.h"
+#include "../../util/memory.h"
 
 static void add_buffer_to_stream(bit_output_stream *bos) {
 	bos->current_byte <<= (8 - bos->current_cursor);
@@ -24,14 +23,10 @@ size_t bos_count(bit_output_stream *bos) {
 }
 
 bit_output_stream *bos_create(FILE *channel) {
-	bit_output_stream *ret = (bit_output_stream *) malloc(sizeof(bit_output_stream));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->stream = byos_create(channel);
-		ret->current_byte = 0;
-		ret->current_cursor = 0;
-	}
+	bit_output_stream *ret = (bit_output_stream *) mallocate(sizeof(bit_output_stream));
+	ret->stream = byos_create(channel);
+	ret->current_byte = 0;
+	ret->current_cursor = 0;
 	return ret;
 }
 
@@ -87,7 +82,7 @@ void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 }
 
 void bos_flush(bit_output_stream *bos) {
-	if(bos->current_cursor != 0) {
+	if (bos->current_cursor != 0) {
 		add_buffer_to_stream(bos);
 	}
 	byos_flush(bos->stream);
