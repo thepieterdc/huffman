@@ -42,4 +42,19 @@ void huffmantree_free(huffman_tree *tree);
  */
 void huffmantree_print(huffman_tree *tree);
 
+/**
+ * Sets the codes in a Huffman tree.
+ *
+ * @param tree the tree
+ */
+void huffmantree_set_codes(huffman_tree *tree);
+
+/**
+ * Sets the root in an existing Huffman tree.
+ *
+ * @param tree the tree
+ * @param root the root of the tree
+ */
+void huffmantree_set_root(huffman_tree *tree, huffman_node *root);
+
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANTREE_H */

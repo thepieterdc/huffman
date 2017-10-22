@@ -38,11 +38,15 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		error(ERROR_EMPTY_INPUT);
 	}
 	
+	/* Create a new empty Huffman tree. */
+	huffman_tree *tree = huffmantree_create(NULL);
+	
 	/* Add all bytes to a heap. */
 	min_heap *heap = minheap_create(256);
 	for (size_t i = 0; i < 256; ++i) {
 		if (frequencies[i] > 0) {
 			huffman_node *leaf = huffmannode_create_leaf((byte) i, frequencies[i]);
+			tree->leaves[i] = leaf;
 			minheap_insert(heap, leaf->weight, leaf);
 		}
 	}
@@ -53,7 +57,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		minheap_insert(heap, nullnode->weight, nullnode);
 	}
 	
-	/* Create the Huffman tree. */
+	/* Fill the Huffman tree. */
 	while (heap->size > 1) {
 		huffman_node *left = minheap_extract_min(heap);
 		huffman_node *right = minheap_extract_min(heap);
@@ -61,21 +65,19 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		minheap_insert(heap, parent->weight, parent);
 	}
 	
-	huffman_tree *tree = huffmantree_create(minheap_find_min(heap));
+	huffmantree_set_root(tree, minheap_find_min(heap));
+	huffmantree_set_codes(tree);
 	
 	/* Print the Huffman tree and apply padding. */
 	print_tree(tree->root, outputStream);
 	bos_pad(outputStream);
 	
-	/* Create a dictionary to save the codes for fast encoding. */
-	huffman_code *codes_dictionary[256];
-	
-	/* Print the characters from left to right and fill the dictionary. */
-	build_dictionary(tree->root, huffmancode_create(), codes_dictionary, outputStream);
+	/* Print the characters from left to right. */
+	print_characters(tree->root, outputStream);
 	
 	/* Encode every character in the input string. */
 	while (!byis_empty(inputStream)) {
-		huffman_code *encode = codes_dictionary[byis_read(inputStream)];
+		huffman_code *encode = tree->leaves[byis_read(inputStream)]->code;
 		bos_feed_huffmancode(outputStream, encode);
 	}
 	

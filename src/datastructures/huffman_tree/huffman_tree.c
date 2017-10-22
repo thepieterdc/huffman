@@ -65,3 +65,28 @@ static void huffmantree_print_rec(huffman_node *root, uint_least16_t indent) {
 void huffmantree_print(huffman_tree *tree) {
 	huffmantree_print_rec(tree->root, 0);
 }
+
+/**
+ * Recursive step to set the codes in a Huffman tree.
+ *
+ * @param root the root of the subtree to print
+ * @param code the current code
+ */
+static void huffmantree_set_codes_rec(huffman_node *root, huffman_code *code) {
+	root->code = code;
+	
+	if (root->left && root->right) {
+		huffmantree_set_codes_rec(root->left, huffmancode_create_left(code));
+		huffmantree_set_codes_rec(root->right, huffmancode_create_right(code));
+	}
+}
+
+void huffmantree_set_codes(huffman_tree *tree) {
+	huffmantree_set_codes_rec(tree->root, huffmancode_create());
+}
+
+void huffmantree_set_root(huffman_tree *tree, huffman_node *root) {
+	huffmannode_free(tree->root);
+	tree->root = root;
+	tree->root->type = ROOT;
+}
