@@ -1,19 +1,18 @@
+#include <stdio.h>
+#include "../io/input/byte_input_stream.h"
+#include "../io/output/bit_output_stream.h"
+#include "../datastructures/min_heap.h"
+#include "../datastructures/huffman_tree/huffman_node.h"
+#include "../datastructures/huffman_tree/huffman_tree.h"
+#include "util/standard.h"
+#include "../util/logging.h"
+#include "../util/errors.h"
+
 /**
  * Created by Pieter De Clercq.
  *
  * Project: huffman
  */
-
-#include <stdlib.h>
-#include "standard.h"
-#include "util/standard.h"
-#include "../util/logging.h"
-#include "../io/input/byte_input_stream.h"
-#include "../datastructures/min_heap.h"
-#include "../io/output/bit_output_stream.h"
-#include "../io/input/input_stream.h"
-#include "../io/input/bit_input_stream.h"
-#include "../util/errors.h"
 
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
@@ -35,7 +34,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	fclose(input);
 	
 	/* Failsafe for empty input. */
-	if(byis_empty(inputStream)) {
+	if (byis_empty(inputStream)) {
 		error(ERROR_EMPTY_INPUT);
 	}
 	
@@ -43,14 +42,14 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	min_heap *heap = minheap_create(256);
 	for (size_t i = 0; i < 256; ++i) {
 		if (frequencies[i] > 0) {
-			huffman_node *leaf = huffman_create_leaf((byte) i, frequencies[i]);
+			huffman_node *leaf = huffmannode_create_leaf((byte) i, frequencies[i]);
 			minheap_insert(heap, leaf->weight, leaf);
 		}
 	}
 	
 	/* Failsafe for strings containing 1 character. */
 	if (heap->size == 1) {
-		huffman_node *nullnode = huffman_create_leaf(0, 1);
+		huffman_node *nullnode = huffmannode_create_leaf(0, 1);
 		minheap_insert(heap, nullnode->weight, nullnode);
 	}
 	
@@ -58,21 +57,21 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	while (heap->size > 1) {
 		huffman_node *left = minheap_extract_min(heap);
 		huffman_node *right = minheap_extract_min(heap);
-		huffman_node *parent = huffman_create_node(left, right);
+		huffman_node *parent = huffmannode_create_node(left, right);
 		minheap_insert(heap, parent->weight, parent);
 	}
 	
-	huffman_node *tree = minheap_find_min(heap);
+	huffman_tree *tree = huffmantree_create(minheap_find_min(heap));
 	
 	/* Print the Huffman tree and apply padding. */
-	huffman_print_tree(tree, outputStream);
+	print_tree(tree->root, outputStream);
 	bos_pad(outputStream);
 	
 	/* Create a dictionary to save the codes for fast encoding. */
 	huffman_code *codes_dictionary[256];
 	
 	/* Print the characters from left to right and fill the dictionary. */
-	build_dictionary(tree, huffmancode_create(), codes_dictionary, outputStream);
+	build_dictionary(tree->root, huffmancode_create(), codes_dictionary, outputStream);
 	
 	/* Encode every character in the input string. */
 	while (!byis_empty(inputStream)) {
@@ -91,7 +90,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Cleanup allocated memory. */
 	minheap_free(heap);
-	huffman_free(tree);
+	huffmantree_free(tree);
 	bos_free(outputStream);
 	byis_free(inputStream);
 }
@@ -104,21 +103,21 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	byte_output_stream *outputStream = byos_create(output);
 	
 	/* Failsafe for empty input. */
-	if(bis_empty(inputStream)) {
+	if (bis_empty(inputStream)) {
 		error(ERROR_EMPTY_INPUT);
 	}
 	
 	/* Build up the Huffman tree. */
-	huffman_node *tree = huffman_create_node(NULL, NULL);
-	tree->code = huffmancode_create();
+	huffman_tree *tree = huffmantree_create(NULL);
+	tree->root->code = huffmancode_create();
 	
-	build_tree(tree, inputStream);
+	build_tree(tree->root, inputStream);
 	
 	/* Clear the remaining padding bits. */
 	bis_clear_buffer(inputStream);
 	
 	/* Assign characters to codes. */
-	assign_characters(tree, inputStream);
+	assign_characters(tree->root, inputStream);
 	
 	/* Decode every code in the input string. */
 	while (true) {
@@ -127,10 +126,10 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 			size_t current_cursor = inputStream->current_cursor;
 			bis_clear_buffer(inputStream);
 			byte next = bis_read_byte(inputStream);
-			decode_final_byte(tree, outputStream, current, (size_t) (next - current_cursor));
+			decode_final_byte(tree->root, outputStream, current, (size_t) (next - current_cursor));
 			break;
 		} else {
-			byos_feed(outputStream, decode_character(tree, inputStream));
+			byos_feed(outputStream, decode_character(tree->root, inputStream));
 		}
 	}
 	
@@ -138,7 +137,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	byos_flush(outputStream);
 	
 	/* Cleanup allocated memory. */
-	huffman_free(tree);
+	huffmantree_free(tree);
 	byos_free(outputStream);
 	bis_free(inputStream);
 }

@@ -15,10 +15,31 @@
  * A Huffman tree.
  */
 typedef struct huffman_tree {
-	struct huffman_node *leaves[HUFFMAN_MAX_LEAVES];
 	struct huffman_node *root;
+	struct huffman_node *nyt;
+	struct huffman_node *leaves[HUFFMAN_MAX_LEAVES];
 } huffman_tree;
 
+/**
+ * Creates a new Huffman tree optionally given an existing root.
+ *
+ * @param root the root of the tree, will be created if null
+ * @return the created Huffman tree
+ */
+huffman_tree *huffmantree_create(huffman_node *root);
 
+/**
+ * Frees the memory allocated by a Huffman tree.
+ *
+ * @param tree the tree to free
+ */
+void huffmantree_free(huffman_tree *tree);
+
+/**
+ * Prints a Huffman tree to stderr for debugging purposes.
+ *
+ * @param tree the tree to print
+ */
+void huffmantree_print(huffman_tree *tree);
 
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANTREE_H */

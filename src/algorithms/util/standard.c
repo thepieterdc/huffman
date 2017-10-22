@@ -5,8 +5,6 @@
  */
 
 #include "standard.h"
-#include "../../io/input/bit_input_stream.h"
-#include "../../util/logging.h"
 
 void assign_characters(huffman_node *root, bit_input_stream *in) {
 	if (root->type == LEAF) {
@@ -35,11 +33,11 @@ void build_tree(huffman_node *root, bit_input_stream *input) {
 	bit rd = bis_read_bit(input);
 	root->type = rd ? LEAF : NODE;
 	if (!rd) {
-		root->left = huffman_create_node(NULL, NULL);
+		root->left = huffmannode_create_node(NULL, NULL);
 		root->left->code = huffmancode_create_left(root->code);
 		build_tree(root->left, input);
 		
-		root->right = huffman_create_node(NULL, NULL);
+		root->right = huffmannode_create_node(NULL, NULL);
 		root->right->code = huffmancode_create_right(root->code);
 		build_tree(root->right, input);
 	}
@@ -64,5 +62,16 @@ void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte b, size
 			--amount;
 		}
 		byos_feed(out, cursor->data);
+	}
+}
+
+void print_tree(huffman_node *root, bit_output_stream *out) {
+	if (root->type == LEAF) {
+		bos_feed_bit(out, 1);
+	} else {
+		bos_feed_bit(out, 0);
+		
+		print_tree(root->left, out);
+		print_tree(root->right, out);
 	}
 }

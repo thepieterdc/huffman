@@ -8,6 +8,9 @@
 #define HUFFMAN_ALGORITHMS_UTILS_STANDARD_H
 
 #include "../../datastructures/huffman_tree/huffman_node.h"
+#include "../../io/input/bit_input_stream.h"
+#include "../../io/output/bit_output_stream.h"
+#include "../../io/output/byte_output_stream.h"
 
 /**
  * Traverses the tree in a DFS manner and assigns a character value to each
@@ -55,5 +58,13 @@ byte decode_character(huffman_node *tree, bit_input_stream *in);
  * @param amount the amount of bits to decode
  */
 void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte byte, size_t amount);
+
+/**
+ * Prints a Huffman tree to the supplied output stream.
+ *
+ * @param root the root of the tree to print
+ * @param out the output stream to write to
+ */
+void print_tree(huffman_node *root, bit_output_stream *out);
 
 #endif /* HUFFMAN_ALGORITHMS_UTILS_STANDARD */

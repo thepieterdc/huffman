@@ -8,6 +8,7 @@
 #define HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H
 
 #include <stdint.h>
+#include "../../datatypes/huffman_code.h"
 
 /**
  * Different types of nodes.
@@ -21,10 +22,11 @@ enum huffman_node_type {
  */
 typedef struct huffman_node {
 	enum huffman_node_type type;
-	huffman_code *code;
 	byte data;
-	uint8_t order_no;
-	size_t weight;
+	uint_least16_t order_no;
+	uint_least64_t weight;
+	huffman_code *code;
+	struct huffman_node *parent;
 	struct huffman_node *left;
 	struct huffman_node *right;
 } huffman_node;
@@ -36,7 +38,7 @@ typedef struct huffman_node {
  * @param weight the weight of this leaf
  * @return the created node
  */
-huffman_node *huffman_create_leaf(byte data, size_t weight);
+huffman_node *huffmannode_create_leaf(byte data, size_t weight);
 
 /**
  * Creates a new Huffman node-node.
@@ -45,22 +47,30 @@ huffman_node *huffman_create_leaf(byte data, size_t weight);
  * @param right the right child
  * @return the created node
  */
-huffman_node *huffman_create_node(huffman_node *left, huffman_node *right);
+huffman_node *huffmannode_create_node(huffman_node *left, huffman_node *right);
+
+/**
+ * Creates a new Huffman NYT-node.
+ *
+ * @return the created node
+ */
+huffman_node *huffmannode_create_nyt();
+
+/**
+ * Creates a new Huffman root-node.
+ *
+ * @param left the left child
+ * @param right the right child
+ * @return the created node
+ */
+huffman_node *huffmannode_create_root(huffman_node *left, huffman_node *right);
 
 /**
  * Frees a Huffman leaf/node including its children, recursively.
  *
  * @param node the node to free
  */
-void huffman_free(huffman_node *node);
-
-/**
- * Prints a Huffman tree to the supplied output stream.
- *
- * @param root the root of the tree to print
- * @param out the output stream to write to
- */
-void huffman_print_tree(huffman_node *root, bit_output_stream *out);
+void huffmannode_free(huffman_node *node);
 
 /**
  * Resets the order-no counter.
