@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include "test_unit.h"
-#include "test_datastructure_huffmantree.h"
+#include "test_datastructure_huffmannode.h"
 #include "test_datastructure_minheap.h"
 #include "test_datastructure_queue.h"
 #include "test_datatype_uint256t.h"
@@ -33,8 +33,8 @@ static char *all_tests() {
 	/** Test: algorithms/standard. */
 	test(test_algorithm_standard);
 	
-	/** Test: datastructures/huffman_tree. */
-	test(test_huffmantree_create_free_reset_counter);
+	/** Test: datastructures/huffman_node. */
+	test(test_huffmannode_create_free_reset_counter);
 	
 	/** Test: datastructures/min_heap. */
 	test(test_minheap_create_free);

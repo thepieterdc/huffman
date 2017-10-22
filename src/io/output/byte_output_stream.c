@@ -6,21 +6,16 @@
 
 #include <stdlib.h>
 #include "byte_output_stream.h"
-#include "../../util/errors.h"
-#include "../../util/logging.h"
 #include "output_stream.h"
+#include "../../util/memory.h"
 
 size_t byos_count(byte_output_stream *bos) {
 	return os_count(bos->stream);
 }
 
 byte_output_stream *byos_create(FILE *channel) {
-	byte_output_stream *ret = (byte_output_stream *) malloc(sizeof(byte_output_stream));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->stream = os_create(channel);
-	}
+	byte_output_stream *ret = (byte_output_stream *) mallocate(sizeof(byte_output_stream));
+	ret->stream = os_create(channel);
 	return ret;
 }
 

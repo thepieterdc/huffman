@@ -6,17 +6,12 @@
 
 #include <stdlib.h>
 #include "queue.h"
-#include "../util/logging.h"
-#include "../util/errors.h"
+#include "../util/memory.h"
 
 queue *queue_create() {
-	queue *q = (queue *) malloc(sizeof(queue));
-	if (!q) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		q->size = 0;
-		q->first = q->last = NULL;
-	}
+	queue *q = (queue *) mallocate(sizeof(queue));
+	q->size = 0;
+	q->first = q->last = NULL;
 	return q;
 }
 
@@ -60,17 +55,13 @@ void *queue_pop(queue *q) {
 }
 
 void queue_push(queue *q, void *data) {
-	queue_item *newitem = (queue_item *) malloc(sizeof(queue_item));
-	if (!newitem) {
-		error(ERROR_MALLOC_FAILED);
+	queue_item *newitem = (queue_item *) mallocate(sizeof(queue_item));
+	newitem->data = data;
+	if (q->last != NULL) {
+		q->last->next = newitem;
 	} else {
-		newitem->data = data;
-		if (q->last != NULL) {
-			q->last->next = newitem;
-		} else {
-			q->first = newitem;
-		}
-		q->last = newitem;
-		q->size++;
+		q->first = newitem;
 	}
+	q->last = newitem;
+	q->size++;
 }

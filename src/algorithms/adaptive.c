@@ -5,12 +5,11 @@
  */
 
 #include "adaptive.h"
+#include "../datastructures/huffman_tree/huffman_tree.h"
+#include "../io/input/byte_input_stream.h"
+#include "../io/output/bit_output_stream.h"
 #include "../util/logging.h"
-#include "../datastructures/huffman_tree.h"
-#include "../util/errors.h"
 #include "util/adaptive.h"
-
-#define NYT_INDEX 256
 
 void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
@@ -20,28 +19,25 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the output. */
 	bit_output_stream *outputStream = bos_create(output);
 	
-	/* Create a Huffman tree, only containing the NYT node. */
-	huffman_node *tree = create_nyt_tree();
-	huffman_node *nyt = tree;
-	
-	huffman_node *nodes[257] = {};
-	nodes[NYT_INDEX] = nyt;
+	/* Create an empty Huffman tree. */
+	huffman_tree *tree = huffmantree_create(NULL);
+	huffmantree_set_root(tree, tree->nyt);
 	
 	byte z;
 	while (!byis_empty(inputStream)) {
-		huffman_print_tree(tree);
+		huffmantree_print(tree);
 		
 		z = byis_read(inputStream);
 		printf("Read: %c\n", z);
 		
 		huffman_node *t;
 		
-		if (nodes[z] != NULL) {
+		if (tree->leaves[z]) {
 			/* an existing character has been read. */
-			t = nodes[z];
+			t = tree->leaves[z];
 		} else {
 			/* a new character has been read. */
-			huffman_node *o = add_character(&tree, nyt, z);
+			huffman_node *o = add_character(tree, z);
 			if (o->parent) {
 				t = o->parent;
 			} else {

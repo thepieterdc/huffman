@@ -7,9 +7,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #include "uint256_t.h"
-#include "bit.h"
-#include "../util/logging.h"
-#include "../util/errors.h"
+#include "../util/memory.h"
 
 /**
  * Most significant bit.
@@ -17,23 +15,15 @@
 static uint_least64_t uint64_msb = ((uint_least64_t) 1) << 63;
 
 uint256_t *uint256(uint64_t value) {
-	uint256_t *ret = (uint256_t *) malloc(sizeof(uint256_t));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->value[0] = ret->value[1] = ret->value[2] = 0;
-		ret->value[3] = value;
-	}
+	uint256_t *ret = (uint256_t *) mallocate(sizeof(uint256_t));
+	ret->value[0] = ret->value[1] = ret->value[2] = 0;
+	ret->value[3] = value;
 	return ret;
 }
 
 uint256_t *uint256_copy(const uint256_t *old) {
-	uint256_t *ret = (uint256_t *) malloc(sizeof(uint256_t));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		memcpy(&ret->value, &old->value, 4 * sizeof(uint64_t));
-	}
+	uint256_t *ret = (uint256_t *) mallocate(sizeof(uint256_t));
+	memcpy(&ret->value, &old->value, 4 * sizeof(uint64_t));
 	return ret;
 }
 

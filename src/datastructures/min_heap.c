@@ -8,6 +8,7 @@
 #include "min_heap.h"
 #include "../util/logging.h"
 #include "../util/errors.h"
+#include "../util/memory.h"
 
 #include <stdio.h>
 
@@ -72,15 +73,10 @@ static void min_heapify(min_heap *heap) {
 }
 
 min_heap *minheap_create(size_t maxsize) {
-	min_heap *heap = (min_heap *) malloc(sizeof(min_heap));
-	if (!heap) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		heap->heap = (heap_node **) calloc(sizeof(heap_node *), maxsize);
-		heap->maxsize = maxsize;
-		heap->size = 0;
-	}
-	
+	min_heap *heap = (min_heap *) mallocate(sizeof(min_heap));
+	heap->heap = (heap_node **) callocate(maxsize, sizeof(heap_node *));
+	heap->maxsize = maxsize;
+	heap->size = 0;
 	return heap;
 }
 
@@ -120,7 +116,7 @@ void minheap_insert(min_heap *heap, size_t key, void *data) {
 		error(ERROR_INDEX_OUT_OF_BOUNDS);
 	}
 	
-	heap_node *node = (heap_node *) malloc(sizeof(heap_node));
+	heap_node *node = (heap_node *) mallocate(sizeof(heap_node));
 	node->key = key;
 	node->data = data;
 	heap->heap[heap->size++] = node;

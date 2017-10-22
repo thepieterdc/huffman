@@ -6,9 +6,8 @@
 
 #include <stdlib.h>
 #include "byte_input_stream.h"
-#include "../../util/errors.h"
-#include "../../util/logging.h"
 #include "input_stream.h"
+#include "../../util/memory.h"
 
 void byis_consume(byte_input_stream *bis) {
 	int c;
@@ -22,13 +21,9 @@ size_t byis_count(byte_input_stream *bis) {
 }
 
 byte_input_stream *byis_create(FILE *channel) {
-	byte_input_stream *ret = (byte_input_stream *) malloc(sizeof(byte_input_stream));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->channel = channel;
-		ret->stream = is_create();
-	}
+	byte_input_stream *ret = (byte_input_stream *) mallocate(sizeof(byte_input_stream));
+	ret->channel = channel;
+	ret->stream = is_create();
 	return ret;
 }
 

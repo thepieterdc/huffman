@@ -6,9 +6,8 @@
 
 #include <stdlib.h>
 #include "bit_input_stream.h"
-#include "../../util/errors.h"
-#include "../../util/logging.h"
 #include "../../util/binary.h"
+#include "../../util/memory.h"
 
 void bis_clear_buffer(bit_input_stream *bis) {
 	bis->current_byte = 0;
@@ -22,18 +21,14 @@ size_t bis_count(bit_input_stream *bis) {
 }
 
 bit_input_stream *bis_create(FILE *channel) {
-	bit_input_stream *ret = (bit_input_stream *) malloc(sizeof(bit_input_stream));
-	if (!ret) {
-		error(ERROR_MALLOC_FAILED);
-	} else {
-		ret->bytestream = byis_create(channel);
-		ret->current_byte = 0;
-		ret->current_cursor = 0;
-		ret->empty = true;
-		
-		if (channel) {
-			byis_consume(ret->bytestream);
-		}
+	bit_input_stream *ret = (bit_input_stream *) mallocate(sizeof(bit_input_stream));
+	ret->bytestream = byis_create(channel);
+	ret->current_byte = 0;
+	ret->current_cursor = 0;
+	ret->empty = true;
+	
+	if (channel) {
+		byis_consume(ret->bytestream);
 	}
 	return ret;
 }

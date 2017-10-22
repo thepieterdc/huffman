@@ -4,8 +4,8 @@
  * Project: huffman
  */
 
-#include <stdlib.h>
 #include <string.h>
+#include "memory.h"
 #include "string.h"
 
 inline int char_to_int(char c) {
@@ -13,7 +13,7 @@ inline int char_to_int(char c) {
 }
 
 string str_concat(string s1, string s2) {
-	string result = (string) malloc((strlen(s1) + strlen(s2) + 1) * sizeof(char));
+	string result = (string) mallocate((strlen(s1) + strlen(s2) + 1) * sizeof(char));
 	strcpy(result, s1);
 	strcat(result, s2);
 	return result;
