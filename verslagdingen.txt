@@ -1,8 +1,13 @@
-- Letters enzo opgeslagen als ints (ascii) zodat kan worden gebruikt als index in arrays + bytes zijn toch ints
+- Bytes worden gebruikt als indexen
 
-- Woordenboek gemaakt met codes zodat boom niet telkens doorzocht moet worden
+- uint256
+
+- Nodes apart opgeslagen in tree zodat O(1) access voor bvb standaard encoder
 
 - Bit input/output stream
+    buffer zodat op einde pas effectief geprint moet worden (veel sneller)
 
 - Fibo heap gebruikt om boom op te bouwen want tabel op https://en.wikipedia.org/wiki/Priority_queue
+    (of zeggen dat het niet de moeite was want O(256 en enkel in standaard)
 
+-
