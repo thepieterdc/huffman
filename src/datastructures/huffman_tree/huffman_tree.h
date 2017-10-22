@@ -29,6 +29,13 @@ typedef struct huffman_tree {
 huffman_tree *huffmantree_create(huffman_node *root);
 
 /**
+ * Creates an empty Huffman tree.
+ *
+ * @return the created Huffman tree
+ */
+huffman_tree *huffmantree_create_empty();
+
+/**
  * Frees the memory allocated by a Huffman tree.
  *
  * @param tree the tree to free

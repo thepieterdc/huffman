@@ -39,7 +39,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	}
 	
 	/* Create a new empty Huffman tree. */
-	huffman_tree *tree = huffmantree_create(NULL);
+	huffman_tree *tree = huffmantree_create_empty();
 	
 	/* Add all bytes to a heap. */
 	min_heap *heap = minheap_create(256);

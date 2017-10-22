@@ -5,8 +5,6 @@
  */
 
 #include "util/arguments.h"
-#include "datastructures/huffman_tree.h"
-#include "util/logging.h"
 
 int main(int argc, char **argv) {
 	FILE *in = fopen("tests/testvectors/aabcdad.txt", "rb");

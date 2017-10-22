@@ -9,8 +9,6 @@
 #include "huffman_tree.h"
 #include "../../util/memory.h"
 
-#define HUFFMAN_MAX_LEAVES 256
-
 huffman_tree *huffmantree_create(huffman_node *root) {
 	huffman_tree *ret = (huffman_tree *) callocate(1, sizeof(huffman_tree));
 	ret->nyt = huffmannode_create_nyt();
@@ -22,6 +20,12 @@ huffman_tree *huffmantree_create(huffman_node *root) {
 		ret->root = huffmannode_create_root(NULL, NULL);
 	}
 	
+	return ret;
+}
+
+huffman_tree *huffmantree_create_empty() {
+	huffman_tree *ret = (huffman_tree *) callocate(1, sizeof(huffman_tree));
+	ret->nyt = huffmannode_create_nyt();
 	return ret;
 }
 
@@ -86,7 +90,9 @@ void huffmantree_set_codes(huffman_tree *tree) {
 }
 
 void huffmantree_set_root(huffman_tree *tree, huffman_node *root) {
-	huffmannode_free(tree->root);
+	if (tree->root) {
+		huffmannode_free(tree->root);
+	}
 	tree->root = root;
 	tree->root->type = ROOT;
 }
