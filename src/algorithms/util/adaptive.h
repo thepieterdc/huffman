@@ -18,4 +18,13 @@
  */
 huffman_node *add_character(huffman_tree *tree, byte data);
 
-#endif /* HUFFMAN_ALGORITHMS_UTIL_AAPTIVE_H */
+/**
+ * Finds t' for a given t.
+ *
+ * @param tree the Huffman tree
+ * @param t the t-node
+ * @return the t' node
+ */
+huffman_node *find_tbar(huffman_tree *tree, huffman_node *t);
+
+#endif /* HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H */
