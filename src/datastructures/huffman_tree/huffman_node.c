@@ -48,24 +48,6 @@ huffman_node *huffmannode_create_nyt() {
 	return ret;
 }
 
-huffman_node *huffmannode_create_root(huffman_node *left, huffman_node *right) {
-	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
-	ret->order_no = node_counter++;
-	ret->type = ROOT;
-	
-	ret->left = left;
-	ret->right = right;
-	if (left) {
-		ret->weight += left->weight;
-		left->parent = ret;
-	}
-	if (right) {
-		ret->weight += right->weight;
-		right->parent = ret;
-	}
-	return ret;
-}
-
 void huffmannode_free(huffman_node *node) {
 	if (node->code != NULL) {
 		huffmancode_free(node->code);

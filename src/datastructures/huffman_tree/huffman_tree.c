@@ -14,10 +14,8 @@ huffman_tree *huffmantree_create(huffman_node *root) {
 	ret->nyt = huffmannode_create_nyt();
 	
 	ret->root = root;
-	if (ret->root) {
-		ret->root->type = ROOT;
-	} else {
-		ret->root = huffmannode_create_root(NULL, NULL);
+	if (!ret->root) {
+		ret->root = huffmannode_create_node(NULL, NULL);
 	}
 	
 	return ret;
@@ -52,17 +50,12 @@ static void huffmantree_print_rec(huffman_node *root, uint_least16_t indent) {
 	
 	if (root->type == NODE) {
 		fprintf(stderr, "NODE[a=%ld, o=%d]\n", root->weight, root->order_no);
-	} else if (root->type == LEAF) {
-		fprintf(stderr, "LEAF[a=%ld, o=%d, data=%d]\n", root->weight, root->order_no, root->data);
-	} else if (root->type == ROOT) {
-		fprintf(stderr, "ROOT[a=%ld, o=%d]\n", root->weight, root->order_no);
-	} else if (root->type == NYT) {
-		fprintf(stderr, "NYT[a=%ld, o=%d]\n", root->weight, root->order_no);
-	}
-	
-	if (root->left && root->right) {
 		huffmantree_print_rec(root->left, (uint_least16_t) (indent + 1));
 		huffmantree_print_rec(root->right, (uint_least16_t) (indent + 1));
+	} else if (root->type == LEAF) {
+		fprintf(stderr, "LEAF[a=%ld, o=%d, data=%d]\n", root->weight, root->order_no, root->data);
+	} else {
+		fprintf(stderr, "NYT[a=%ld, o=%d]\n", root->weight, root->order_no);
 	}
 }
 
@@ -87,12 +80,4 @@ static void huffmantree_set_codes_rec(huffman_node *root, huffman_code *code) {
 
 void huffmantree_set_codes(huffman_tree *tree) {
 	huffmantree_set_codes_rec(tree->root, huffmancode_create());
-}
-
-void huffmantree_set_root(huffman_tree *tree, huffman_node *root) {
-	if (tree->root) {
-		huffmannode_free(tree->root);
-	}
-	tree->root = root;
-	tree->root->type = ROOT;
 }

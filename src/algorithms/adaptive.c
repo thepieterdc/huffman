@@ -20,13 +20,12 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Create an empty Huffman tree. */
-	huffman_tree *tree = huffmantree_create(NULL);
-	
-	huffmantree_print(tree);
+	huffman_tree *tree = huffmantree_create_empty();
+	tree->root = tree->nyt;
 	
 	byte z;
 	while (!byis_empty(inputStream)) {
-		//huffmantree_print(tree);
+		huffmantree_print(tree);
 		
 		z = byis_read(inputStream);
 		printf("Read: %c", z);
@@ -35,11 +34,11 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 		
 		if (tree->leaves[z]) {
 			printf(" -- Already in tree.\n");
-			/* an existing character has been read. */
+			/* An existing character has been read. */
 			t = tree->leaves[z];
 		} else {
 			printf(" -- New character.\n");
-			/* a new character has been read. */
+			/* A new character has been read. */
 			huffman_node *o = add_character(tree, z);
 			if (o->parent) {
 				t = o->parent;

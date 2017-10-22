@@ -65,7 +65,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		minheap_insert(heap, parent->weight, parent);
 	}
 	
-	huffmantree_set_root(tree, minheap_find_min(heap));
+	tree->root = minheap_find_min(heap);
 	huffmantree_set_codes(tree);
 	
 	/* Print the Huffman tree and apply padding. */

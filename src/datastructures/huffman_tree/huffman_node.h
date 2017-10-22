@@ -14,7 +14,7 @@
  * Different types of nodes.
  */
 enum huffman_node_type {
-	NODE, LEAF, ROOT, NYT
+	NODE, LEAF, NYT
 };
 
 /**
@@ -55,15 +55,6 @@ huffman_node *huffmannode_create_node(huffman_node *left, huffman_node *right);
  * @return the created node
  */
 huffman_node *huffmannode_create_nyt();
-
-/**
- * Creates a new Huffman root-node.
- *
- * @param left the left child
- * @param right the right child
- * @return the created node
- */
-huffman_node *huffmannode_create_root(huffman_node *left, huffman_node *right);
 
 /**
  * Frees a Huffman leaf/node including its children, recursively.
