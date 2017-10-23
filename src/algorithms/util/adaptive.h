@@ -16,7 +16,7 @@
  * @param data the data to add
  * @return the node having NYT and the new character as children
  */
-huffman_node *add_character(huffman_tree *tree, byte data);
+huffman_node *add_character(adaptive_huffman_tree *tree, byte data);
 
 /**
  * Finds t' for a given t.

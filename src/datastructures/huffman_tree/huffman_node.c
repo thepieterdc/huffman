@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "huffman_node.h"
 #include "../../util/memory.h"
+#include "adaptive_huffman_tree.h"
 
 /**
  * Counts order numbers.
@@ -42,7 +43,7 @@ huffman_node *huffmannode_create_node(huffman_node *left, huffman_node *right) {
 
 huffman_node *huffmannode_create_nyt() {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
-	ret->order_no = 512;
+	ret->order_no = HUFFMAN_MAX_NODES - 1;
 	ret->type = NYT;
 	ret->weight = 0;
 	return ret;
