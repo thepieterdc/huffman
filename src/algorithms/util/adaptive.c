@@ -24,7 +24,11 @@ huffman_node *add_character(huffman_tree *tree, byte data) {
 	return ret;
 }
 
-huffman_node *find_tbar(huffman_tree *tree, huffman_node *t) {
-	huffman_node *currentbest;
-	return currentbest;
+huffman_node *find_tbar(adaptive_huffman_tree *tree, huffman_node *t) {
+	for (size_t i = tree->amt_nodes; i > 0; --i) {
+		if (tree->nodes[i]->weight == t->weight) {
+			return tree->nodes[i];
+		}
+	}
+	return NULL;
 }

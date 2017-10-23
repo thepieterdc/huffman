@@ -11,7 +11,7 @@
 /**
  * Counts order numbers.
  */
-static uint8_t node_counter = 0;
+static uint_least16_t node_counter = 0;
 
 huffman_node *huffmannode_create_leaf(byte data, size_t weight) {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
@@ -42,7 +42,7 @@ huffman_node *huffmannode_create_node(huffman_node *left, huffman_node *right) {
 
 huffman_node *huffmannode_create_nyt() {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
-	ret->order_no = UINT_LEAST16_MAX;
+	ret->order_no = 512;
 	ret->type = NYT;
 	ret->weight = 0;
 	return ret;

@@ -5,11 +5,10 @@
  */
 
 #include "adaptive.h"
-#include "../datastructures/huffman_tree/huffman_tree.h"
+#include "util/adaptive.h"
 #include "../io/input/byte_input_stream.h"
 #include "../io/output/bit_output_stream.h"
 #include "../util/logging.h"
-#include "util/adaptive.h"
 
 void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
@@ -22,6 +21,10 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create an empty Huffman tree. */
 	huffman_tree *tree = huffmantree_create_empty();
 	tree->root = tree->nyt;
+	
+	/* Transform it into an Adaptive Huffman tree. */
+	adaptive_huffman_tree aht;
+	adaptivehuffmantree(&aht, tree);
 	
 	byte z;
 	while (!byis_empty(inputStream)) {
@@ -45,8 +48,8 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 			}
 		}
 		
-		while(t->parent) {
-			huffman_node *tbar = find_tbar(tree, t);
+		while (t->parent) {
+			huffman_node *tbar = find_tbar(&aht, t);
 			break;
 		}
 	}

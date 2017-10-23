@@ -7,7 +7,7 @@
 #ifndef HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H
 #define HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H
 
-#include "../../datastructures/huffman_tree/huffman_tree.h"
+#include "../../datastructures/huffman_tree/adaptive_huffman_tree.h"
 
 /**
  * Creates a tree for a new character in the existing Huffman tree.
@@ -25,6 +25,6 @@ huffman_node *add_character(huffman_tree *tree, byte data);
  * @param t the t-node
  * @return the t' node
  */
-huffman_node *find_tbar(huffman_tree *tree, huffman_node *t);
+huffman_node *find_tbar(adaptive_huffman_tree *tree, huffman_node *t);
 
 #endif /* HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H */
