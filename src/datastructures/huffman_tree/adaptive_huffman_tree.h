@@ -28,13 +28,4 @@ typedef struct adaptive_huffman_tree {
  */
 void adaptivehuffmantree(adaptive_huffman_tree *aht, huffman_tree *ht);
 
-/**
- * Swaps 2 nodes in an Adaptive Huffman tree.
- *
- * @param aht the Adaptive Huffman tree
- * @param node1 the first node
- * @param node2 the second node
- */
-void aht_swap_nodes(adaptive_huffman_tree *aht, huffman_node *node1, huffman_node *node2);
-
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_ADAPTIVEHUFFMANTREE_H */

@@ -81,3 +81,9 @@ static void huffmantree_set_codes_rec(huffman_node *root, huffman_code *code) {
 void huffmantree_set_codes(huffman_tree *tree) {
 	huffmantree_set_codes_rec(tree->root, huffmancode_create());
 }
+
+void huffmantree_swap_nodes(huffman_node *node1, huffman_node *node2) {
+	huffman_node temp = *node1;
+	*node1 = *node2;
+	*node2 = temp;
+}

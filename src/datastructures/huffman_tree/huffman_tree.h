@@ -56,4 +56,12 @@ void huffmantree_print(huffman_tree *tree);
  */
 void huffmantree_set_codes(huffman_tree *tree);
 
+/**
+ * Swaps 2 nodes in a Huffman tree.
+ *
+ * @param node1 the first node
+ * @param node2 the second node
+ */
+void huffmantree_swap_nodes(huffman_node *node1, huffman_node *node2);
+
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANTREE_H */

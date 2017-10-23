@@ -31,12 +31,3 @@ void adaptivehuffmantree(adaptive_huffman_tree *aht, huffman_tree *ht) {
 	
 	set_nodes(aht, ht->root);
 }
-
-void aht_swap_nodes(adaptive_huffman_tree *aht, huffman_node *node1, huffman_node *node2) {
-	fprintf(stderr, "SWAPPING\n");
-	huffmantree_print(aht->tree);
-	huffman_node temp = *node1;
-	*node1 = *node2;
-	*node2 = temp;
-	huffmantree_print(aht->tree);
-}

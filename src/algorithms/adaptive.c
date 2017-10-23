@@ -28,10 +28,10 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	
 	byte z;
 	while (!byis_empty(inputStream)) {
-		huffmantree_print(tree);
+//		huffmantree_print(tree);
 		
 		z = byis_read(inputStream);
-		printf("Read: %c\n", z);
+//		fprintf(stderr, "\nRead: %c\n", z);
 
 		huffman_node *t;
 
@@ -48,10 +48,15 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 			}
 		}
 
+		/* Update the tree. */
 		while (t->parent) {
 			huffman_node *tbar = find_tbar(&aht, t);
 			if(tbar != t->parent) {
-				aht_swap_nodes(&aht, t, tbar);
+				fprintf(stderr, "SWAPPING\n");
+				huffmantree_print(tree);
+				huffmantree_swap_nodes(t, tbar);
+				fprintf(stderr, "SWAPPED\n");
+				huffmantree_print(tree);
 			}
 			break;
 		}
