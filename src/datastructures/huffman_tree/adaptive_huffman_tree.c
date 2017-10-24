@@ -31,3 +31,11 @@ void adaptivehuffmantree(adaptive_huffman_tree *aht, huffman_tree *ht) {
 	
 	set_nodes(aht, ht->root);
 }
+
+void aht_swap_ordernumbers(adaptive_huffman_tree *aht, huffman_node *node1, huffman_node *node2) {
+	uint_least16_t temp = node1->order_no;
+	node1->order_no = node2->order_no;
+	node2->order_no = temp;
+	aht->nodes[node1->order_no] = node1;
+	aht->nodes[node2->order_no] = node2;
+}
