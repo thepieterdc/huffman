@@ -22,7 +22,7 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 	struct dirent *dp;
 	while ((dp = readdir(testvectors)) != NULL) {
 		string ext = strrchr(dp->d_name, '.');
-		if (ext && str_equals(ext, ".txt")) {
+		if (ext && str_equals(ext, ".in")) {
 			
 			char *vector = str_concat(TEST_ALGORITHM_TESTVECTORS, dp->d_name);
 			

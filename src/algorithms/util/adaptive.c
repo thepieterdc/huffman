@@ -4,11 +4,12 @@
  * Project: huffman
  */
 
+#include <stdio.h>
 #include "adaptive.h"
 
 huffman_node *add_character(adaptive_huffman_tree *tree, byte data) {
-	huffman_node *parent = tree->tree->nyt->parent;
-	huffman_node *ret = huffmannode_create_node(tree->tree->nyt, NULL);
+	huffman_node *parent = tree->nyt->parent;
+	huffman_node *ret = huffmannode_create_node(tree->nyt, NULL);
 	ret->weight = 1;
 	
 	huffman_node *newleaf = huffmannode_create_leaf(data, 1);
@@ -29,11 +30,43 @@ huffman_node *add_character(adaptive_huffman_tree *tree, byte data) {
 	return ret;
 }
 
-huffman_node *find_tbar(adaptive_huffman_tree *tree, huffman_node *t) {
+/**
+ * Swaps 2 nodes in the Adaptive Huffman tree.
+ *
+ * @param tree the Adaptive Huffman tree
+ * @param node1 the first node
+ * @param node2 the second node
+ */
+static void do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_node *node2) {
+	huffman_node temp = *node1;
+	*node1 = *node2;
+	*node2 = temp;
+}
+
+/**
+ * Finds the node t' to swap with.
+ *
+ * @param tree the Adaptive Huffman tree
+ * @param weight the weight of the node t
+ */
+static huffman_node *find_swap(adaptive_huffman_tree *tree, uint_least64_t weight) {
 	for (size_t i = 0; i < tree->amt_nodes; ++i) {
-		if (tree->nodes[i]->weight == t->weight) {
+		if (tree->nodes[i]->weight == weight) {
 			return tree->nodes[i];
 		}
 	}
 	return NULL;
+}
+
+void update_tree(adaptive_huffman_tree *tree, huffman_node *t) {
+	huffman_node *swap_node;
+	huffman_node *cursor = t;
+	while (cursor->parent != NULL) {
+		swap_node = find_swap(tree, cursor->weight);
+		if (cursor->parent != swap_node) {
+			do_swap(tree, cursor, swap_node);
+		}
+		cursor->weight++;
+		cursor = cursor->parent;
+	}
 }

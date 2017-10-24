@@ -11,7 +11,6 @@
 
 huffman_tree *huffmantree_create(huffman_node *root) {
 	huffman_tree *ret = (huffman_tree *) callocate(1, sizeof(huffman_tree));
-	ret->nyt = huffmannode_create_nyt();
 	
 	ret->root = root;
 	if (!ret->root) {
@@ -22,17 +21,12 @@ huffman_tree *huffmantree_create(huffman_node *root) {
 }
 
 huffman_tree *huffmantree_create_empty() {
-	huffman_tree *ret = (huffman_tree *) callocate(1, sizeof(huffman_tree));
-	ret->nyt = huffmannode_create_nyt();
-	return ret;
+	return (huffman_tree *) callocate(1, sizeof(huffman_tree));
 }
 
 void huffmantree_free(huffman_tree *tree) {
 	if (tree->root) {
 		huffmannode_free(tree->root);
-	}
-	if (tree->nyt) {
-		huffmannode_free(tree->nyt);
 	}
 	free(tree);
 }

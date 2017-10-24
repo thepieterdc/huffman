@@ -9,32 +9,30 @@
 
 #include "huffman_tree.h"
 
-#define HUFFMAN_MAX_NODES 513
+#define HUFFMAN_MAX_NODES 514
 
 /**
  * An adaptive Huffman tree.
  */
 typedef struct adaptive_huffman_tree {
 	struct huffman_tree *tree;
+	struct huffman_node *nyt;
 	size_t amt_nodes;
-	struct huffman_node *nodes[HUFFMAN_MAX_NODES];
+	struct huffman_node *nodes[HUFFMAN_MAX_NODES + 1];
 } adaptive_huffman_tree;
 
 /**
- * Initialises an Adaptive Huffman tree.
+ * Creates an Adaptive Huffman tree.
  *
- * @param aht the Adaptive Huffman tree
- * @param tree the encapsulated tree
+ * @return the created Adaptive Huffman tree
  */
-void adaptivehuffmantree(adaptive_huffman_tree *aht, huffman_tree *ht);
+adaptive_huffman_tree *adaptivehuffmantree_create();
 
 /**
- * Swaps 2 nodes' ordernumbers in an Adaptive Huffman tree.
+ * Frees the memory allocated by a given Adaptive Huffman tree.
  *
  * @param aht the Adaptive Huffman tree
- * @param node1 the first node
- * @param node2 the second node
  */
-void aht_swap_ordernumbers(adaptive_huffman_tree *aht, huffman_node *node1, huffman_node *node2);
+void adaptivehuffmantree_free(adaptive_huffman_tree *aht);
 
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_ADAPTIVEHUFFMANTREE_H */

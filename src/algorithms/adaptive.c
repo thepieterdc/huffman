@@ -18,50 +18,26 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the output. */
 	bit_output_stream *outputStream = bos_create(output);
 	
-	/* Create an empty Huffman tree. */
-	huffman_tree *tree = huffmantree_create_empty();
-	tree->root = tree->nyt;
+	/* Create an Adaptive Huffman tree. */
+	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
 	
-	/* Transform it into an Adaptive Huffman tree. */
-	adaptive_huffman_tree aht;
-	adaptivehuffmantree(&aht, tree);
-	
+	/* Encode the input. */
 	byte z;
 	while (!byis_empty(inputStream)) {
 		z = byis_read(inputStream);
-
-		huffman_node *t;
-
-		if (tree->leaves[z]) {
-			/* An existing character has been read. */
-			t = tree->leaves[z];
-		} else {
-			/* A new character has been read. */
-			huffman_node *o = add_character(&aht, z);
-			if (o->parent) {
-				t = o->parent;
-			} else {
-				continue;
-			}
-		}
-
-		/* Update the tree. */
-		while (t->parent) {
-			huffman_node *tbar = find_tbar(&aht, t);
-			if(tbar != t->parent) {
-				huffmantree_swap_nodes(t, tbar);
-				aht_swap_ordernumbers(&aht, t, tbar);
-			}
-			tbar->weight++;
-			t = tbar->parent;
+		
+		huffman_node *t = aht->tree->leaves[z];
+		if (t == NULL) {
+			huffman_node *o = add_character(aht, z);
+			t = o->parent;
 		}
 		
-		t->weight++;
+		if (t != NULL) {
+			update_tree(aht, t);
+		}
 		
-		huffmantree_print(tree);
-		fprintf(stderr, "\n\n");
+		huffmantree_print(aht->tree);
 	}
-	
 }
 
 void huffman_adaptive_decompress(FILE *input, FILE *output) {
