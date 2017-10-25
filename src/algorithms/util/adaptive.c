@@ -41,6 +41,8 @@ static void do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_no
 	huffman_node temp = *node1;
 	*node1 = *node2;
 	*node2 = temp;
+	tree->nodes[node1->order_no] = node1;
+	tree->nodes[node2->order_no] = node2;
 }
 
 /**

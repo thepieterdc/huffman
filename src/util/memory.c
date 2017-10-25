@@ -24,3 +24,12 @@ void *mallocate(size_t size) {
 	}
 	return ret;
 }
+
+void *reallocate(void *block, size_t size) {
+	void *ret = realloc(block, size);
+	if (!ret) {
+		free(block);
+		error(ERROR_MALLOC_FAILED);
+	}
+	return ret;
+}
