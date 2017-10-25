@@ -37,7 +37,7 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 		huffman_node *swap_node;
 		while (t) {
 			swap_node = aht->nodes[find_swap(aht, t->weight)];
-			if (t != swap_node && t->parent != swap_node) {
+			if (t != swap_node && swap_node->parent != t && t != swap_node->parent) {
 				/* Swap the nodes in the tree. */
 				do_swap(aht, t, swap_node);
 			}
