@@ -17,7 +17,7 @@
 typedef struct adaptive_huffman_tree {
 	struct huffman_tree *tree;
 	struct huffman_node *nyt;
-	size_t amt_nodes;
+	uint_least16_t amt_nodes;
 	struct huffman_node *nodes[HUFFMAN_MAX_NODES];
 } adaptive_huffman_tree;
 

@@ -10,10 +10,13 @@
 huffman_node *add_character(adaptive_huffman_tree *tree, byte data) {
 	huffman_node *parent = tree->nyt->parent;
 	huffman_node *newleaf = huffmannode_create_leaf(data, 1);
+	newleaf->order_no = tree->amt_nodes++;
 	tree->tree->leaves[data] = newleaf;
 	
 	huffman_node *ret = huffmannode_create_node(tree->nyt, newleaf);
+	ret->order_no = tree->amt_nodes++;
 	ret->parent = parent;
+	
 	
 	if (parent) {
 		parent->left = ret;
@@ -21,8 +24,8 @@ huffman_node *add_character(adaptive_huffman_tree *tree, byte data) {
 		tree->tree->root = ret;
 	}
 	
-	tree->nodes[tree->amt_nodes++] = ret;
-	tree->nodes[tree->amt_nodes++] = newleaf;
+	tree->nodes[ret->order_no] = ret;
+	tree->nodes[newleaf->order_no] = newleaf;
 	
 	return ret;
 }

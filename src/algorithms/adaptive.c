@@ -45,6 +45,8 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 			t = t->parent;
 		}
 	}
+	
+	huffmantree_print(aht->tree);
 }
 
 void huffman_adaptive_decompress(FILE *input, FILE *output) {
