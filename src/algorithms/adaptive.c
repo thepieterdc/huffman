@@ -27,11 +27,23 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 		z = byis_read(inputStream);
 		
 		huffman_node *t = aht->tree->leaves[z];
-		if (t == NULL) {
+		if (!t) {
+			/* z is a new character; add it to the tree. */
 			huffman_node *o = add_character(aht, z);
 			t = o->parent;
 		}
-	
+		
+		/* Update the tree accordingly. */
+		huffman_node *swap_node;
+		while (t) {
+			swap_node = aht->nodes[find_swap(aht, t->weight)];
+			if (t != swap_node && t->parent != swap_node) {
+				/* Swap the nodes in the tree. */
+				do_swap(aht, t, swap_node);
+			}
+			t->weight++;
+			t = t->parent;
+		}
 	}
 }
 

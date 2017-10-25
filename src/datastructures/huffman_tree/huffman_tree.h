@@ -42,6 +42,13 @@ huffman_tree *huffmantree_create_empty();
 void huffmantree_free(huffman_tree *tree);
 
 /**
+ * Prints a Huffman tree to stderr for debugging purposes.
+ *
+ * @param tree the tree to print
+ */
+void huffmantree_print(huffman_tree *tree);
+
+/**
  * Sets the codes in a Huffman tree.
  *
  * @param tree the tree
