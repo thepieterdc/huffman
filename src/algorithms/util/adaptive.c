@@ -10,11 +10,11 @@
 huffman_node *add_character(adaptive_huffman_tree *tree, byte data) {
 	huffman_node *parent = tree->nyt->parent;
 	huffman_node *newleaf = huffmannode_create_leaf(data, 1);
-	newleaf->order_no = tree->amt_nodes++;
+	newleaf->order_no = (uint_least16_t) (tree->amt_nodes + 1);
 	tree->tree->leaves[data] = newleaf;
 	
 	huffman_node *ret = huffmannode_create_node(tree->nyt, newleaf);
-	ret->order_no = tree->amt_nodes++;
+	ret->order_no = tree->amt_nodes;
 	ret->parent = parent;
 	
 	
@@ -27,6 +27,8 @@ huffman_node *add_character(adaptive_huffman_tree *tree, byte data) {
 	tree->nodes[ret->order_no] = ret;
 	tree->nodes[newleaf->order_no] = newleaf;
 	
+	tree->amt_nodes += 2;
+	
 	return ret;
 }
 
@@ -37,6 +39,10 @@ void do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_node *nod
 	huffman_node *temp = node1->parent;
 	node1->parent = node2->parent;
 	node2->parent = temp;
+	
+	uint_least16_t temp_o = node1->order_no;
+	node1->order_no = node2->order_no;
+	node2->order_no = temp_o;
 	
 	if (node1->parent->left == node2) {
 		node1->parent->left = node1;
