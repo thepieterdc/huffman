@@ -18,12 +18,4 @@
  */
 huffman_node *add_character(adaptive_huffman_tree *tree, byte data);
 
-/**
- * Updates an Adaptive Huffman tree.
- *
- * @param tree the tree
- * @param t the node to update
- */
-void update_tree(adaptive_huffman_tree *tree, huffman_node *t);
-
 #endif /* HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H */

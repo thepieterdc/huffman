@@ -12,7 +12,7 @@ adaptive_huffman_tree *adaptivehuffmantree_create() {
 	adaptive_huffman_tree *ret = (adaptive_huffman_tree *) callocate(1, sizeof(adaptive_huffman_tree));
 	ret->nyt = huffmannode_create_nyt();
 	ret->tree = huffmantree_create(ret->nyt);
-	ret->nodes[0] = ret->tree->root;
+	ret->nodes[ret->amt_nodes++] = ret->tree->root;
 	return ret;
 }
 

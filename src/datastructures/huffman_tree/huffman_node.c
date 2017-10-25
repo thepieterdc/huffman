@@ -9,15 +9,9 @@
 #include "../../util/memory.h"
 #include "adaptive_huffman_tree.h"
 
-/**
- * Counts order numbers.
- */
-static uint_least16_t node_counter = 0;
-
 huffman_node *huffmannode_create_leaf(byte data, size_t weight) {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
 	ret->data = data;
-	ret->order_no = node_counter++;
 	ret->type = LEAF;
 	ret->weight = weight;
 	return ret;
@@ -25,7 +19,6 @@ huffman_node *huffmannode_create_leaf(byte data, size_t weight) {
 
 huffman_node *huffmannode_create_node(huffman_node *left, huffman_node *right) {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
-	ret->order_no = node_counter++;
 	ret->type = NODE;
 	
 	ret->left = left;
@@ -43,7 +36,6 @@ huffman_node *huffmannode_create_node(huffman_node *left, huffman_node *right) {
 
 huffman_node *huffmannode_create_nyt() {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
-	ret->order_no = HUFFMAN_MAX_NODES - 1;
 	ret->type = NYT;
 	ret->weight = 0;
 	return ret;
@@ -60,8 +52,4 @@ void huffmannode_free(huffman_node *node) {
 		huffmannode_free(node->right);
 	}
 	free(node);
-}
-
-void huffman_reset_ordercounter() {
-	node_counter = 0;
 }

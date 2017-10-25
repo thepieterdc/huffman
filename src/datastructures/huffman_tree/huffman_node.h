@@ -23,7 +23,6 @@ enum huffman_node_type {
 typedef struct huffman_node {
 	enum huffman_node_type type;
 	byte data;
-	uint_least16_t order_no;
 	uint_least64_t weight;
 	huffman_code *code;
 	struct huffman_node *parent;
@@ -62,10 +61,5 @@ huffman_node *huffmannode_create_nyt();
  * @param node the node to free
  */
 void huffmannode_free(huffman_node *node);
-
-/**
- * Resets the order-no counter.
- */
-void huffman_reset_ordercounter();
 
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H */

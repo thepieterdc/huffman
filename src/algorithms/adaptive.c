@@ -31,12 +31,7 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 			huffman_node *o = add_character(aht, z);
 			t = o->parent;
 		}
-		
-		if (t != NULL) {
-			update_tree(aht, t);
-		}
-		
-		huffmantree_print(aht->tree);
+	
 	}
 }
 

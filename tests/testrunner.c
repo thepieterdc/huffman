@@ -34,7 +34,7 @@ static char *all_tests() {
 	test(test_algorithm_standard);
 	
 	/** Test: datastructures/huffman_node. */
-	test(test_huffmannode_create_free_reset_counter);
+	test(test_huffmannode_create_free);
 	
 	/** Test: datastructures/min_heap. */
 	test(test_minheap_create_free);

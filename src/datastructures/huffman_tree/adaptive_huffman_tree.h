@@ -9,7 +9,7 @@
 
 #include "huffman_tree.h"
 
-#define HUFFMAN_MAX_NODES 514
+#define HUFFMAN_MAX_NODES 515
 
 /**
  * An adaptive Huffman tree.
@@ -18,7 +18,7 @@ typedef struct adaptive_huffman_tree {
 	struct huffman_tree *tree;
 	struct huffman_node *nyt;
 	size_t amt_nodes;
-	struct huffman_node *nodes[HUFFMAN_MAX_NODES + 1];
+	struct huffman_node *nodes[HUFFMAN_MAX_NODES];
 } adaptive_huffman_tree;
 
 /**
