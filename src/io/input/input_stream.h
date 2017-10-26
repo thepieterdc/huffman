@@ -10,12 +10,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "../../datastructures/queue.h"
+#include "../../datatypes/bit.h"
+
+#define INPUT_BUFFER_SIZE 4096
 
 /**
  * An input stream.
  */
 typedef struct {
-	queue *buffer;
+	byte buffer[INPUT_BUFFER_SIZE];
+	size_t cursor;
+	size_t size;
 } input_stream;
 
 /**
@@ -39,7 +44,7 @@ input_stream *is_create();
  * @param is the input stream
  * @param data the data to feed
  */
-void is_feed(input_stream *is, void *data);
+void is_feed(input_stream *is, byte data);
 
 /**
  * Frees the memory allocated by the input stream.
@@ -54,6 +59,6 @@ void is_free(input_stream *is);
  * @param is the input stream
  * @return the value read
  */
-void *is_read(input_stream *is);
+byte is_read(input_stream *is);
 
 #endif /* HUFFMAN_IO_INPUT_INPUTSTREAM_H */

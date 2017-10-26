@@ -45,7 +45,7 @@ static char *all_tests() {
 	test(test_queue_push_peek_pop);
 	
 	/** Test: datatypes/huffman_code. */
-	test(test_huffmancode_create_left_right_free);
+	test(test_huffmancode_create_left_right);
 	
 	/** Test: io/input/bit_input_stream. */
 	test(test_io_bis_create_free);

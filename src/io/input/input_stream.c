@@ -11,27 +11,23 @@
 #include "../../util/memory.h"
 
 size_t is_count(input_stream *is) {
-	return is->buffer->size;
+	return is->size - is->cursor;
 }
 
 input_stream *is_create() {
-	input_stream *ret = (input_stream *) mallocate(sizeof(input_stream));
-	ret->buffer = queue_create();
-	return ret;
+	return (input_stream *) callocate(1, sizeof(input_stream));
 }
 
-void is_feed(input_stream *is, void *data) {
-	queue_push(is->buffer, data);
+void is_feed(input_stream *is, byte data) {
+	if (is->size == INPUT_BUFFER_SIZE) {
+		error(ERROR_INPUT_BUFFER_FULL);
+	}
+	is->buffer[is->size++] = data;
 }
 
-void is_free(input_stream *is) {
-	queue_free(is->buffer);
-	free(is);
-}
-
-void *is_read(input_stream *is) {
-	if (is->buffer->size == 0) {
+byte is_read(input_stream *is) {
+	if (is->size == is->cursor) {
 		error(ERROR_END_OF_INPUT);
 	}
-	return queue_pop(is->buffer);
+	return is->buffer[is->cursor++];
 }

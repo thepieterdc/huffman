@@ -9,7 +9,7 @@
 #include "test_unit.h"
 #include "../src/datatypes/huffman_code.h"
 
-char *test_huffmancode_create_left_right_free() {
+char *test_huffmancode_create_left_right() {
 	huffman_code *code = huffmancode_create();
 	assertThat(code != NULL);
 	
