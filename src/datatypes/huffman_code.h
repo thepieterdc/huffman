@@ -19,6 +19,8 @@ typedef struct huffman_code {
 	size_t padding;
 } huffman_code;
 
+_int128_t test;
+
 /**
  * Creates a new empty Huffman code.
  *
