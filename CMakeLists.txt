@@ -42,6 +42,8 @@ file(GLOB_RECURSE util_SRC
 
 set(huffman_SRC ${algorithms_SRC} ${datastructures_SRC} ${datatypes_SRC} ${io_SRC} ${util_SRC})
 add_executable(huffman src/main.c ${huffman_SRC})
+target_link_libraries(huffman m)
 
 add_executable(huffman_tests tests/testrunner.c ${huffman_SRC} ${tests_SRC})
 target_compile_definitions(huffman_tests PRIVATE IS_TEST=True)
+target_link_libraries(huffman_tests m)
