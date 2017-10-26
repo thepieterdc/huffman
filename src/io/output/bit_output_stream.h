@@ -8,7 +8,6 @@
 #define HUFFMAN_IO_OUTPUT_BIT_OUTPUTSTREAM_H
 
 #include "byte_output_stream.h"
-#include "../../datatypes/uint256_t.h"
 #include "../../datatypes/huffman_code.h"
 
 /**

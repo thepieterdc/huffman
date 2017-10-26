@@ -9,7 +9,6 @@
 #include "test_datastructure_huffmannode.h"
 #include "test_datastructure_minheap.h"
 #include "test_datastructure_queue.h"
-#include "test_datatype_uint256t.h"
 #include "test_io_input_bitinputstream.h"
 #include "test_io_input_byteinputstream.h"
 #include "test_io_input_inputstream.h"
@@ -47,14 +46,6 @@ static char *all_tests() {
 	
 	/** Test: datatypes/huffman_code. */
 	test(test_huffmancode_create_left_right_free);
-	
-	/** Test: datatypes/uint256_t. */
-	test(test_uint256t_copy);
-	test(test_uint256t_create);
-	test(test_uint256t_equals_is_zero);
-	test(test_uint256t_nth_bit);
-	test(test_uint256t_set_lsb_msb);
-	test(test_uint256t_shift);
 	
 	/** Test: io/input/bit_input_stream. */
 	test(test_io_bis_create_free);

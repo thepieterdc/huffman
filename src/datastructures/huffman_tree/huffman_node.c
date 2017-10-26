@@ -68,7 +68,7 @@ huffman_node *huffmannode_create_root(huffman_node *left, huffman_node *right) {
 
 void huffmannode_free(huffman_node *node) {
 	if (node->code != NULL) {
-		huffmancode_free(node->code);
+		free(node->code);
 	}
 	if (node->left != NULL) {
 		huffmannode_free(node->left);
