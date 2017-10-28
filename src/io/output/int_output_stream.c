@@ -20,15 +20,14 @@ int_output_stream *ios_create(FILE *channel) {
 }
 
 void ios_feed(int_output_stream *ios, int number) {
-	os_feed(ios->stream, (void *) number);
+	os_feed(ios->stream, (byte) number);
 }
 
 void ios_flush(int_output_stream *ios) {
-//	size_t amt = ios_count(ios);
-//	for (size_t i = 0; i < amt; ++i) {
-//		fprintf(ios->stream->channel, "%d", (int) queue_pop(ios->stream->buffer));
-//	}
-//	fflush(ios->stream->channel);
+	for (size_t i = 0; i < ios->stream->buffer_size; ++i) {
+		fprintf(ios->stream->channel, "%d", ios->stream->buffer[i]);
+	}
+	os_flush(ios->stream);
 }
 
 void ios_free(int_output_stream *ios) {

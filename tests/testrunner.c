@@ -76,9 +76,9 @@ static char *all_tests() {
 //	test(test_io_byos_create_free);
 //	test(test_io_byos_feed_flush_count);
 //
-//	/** Test: io/output/int_output_stream. */
-//	test(test_io_ios_create_free);
-//	test(test_io_ios_feed_flush_count);
+	/** Test: io/output/int_output_stream. */
+	test(test_io_ios_create_free);
+	test(test_io_ios_feed_flush_count);
 	
 	/** Test: io/output/output_stream. */
 	test(test_io_os_create_free);
