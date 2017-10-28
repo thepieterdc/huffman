@@ -12,7 +12,6 @@
 char *test_io_byos_create_free() {
 	byte_output_stream *bos = byos_create(NULL);
 	assertThat(bos != NULL);
-	assertThat(bos->stream != NULL);
 	byos_free(bos);
 	return 0;
 }
@@ -24,17 +23,17 @@ char *test_io_byos_feed_flush_count() {
 
 	byte_output_stream *byos = byos_create(memfile);
 
-	assertThat(byos_count(byos) == 0);
+	assertThat(byos->buffer_size == 0);
 
 	for (size_t i = 0; i < 256; ++i) {
 		byos_feed(byos, (byte) i);
 	}
 
-	assertThat(byos_count(byos) == 256);
+	assertThat(byos->buffer_size == 256);
 
 	byos_flush(byos);
 
-	assertThat(byos_count(byos) == 0);
+	assertThat(byos->buffer_size == 0);
 
 	for (size_t i = 0; i < 256; ++i) {
 		assertThat((byte) getc(memfile) == (byte) i);

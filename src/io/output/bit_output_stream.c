@@ -9,7 +9,7 @@
 #include "bit_output_stream.h"
 #include "../../util/binary.h"
 #include "byte_output_stream.h"
-#include "output_stream.h"
+#include "byte_output_stream.h"
 #include "../../util/memory.h"
 
 static void add_buffer_to_stream(bit_output_stream *bos) {
@@ -20,7 +20,7 @@ static void add_buffer_to_stream(bit_output_stream *bos) {
 }
 
 size_t bos_count(bit_output_stream *bos) {
-	return byos_count(bos->stream) * 8 + bos->current_cursor;
+	return bos->stream->buffer_size * 8 + bos->current_cursor;
 }
 
 bit_output_stream *bos_create(FILE *channel) {

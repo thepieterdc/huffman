@@ -15,8 +15,6 @@
 #include "test_io_input_intinputstream.h"
 #include "test_io_output_bitoutputstream.h"
 #include "test_io_output_byteoutputstream.h"
-#include "test_io_output_intoutputstream.h"
-#include "test_io_output_outputstream.h"
 #include "test_util_arguments.h"
 #include "test_util_binary.h"
 #include "test_util_string.h"
@@ -75,14 +73,6 @@ static char *all_tests() {
 	/** Test: io/output/byte_output_stream. */
 	test(test_io_byos_create_free);
 	test(test_io_byos_feed_flush_count);
-	
-	/** Test: io/output/int_output_stream. */
-	test(test_io_ios_create_free);
-	test(test_io_ios_feed_flush_count);
-	
-	/** Test: io/output/output_stream. */
-	test(test_io_os_create_free);
-	test(test_io_os_feed_read_count);
 	
 	/** Test: util/algorithm. */
 	test(test_arguments_algorithm);
