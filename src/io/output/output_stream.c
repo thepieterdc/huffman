@@ -31,9 +31,7 @@ void os_feed(output_stream *os, byte data) {
 	if (os->buffer_size == OUTPUT_BUFFER_SIZE) {
 		os_flush(os);
 	}
-	if (os->buffer_size < OUTPUT_BUFFER_SIZE - 1) {
-		os->buffer[os->buffer_size++] = data;
-	}
+	os->buffer[os->buffer_size++] = data;
 }
 
 void os_flush(output_stream *os) {
