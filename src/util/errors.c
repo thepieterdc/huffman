@@ -13,5 +13,4 @@ char *_error_messages[9] = {"Failed to allocate memory.",
                             "Invalid mode parameter.",
                             "Syntax: ./huffman -t [1..5] [-c|-d]",
                             "Reached end of input while reading.",
-							"Input is empty.",
-							"Input buffer is full."};
+                            "Input is empty."};

@@ -9,23 +9,18 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "../../datastructures/queue.h"
+#include "../../datatypes/bit.h"
+
+#define OUTPUT_BUFFER_SIZE 4096
 
 /**
  * An input stream.
  */
 typedef struct {
-	queue *buffer;
+	byte buffer[OUTPUT_BUFFER_SIZE + 1];
+	size_t buffer_size;
 	FILE *channel;
 } output_stream;
-
-/**
- * Gets the amount of items in the output stream buffer.
- *
- * @param os the output stream
- * @return the amount of items in the output stream buffer
- */
-size_t os_count(output_stream *os);
 
 /**
  * Creates a new output stream.
@@ -41,7 +36,7 @@ output_stream *os_create(FILE *channel);
  * @param os the output stream
  * @param data the data to feed
  */
-void os_feed(output_stream *os, void *data);
+void os_feed(output_stream *os, byte data);
 
 /**
  * Flushes the output buffer.

@@ -15,7 +15,6 @@
 #define ERROR_SYNTAX_INVALID 5
 #define ERROR_END_OF_INPUT 6
 #define ERROR_EMPTY_INPUT 7
-#define ERROR_INPUT_BUFFER_FULL 8
 
 /**
  * Contains all error messages; keys are defined above.

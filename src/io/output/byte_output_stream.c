@@ -10,7 +10,7 @@
 #include "../../util/memory.h"
 
 size_t byos_count(byte_output_stream *bos) {
-	return os_count(bos->stream);
+	return bos->stream->buffer_size;
 }
 
 byte_output_stream *byos_create(FILE *channel) {
@@ -24,11 +24,11 @@ void byos_feed(byte_output_stream *bos, byte b) {
 }
 
 void byos_flush(byte_output_stream *bos) {
-	size_t amt = byos_count(bos);
-	for (size_t i = 0; i < amt; ++i) {
-		fprintf(bos->stream->channel, "%c", (byte) queue_pop(bos->stream->buffer));
-	}
-	fflush(bos->stream->channel);
+//	size_t amt = byos_count(bos);
+//	for (size_t i = 0; i < amt; ++i) {
+//		fprintf(bos->stream->channel, "%c", (byte) queue_pop(bos->stream->buffer));
+//	}
+//	fflush(bos->stream->channel);
 }
 
 void byos_free(byte_output_stream *bos) {
