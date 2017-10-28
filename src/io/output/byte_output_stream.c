@@ -20,15 +20,11 @@ byte_output_stream *byos_create(FILE *channel) {
 }
 
 void byos_feed(byte_output_stream *bos, byte b) {
-	os_feed(bos->stream, (void *) b);
+	os_feed(bos->stream, b);
 }
 
 void byos_flush(byte_output_stream *bos) {
-//	size_t amt = byos_count(bos);
-//	for (size_t i = 0; i < amt; ++i) {
-//		fprintf(bos->stream->channel, "%c", (byte) queue_pop(bos->stream->buffer));
-//	}
-//	fflush(bos->stream->channel);
+	os_flush(bos->stream);
 }
 
 void byos_free(byte_output_stream *bos) {

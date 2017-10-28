@@ -38,7 +38,7 @@ char *test_io_ios_feed_flush_count() {
 	assertThat(ios_count(ios) == 0);
 
 	for (size_t i = 0; i < 10; ++i) {
-		assertThat(char_to_int((size_t) getc(memfile)) == (int) i);
+		assertThat(char_to_int((char) getc(memfile)) == (int) i);
 	}
 
 	ios_free(ios);
