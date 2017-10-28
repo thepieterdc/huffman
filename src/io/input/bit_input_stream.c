@@ -8,49 +8,34 @@
 #include "bit_input_stream.h"
 #include "../../util/binary.h"
 #include "../../util/memory.h"
+#include "byte_input_stream.h"
+#include "../../util/logging.h"
+#include "../../util/errors.h"
 
-void bis_clear_buffer(bit_input_stream *bis) {
+void bis_clear_current_byte(bit_input_stream *bis) {
 	bis->current_byte = 0;
 	bis->current_cursor = 8;
-	bis->empty = true;
 }
 
-size_t bis_count(bit_input_stream *bis) {
-	size_t buffer = bis->empty ? 0 : (8 - bis->current_cursor);
-	return byis_count(bis->bytestream) * 8 + buffer;
-}
-
-bit_input_stream *bis_create(FILE *channel) {
-	bit_input_stream *ret = (bit_input_stream *) mallocate(sizeof(bit_input_stream));
-	ret->bytestream = byis_create(channel);
-	ret->current_byte = 0;
-	ret->current_cursor = 0;
-	ret->empty = true;
-	
-	if (channel) {
-		byis_consume(ret->bytestream);
-	}
+bit_input_stream *bis_create(FILE *channel, bool retain) {
+	bit_input_stream *ret = (bit_input_stream *) callocate(1, sizeof(bit_input_stream));
+	ret->current_cursor = 8;
+	ret->stream = byis_create(channel, retain);
 	return ret;
 }
 
-bool bis_empty(bit_input_stream *bis) {
-	return bis_count(bis) == 0;
-}
-
 void bis_free(bit_input_stream *bis) {
-	byis_free(bis->bytestream);
+	byis_free(bis->stream);
 	free(bis);
 }
 
 bit bis_read_bit(bit_input_stream *bis) {
 	if (bis->current_cursor == 8) {
-		bis->empty = true;
-	}
-	
-	if (bis->empty) {
-		bis->current_byte = byis_read(bis->bytestream);
+		bis->current_byte = byis_read(bis->stream);
 		bis->current_cursor = 0;
-		bis->empty = false;
+		if (bis->stream->end) {
+			error(ERROR_END_OF_INPUT);
+		}
 	}
 	
 	bit ret = (bit) (bis->current_byte & (1 << 7));
@@ -63,12 +48,11 @@ bit bis_read_bit(bit_input_stream *bis) {
 }
 
 byte bis_read_byte(bit_input_stream *bis) {
-	if (!bis->empty) {
+	if (bis->current_cursor != 8) {
 		byte ret = bis->current_byte >> bis->current_cursor;
 		bis->current_byte = 0;
-		bis->current_cursor = 0;
-		bis->empty = true;
+		bis->current_cursor = 8;
 		return ret;
 	}
-	return byis_read(bis->bytestream);
+	return byis_read(bis->stream);
 }

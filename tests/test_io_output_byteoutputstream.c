@@ -16,7 +16,7 @@ char *test_io_byos_create_free() {
 	return 0;
 }
 
-char *test_io_byos_feed_flush_count() {
+char *test_io_byos_feed_flush() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);

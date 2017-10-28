@@ -13,43 +13,26 @@
  * An input stream for bits.
  */
 typedef struct {
-	byte_input_stream *bytestream;
-	
+	byte_input_stream *stream;
 	byte current_byte;
 	size_t current_cursor;
-	bool empty;
 } bit_input_stream;
 
 /**
- * Clears the current byte from the buffer.
+ * Clears the current byte.
  *
- * @param bis the input stream to clear
+ * @param bis the input stream
  */
-void bis_clear_buffer(bit_input_stream *bis);
+void bis_clear_current_byte(bit_input_stream *bis);
 
 /**
- * Gets the amount of items in the bit input stream buffer.
+ * Creates a new byte input stream.
  *
- * @param bis the bit input stream
- * @return the amount of items in the bit input stream buffer
- */
-size_t bis_count(bit_input_stream *bis);
-
-/**
- * Creates a new input stream for bytes.
- *
- * @param channel the data to feed the stream from
+ * @param channel the encapsulated stream to feed off
+ * @param retain false to clear the buffer when full, true to expand it
  * @return the created byte input stream
  */
-bit_input_stream *bis_create(FILE *channel);
-
-/**
- * Returns whether a bit input stream is empty.
- *
- * @param bis the bit input stream
- * @return true if the stream contains no more bits
- */
-bool bis_empty(bit_input_stream *bis);
+bit_input_stream *bis_create(FILE *channel, bool retain);
 
 /**
  * Frees the memory allocated by the bit input stream.

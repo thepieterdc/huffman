@@ -5,44 +5,71 @@
  */
 
 #include <stdlib.h>
+#include <memory.h>
 #include "byte_input_stream.h"
-#include "input_stream.h"
+#include "../../util/logging.h"
+#include "../../util/errors.h"
 #include "../../util/memory.h"
 
-void byis_consume(byte_input_stream *bis) {
-	int c;
-	while ((c = getc(bis->channel)) != EOF) {
-		byis_feed(bis, (byte) c);
+/**
+ * Expands or clears the internal buffer if necessary.
+ *
+ * @param byis
+ */
+static void buffer_expand(byte_input_stream *byis) {
+	if (byis->buffer_size == byis->max_buffer_size) {
+		if (byis->retain) {
+			byis->max_buffer_size *= 2;
+			byis->buffer = (byte *) reallocate(byis->buffer, byis->max_buffer_size);
+		} else {
+			byis->buffer_size = 0;
+			memset(byis->buffer, '\0', byis->max_buffer_size);
+		}
 	}
 }
 
-size_t byis_count(byte_input_stream *bis) {
-	return is_count(bis->stream);
-}
-
-byte_input_stream *byis_create(FILE *channel) {
-	byte_input_stream *ret = (byte_input_stream *) mallocate(sizeof(byte_input_stream));
+byte_input_stream *byis_create(FILE *channel, bool retain) {
+	byte_input_stream *ret = (byte_input_stream *) callocate(1, sizeof(byte_input_stream));
+	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE, sizeof(byte));
 	ret->channel = channel;
-	ret->stream = is_create();
+	ret->end = false;
+	ret->max_buffer_size = INPUT_BUFFER_SIZE;
+	ret->retain = retain;
 	return ret;
 }
 
-bool byis_empty(byte_input_stream *bis) {
-	return bis->stream->buffer->size == 0;
+void byis_feed_byte(byte_input_stream *byis, byte data) {
+	buffer_expand(byis);
+	byis->buffer[byis->buffer_size++] = data;
 }
 
-void byis_feed(byte_input_stream *bis, byte b) {
-	is_feed(bis->stream, (void *) b);
+void byis_feed_stream(byte_input_stream *byis, FILE *stream) {
+	buffer_expand(byis);
+	byis->buffer_size += fread(byis->buffer + byis->buffer_size, sizeof(byte),
+	                           byis->max_buffer_size - byis->buffer_size, stream);
 }
 
-void byis_free(byte_input_stream *bis) {
-	is_free(bis->stream);
-	if (bis->channel) {
-		fclose(bis->channel);
+void byis_free(byte_input_stream *byis) {
+	free(byis->buffer);
+	if (byis->channel) {
+		fclose(byis->channel);
 	}
-	free(bis);
+	free(byis);
 }
 
-byte byis_read(byte_input_stream *bis) {
-	return (byte) is_read(bis->stream);
+byte byis_read(byte_input_stream *byis) {
+	if (byis->end) {
+		error(ERROR_END_OF_INPUT);
+	}
+	
+	if (byis->cursor == byis->buffer_size) {
+		if (byis->channel) {
+			byis_feed_stream(byis, byis->channel);
+		}
+		if (byis->cursor == byis->buffer_size) {
+			byis->end = true;
+			return '\0';
+		}
+	}
+	return byis->buffer[byis->cursor++];
 }

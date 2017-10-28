@@ -4,72 +4,66 @@
  * Project: huffman
  */
 
-#ifndef HUFFMAN_IO_INPUT_BYTE_INPUTSTREAM_H
-#define HUFFMAN_IO_INPUT_BYTE_INPUTSTREAM_H
+#ifndef HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H
+#define HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H
 
-#include "input_stream.h"
+#include <stdio.h>
+#include <stdbool.h>
 #include "../../datatypes/bit.h"
 
+#define INPUT_BUFFER_SIZE 4096
+
 /**
- * An input stream for bytes.
+ * A byte input stream.
  */
 typedef struct {
+	byte *buffer;
 	FILE *channel;
-	input_stream *stream;
+	size_t cursor;
+	size_t buffer_size;
+	size_t max_buffer_size;
+	bool retain;
+	bool end;
 } byte_input_stream;
 
 /**
- * Consumes the entire input channel and saves it to the buffer.
+ * Creates a new byte input stream.
  *
- * @param bis the byte input stream
- */
-void byis_consume(byte_input_stream *bis);
-
-/**
- * Gets the amount of items in the byte input stream buffer.
- *
- * @param bis the byte input stream
- * @return the amount of items in the byte input stream buffer
- */
-size_t byis_count(byte_input_stream *bis);
-
-/**
- * Creates a new input stream for bytes.
- *
- * @param channel the data to feed the stream from
+ * @param channel the encapsulated stream to feed off
+ * @param retain false to clear the buffer when full, true to expand it
  * @return the created byte input stream
  */
-byte_input_stream *byis_create(FILE *channel);
+byte_input_stream *byis_create(FILE *channel, bool retain);
 
 /**
- * Returns whether a byte input stream is empty.
+ * Adds a byte to the input stream.
  *
- * @param bis the byte input stream
- * @return true if the stream contains no more bytes
+ * @param byis the input stream
+ * @param data the byte to feed
  */
-bool byis_empty(byte_input_stream *bis);
+void byis_feed_byte(byte_input_stream *byis, byte data);
 
 /**
- * Feeds the stream with one byte.
+ * Consumes bytes from a stream to the input stream.
  *
- * @param bis the byte input stream
- * @param b the byte to feed
+ * @param byis the input stream
+ * @param stream the stream to consume
  */
-void byis_feed(byte_input_stream *bis, byte b);
+void byis_feed_stream(byte_input_stream *byis, FILE *stream);
 
 /**
  * Frees the memory allocated by the byte input stream.
  *
- * @param bis the byte input stream
+ * @param byis the the input stream
  */
-void byis_free(byte_input_stream *bis);
+void byis_free(byte_input_stream *byis);
 
 /**
- * Reads one byte from the byte input stream
+ * Reads a byte from the input stream.
  *
- * @param bis the byte input stream
- * @return the byte
+ * @param byis the byte input stream
+ * @return the byte read
  */
-byte byis_read(byte_input_stream *bis);
+byte byis_read(byte_input_stream *byis);
 
-#endif /* HUFFMAN_IO_INPUT_BYTE_INPUTSTREAM_H */
+#endif /* HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H */

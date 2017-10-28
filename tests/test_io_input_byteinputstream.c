@@ -9,65 +9,54 @@
 #include "test_unit.h"
 #include "../src/io/input/byte_input_stream.h"
 
-static char *test_read_count(byte_input_stream *bis) {
-	assertThat(byis_count(bis) == 9);
-	assertThat(!byis_empty(bis));
-	
-	for (size_t i = 1; i <= 9; ++i) {
-		assertThat(byis_read(bis) == (byte) i);
+static char *test_read_count(byte_input_stream *byis, size_t amount) {
+	for (size_t i = 0; i < amount; ++i) {
+		assertThat(byis_read(byis) == (byte) (i % 256));
 	}
-	assertThat(byis_count(bis) == 0);
-	assertThat(byis_empty(bis));
+	
+	assertThat(byis->buffer_size == byis->cursor);
 	
 	return 0;
 }
 
 char *test_io_byis_create_free() {
-	byte_input_stream *bis = byis_create(stdin);
-	assertThat(bis != NULL);
-	assertThat(bis->stream != NULL);
-	byis_free(bis);
+	byte_input_stream *byis = byis_create(stdin, false);
+	assertThat(byis != NULL);
+	assertThat(byis->buffer != NULL);
+	byis_free(byis);
 	return 0;
 }
 
-char *test_io_byis_consume_read_count_empty() {
+char *test_io_byis_feed_byte_read() {
+	byte_input_stream *byis = byis_create(NULL, false);
+	
+	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
+		byis_feed_byte(byis, (byte) (i % 256));
+	}
+	
+	assertThat(test_read_count(byis, INPUT_BUFFER_SIZE) == 0);
+	
+	byis_free(byis);
+	
+	return 0;
+}
+
+char *test_io_byis_feed_stream_read() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
 	
-	byte_input_stream *bis = byis_create(memfile);
+	byte_input_stream *byis = byis_create(memfile, true);
 	
-	assertThat(byis_count(bis) == 0);
-	assertThat(byis_empty(bis));
-	
-	for (size_t i = 1; i <= 9; ++i) {
-		fprintf(memfile, "%c", (byte) i);
+	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
+		fprintf(memfile, "%c", (byte) (i % 256));
 	}
 	
-	byis_consume(bis);
+	assertThat(test_read_count(byis, INPUT_BUFFER_SIZE * 2) == 0);
 	
-	assertThat(test_read_count(bis) == 0);
-	
-	byis_free(bis);
+	byis_free(byis);
 	
 	free(buf);
-	
-	return 0;
-}
-
-char *test_io_byis_feed_read_count_empty() {
-	byte_input_stream *bis = byis_create(stdin);
-	
-	assertThat(byis_count(bis) == 0);
-	assertThat(byis_empty(bis));
-	
-	for (size_t i = 1; i <= 9; ++i) {
-		byis_feed(bis, (byte) i);
-	}
-	
-	assertThat(test_read_count(bis) == 0);
-	
-	byis_free(bis);
 	
 	return 0;
 }

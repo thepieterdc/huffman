@@ -16,7 +16,7 @@
 
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
-	byte_input_stream *inputStream = byis_create(NULL);
+	byte_input_stream *inputStream = byis_create(NULL, true);
 	
 	/* Create a buffer to store the output. */
 	bit_output_stream *outputStream = bos_create(output);
@@ -27,14 +27,14 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	int in;
 	while ((in = getc(input)) != EOF) {
 		frequencies[in]++;
-		byis_feed(inputStream, (byte) in);
+		byis_feed_byte(inputStream, (byte) in);
 	}
 	
 	/* Close the input channel. */
 	fclose(input);
 	
 	/* Failsafe for empty input. */
-	if (byis_empty(inputStream)) {
+	if (inputStream->buffer_size == 0) {
 		error(ERROR_EMPTY_INPUT);
 	}
 	
@@ -76,9 +76,11 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	print_characters(tree->root, outputStream);
 	
 	/* Encode every character in the input string. */
-	while (!byis_empty(inputStream)) {
-		huffman_code *encode = tree->leaves[byis_read(inputStream)]->code;
+	byte b = byis_read(inputStream);
+	while (!inputStream->end) {
+		huffman_code *encode = tree->leaves[b]->code;
 		bos_feed_huffmancode(outputStream, encode);
+		b = byis_read(inputStream);
 	}
 	
 	/* Apply padding after the last bits. */
@@ -98,48 +100,48 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 }
 
 void huffman_standard_decompress(FILE *input, FILE *output) {
-	/* Create a buffer to store the input. */
-	bit_input_stream *inputStream = bis_create(input);
-	
-	/* Create a buffer to store the output. */
-	byte_output_stream *outputStream = byos_create(output);
-	
-	/* Failsafe for empty input. */
-	if (bis_empty(inputStream)) {
-		error(ERROR_EMPTY_INPUT);
-	}
-	
-	/* Build up the Huffman tree. */
-	huffman_tree *tree = huffmantree_create(NULL);
-	tree->root->code = huffmancode_create();
-	
-	build_tree(tree->root, inputStream);
-	
-	/* Clear the remaining padding bits. */
-	bis_clear_buffer(inputStream);
-	
-	/* Assign characters to codes. */
-	assign_characters(tree->root, inputStream);
-	
-	/* Decode every code in the input string. */
-	while (true) {
-		if (bis_count(inputStream) < 16) {
-			byte current = inputStream->current_byte;
-			size_t current_cursor = inputStream->current_cursor;
-			bis_clear_buffer(inputStream);
-			byte next = bis_read_byte(inputStream);
-			decode_final_byte(tree->root, outputStream, current, (size_t) (next - current_cursor));
-			break;
-		} else {
-			byos_feed(outputStream, decode_character(tree->root, inputStream));
-		}
-	}
-	
-	/* Flush the output buffer. */
-	byos_flush(outputStream);
-	
-	/* Cleanup allocated memory. */
-	huffmantree_free(tree);
-	byos_free(outputStream);
-	bis_free(inputStream);
+//	/* Create a buffer to store the input. */
+//	bit_input_stream *inputStream = bis_create(input);
+//
+//	/* Create a buffer to store the output. */
+//	byte_output_stream *outputStream = byos_create(output);
+//
+//	/* Failsafe for empty input. */
+//	if (bis_empty(inputStream)) {
+//		error(ERROR_EMPTY_INPUT);
+//	}
+//
+//	/* Build up the Huffman tree. */
+//	huffman_tree *tree = huffmantree_create(NULL);
+//	tree->root->code = huffmancode_create();
+//
+//	build_tree(tree->root, inputStream);
+//
+//	/* Clear the remaining padding bits. */
+//	bis_clear_buffer(inputStream);
+//
+//	/* Assign characters to codes. */
+//	assign_characters(tree->root, inputStream);
+//
+//	/* Decode every code in the input string. */
+//	while (true) {
+//		if (bis_count(inputStream) < 16) {
+//			byte current = inputStream->current_byte;
+//			size_t current_cursor = inputStream->current_cursor;
+//			bis_clear_buffer(inputStream);
+//			byte next = bis_read_byte(inputStream);
+//			decode_final_byte(tree->root, outputStream, current, (size_t) (next - current_cursor));
+//			break;
+//		} else {
+//			byos_feed(outputStream, decode_character(tree->root, inputStream));
+//		}
+//	}
+//
+//	/* Flush the output buffer. */
+//	byos_flush(outputStream);
+//
+//	/* Cleanup allocated memory. */
+//	huffmantree_free(tree);
+//	byos_free(outputStream);
+//	bis_free(inputStream);
 }

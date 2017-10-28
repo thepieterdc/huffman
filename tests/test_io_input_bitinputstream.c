@@ -10,69 +10,55 @@
 #include "../src/io/input/bit_input_stream.h"
 
 char *test_io_bis_create_free() {
-	bit_input_stream *bis = bis_create(NULL);
+	bit_input_stream *bis = bis_create(NULL, false);
 	assertThat(bis != NULL);
-	assertThat(bis->bytestream != NULL);
+	assertThat(bis->stream != NULL);
 	bis_free(bis);
 	return 0;
 }
 
-char *test_io_bis_read_bit_count_clear_buffer_empty() {
+char *test_io_bis_read_bit() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
-	
+
 	fprintf(memfile, "%c", 0b01010101);
 	fprintf(memfile, "%c", 0b10101010);
-	
-	bit_input_stream *bis = bis_create(memfile);
-	
-	assertThat(bis_count(bis) == 16);
-	
+
+	bit_input_stream *bis = bis_create(memfile, false);
+
 	for (size_t i = 0; i < 8; ++i) {
 		assertThat(bis_read_bit(bis) % 2 == i % 2);
 	}
-	
-	assertThat(bis_count(bis) == 8);
-	
+
 	for (size_t i = 0; i < 6; ++i) {
 		assertThat(bis_read_bit(bis) % 2 != i % 2);
 	}
-	
-	assertThat(bis_count(bis) == 2);
-	assertThat(!bis_empty(bis));
-	
-	bis_clear_buffer(bis);
-	
-	assertThat(bis_count(bis) == 0);
-	assertThat(bis_empty(bis));
-	
+
 	bis_free(bis);
-	
+
 	free(buf);
 	
 	return 0;
 }
 
-char *test_io_bis_read_byte_count() {
+char *test_io_bis_read_byte() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
+
+	bit_input_stream *bis = bis_create(memfile, true);
 	
-	fprintf(memfile, "%c", (byte) 70);
-	fprintf(memfile, "%c", (byte) 71);
-	
-	bit_input_stream *bis = bis_create(memfile);
-	
-	assertThat(bis_count(bis) == 16);
-	
-	for (size_t i = 70; i < 72; ++i) {
-		assertThat(bis_read_byte(bis) == (byte) i);
+	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
+		fprintf(memfile, "%c", (byte) (i % 256));
 	}
-	assertThat(bis_count(bis) == 0);
 	
+	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
+		assertThat(bis_read_byte(bis) == (byte) (i % 256));
+	}
+
 	bis_free(bis);
-	
+
 	free(buf);
 	
 	return 0;
