@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include "huffman_node.h"
 #include "../../util/memory.h"
-#include "adaptive_huffman_tree.h"
 
 huffman_node *huffmannode_create_leaf(byte data, size_t weight) {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
@@ -43,7 +42,7 @@ huffman_node *huffmannode_create_nyt() {
 
 void huffmannode_free(huffman_node *node) {
 	if (node->code != NULL) {
-		huffmancode_free(node->code);
+		free(node->code);
 	}
 	if (node->left != NULL) {
 		huffmannode_free(node->left);

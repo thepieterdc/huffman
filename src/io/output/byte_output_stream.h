@@ -4,29 +4,26 @@
  * Project: huffman
  */
 
-#ifndef HUFFMAN_IO_OUTPUT_BYTE_OUTPUTSTREAM_H
-#define HUFFMAN_IO_OUTPUT_BYTE_OUTPUTSTREAM_H
+#ifndef HUFFMAN_IO_OUTPUT_BYTEOUTPUTSTREAM_H
+#define HUFFMAN_IO_OUTPUT_BYTEOUTPUTSTREAM_H
 
-#include "output_stream.h"
+#include <stdio.h>
+#include <stdbool.h>
 #include "../../datatypes/bit.h"
 
+#define OUTPUT_BUFFER_SIZE 4096
+
 /**
- * An output stream for bytes.
+ * A byte output stream.
  */
 typedef struct {
-	output_stream *stream;
+	byte buffer[OUTPUT_BUFFER_SIZE + 1];
+	size_t buffer_size;
+	FILE *channel;
 } byte_output_stream;
 
 /**
- * Gets the amount of items in the byte output stream buffer.
- *
- * @param bos the byte output stream
- * @return the amount of items in the byte output stream buffer
- */
-size_t byos_count(byte_output_stream *bos);
-
-/**
- * Creates a new output stream for bytes.
+ * Creates a new byte output stream.
  *
  * @param channel the output channel to flush to
  * @return the created byte output stream
@@ -34,25 +31,26 @@ size_t byos_count(byte_output_stream *bos);
 byte_output_stream *byos_create(FILE *channel);
 
 /**
- * Feeds the stream with one byte.
+ * Adds data to the output stream.
  *
- * @param bos the byte output stream
- * @param b the byte to feed
+ * @param byos the output stream
+ * @param data the data to feed
  */
-void byos_feed(byte_output_stream *bos, byte b);
+void byos_feed(byte_output_stream *byos, byte data);
 
 /**
  * Flushes the output buffer.
  *
- * @param bos the byte output stream
+ * @param os the output stream
+ * @return the value read
  */
-void byos_flush(byte_output_stream *bos);
+void byos_flush(byte_output_stream *byos);
 
 /**
- * Frees the memory allocated by the byte output stream.
+ * Frees the memory allocated by the output stream.
  *
- * @param bos the byte output stream
+ * @param byos the byte output stream
  */
-void byos_free(byte_output_stream *bos);
+void byos_free(byte_output_stream *byos);
 
-#endif /* HUFFMAN_IO_OUTPUT_BYTE_OUTPUTSTREAM_H */
+#endif /* HUFFMAN_IO_OUTPUT_BYTEOUTPUTSTREAM_H */

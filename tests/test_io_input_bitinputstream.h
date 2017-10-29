@@ -10,10 +10,10 @@
 /** Tests bis_create(), bis_free(). */
 char *test_io_bis_create_free();
 
-/** Tests bis_read_bit(), bis_count(), bis_clear_buffer(), bis_empty(). */
-char *test_io_bis_read_bit_count_clear_buffer_empty();
+/** Tests bis_read_bit(). */
+char *test_io_bis_read_bit();
 
-/** Tests bis_read_byte(), bis_count(). */
-char *test_io_bis_read_byte_count();
+/** Tests bis_read_byte(). */
+char *test_io_bis_read_byte();
 
 #endif /* HUFFMAN_TEST_IO_INPUT_BITINPUTSTREAM_H */

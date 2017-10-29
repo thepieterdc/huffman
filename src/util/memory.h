@@ -26,7 +26,6 @@ void *callocate(size_t amount, size_t size);
  */
 void *mallocate(size_t size);
 
-
 /**
  * Resizes a block of memory and generates an error upon failure.
  *

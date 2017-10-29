@@ -5,10 +5,11 @@
  */
 
 #include <stdlib.h>
+#include <math.h>
 #include "bit_output_stream.h"
 #include "../../util/binary.h"
 #include "byte_output_stream.h"
-#include "output_stream.h"
+#include "byte_output_stream.h"
 #include "../../util/memory.h"
 
 static void add_buffer_to_stream(bit_output_stream *bos) {
@@ -19,7 +20,7 @@ static void add_buffer_to_stream(bit_output_stream *bos) {
 }
 
 size_t bos_count(bit_output_stream *bos) {
-	return byos_count(bos->stream) * 8 + bos->current_cursor;
+	return bos->stream->buffer_size * 8 + bos->current_cursor;
 }
 
 bit_output_stream *bos_create(FILE *channel) {
@@ -54,31 +55,15 @@ void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 		bos_feed_bit(bos, 0);
 	}
 	
-	bool skip = true;
-	for (size_t p = 0; p < 4; ++p) {
-		if (skip) {
-			if (hc->code->value[p] == 0) {
-				continue;
-			}
-			skip = false;
-			
-			bool print_zero = false;
-			for (size_t b = 0; b < 64; ++b) {
-				bit bt = uint256_nth_bit(hc->code, (uint8_t) ((255 - (p * 64)) - b));
-				if (bt != 0) {
-					print_zero = true;
-				} else if (!print_zero) {
-					continue;
-				}
-				bos_feed_bit(bos, bt);
-			}
-		} else {
-			for (size_t b = 0; b < 64; ++b) {
-				bit bt = uint256_nth_bit(hc->code, (uint8_t) ((255 - (p * 64)) - b));
-				bos_feed_bit(bos, bt);
-			}
-		}
-	}
+	if (hc->code == 0) return;
+	
+	uint_fast64_t mask = ((uint_fast64_t) 1) << 63;
+	while ((mask > 0) && ((hc->code & mask) == 0)) mask >>= 1;
+	
+	do {
+		bos_feed_bit(bos, (hc->code & mask) != 0);
+		mask >>= 1;
+	} while (mask > 0);
 }
 
 void bos_flush(bit_output_stream *bos) {

@@ -12,8 +12,7 @@
 
 void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
-	byte_input_stream *inputStream = byis_create(input);
-	byis_consume(inputStream);
+	byte_input_stream *inputStream = byis_create(input, false);
 	
 	/* Create a buffer to store the output. */
 	bit_output_stream *outputStream = bos_create(output);
@@ -23,7 +22,7 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	
 	/* Encode the input. */
 	byte z;
-	while (!byis_empty(inputStream)) {
+	while (inputStream->cursor <= inputStream->buffer_size - 2) {
 		z = byis_read(inputStream);
 		
 		huffman_node *t = aht->tree->leaves[z];

@@ -8,18 +8,19 @@
 #include "test_unit.h"
 #include "../src/datastructures/huffman_tree/huffman_node.h"
 
+
 char *test_huffmannode_create_free() {
 	huffman_node *leaf = huffmannode_create_leaf(5, 1);
-	assertThat(leaf != NULL);
-	assertThat(leaf->type == LEAF);
+	assertNotNull(leaf);
+	assertEquals(leaf->type, LEAF);
 	
 	huffman_node *nyt = huffmannode_create_nyt();
-	assertThat(nyt != NULL);
-	assertThat(nyt->type == NYT);
+	assertNotNull(nyt);
+	assertEquals(nyt->type, NYT);
 	
 	huffman_node *node = huffmannode_create_node(leaf, nyt);
-	assertThat(node != NULL);
-	assertThat(node->type == NODE);
+	assertNotNull(node);
+	assertEquals(node->type, NODE);
 	
 	huffmannode_free(node);
 	

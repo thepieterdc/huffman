@@ -1,11 +1,18 @@
 - Bytes worden gebruikt als indexen
 
-- uint256
+- uint256 gmaakt maar weggegooid want (enkel in standaard gebruikt)
+    worst case: 256bits code
+        -> fibonacci verdeeld
+            -> 256 bits = 256e fibo getal = complete zever
+            -> 64 bits = 64e fibo getal = 10tb -> nog steeds teveel
+            -> 32 bits = 32e fibo getal = 2mb -> veel te weinig -> 64 bits is genoeg
+                -> 256 structuur mag weg
 
 - Nodes apart opgeslagen in tree zodat O(1) access voor bvb standaard encoder
 
 - Bit input/output stream
     buffer zodat op einde pas effectief geprint moet worden (veel sneller)
+    vaste buffergrootte zodat geheugengebruik niet gigantisch zou worden
 
 - Fibo heap gebruikt om boom op te bouwen want tabel op https://en.wikipedia.org/wiki/Priority_queue
     (of zeggen dat het niet de moeite was want O(256 en enkel in standaard)

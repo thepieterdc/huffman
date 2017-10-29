@@ -9,14 +9,13 @@
 
 #include <unistd.h>
 #include "bit.h"
-#include "uint256_t.h"
 
 /**
  * A code in a Huffman tree
  */
 typedef struct huffman_code {
-	uint256_t *code;
-	size_t padding;
+	uint_least64_t code;
+	uint_least8_t padding;
 } huffman_code;
 
 /**
@@ -41,12 +40,5 @@ huffman_code *huffmancode_create_left(huffman_code *parent);
  * @return the created Huffman code
  */
 huffman_code *huffmancode_create_right(huffman_code *parent);
-
-/**
- * Frees the code allocated by a Huffman code.
- *
- * @param code the Huffman code
- */
-void huffmancode_free(huffman_code *code);
 
 #endif /* HUFFMAN_DATATYPES_HUFFMAN_CODE_H */

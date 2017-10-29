@@ -9,15 +9,10 @@
 #include "test_datastructure_huffmannode.h"
 #include "test_datastructure_minheap.h"
 #include "test_datastructure_queue.h"
-#include "test_datatype_uint256t.h"
 #include "test_io_input_bitinputstream.h"
 #include "test_io_input_byteinputstream.h"
-#include "test_io_input_inputstream.h"
-#include "test_io_input_intinputstream.h"
 #include "test_io_output_bitoutputstream.h"
 #include "test_io_output_byteoutputstream.h"
-#include "test_io_output_intoutputstream.h"
-#include "test_io_output_outputstream.h"
 #include "test_util_arguments.h"
 #include "test_util_binary.h"
 #include "test_util_string.h"
@@ -46,34 +41,17 @@ static char *all_tests() {
 	test(test_queue_push_peek_pop);
 	
 	/** Test: datatypes/huffman_code. */
-	test(test_huffmancode_create_left_right_free);
-	
-	/** Test: datatypes/uint256_t. */
-	test(test_uint256t_copy);
-	test(test_uint256t_create);
-	test(test_uint256t_equals_is_zero);
-	test(test_uint256t_nth_bit);
-	test(test_uint256t_set_lsb_msb);
-	test(test_uint256t_shift);
+	test(test_huffmancode_create_left_right);
 	
 	/** Test: io/input/bit_input_stream. */
 	test(test_io_bis_create_free);
-	test(test_io_bis_read_bit_count_clear_buffer_empty);
-	test(test_io_bis_read_byte_count);
+	test(test_io_bis_read_bit);
+	test(test_io_bis_read_byte);
 	
 	/** Test: io/input/byte_input_stream. */
 	test(test_io_byis_create_free);
-	test(test_io_byis_consume_read_count_empty);
-	test(test_io_byis_feed_read_count_empty);
-	
-	/** Test: io/input/input_stream. */
-	test(test_io_is_create_free);
-	test(test_io_is_feed_read_count);
-	
-	/** Test: io/input/int_input_stream. */
-	test(test_io_iis_create_free);
-	test(test_io_iis_consume_read_count);
-	test(test_io_iis_feed_read_count);
+	test(test_io_byis_feed_byte_read);
+	test(test_io_byis_feed_stream_read);
 	
 	/** Test: io/output/bit_output_stream. */
 	test(test_io_bos_create_free);
@@ -83,15 +61,7 @@ static char *all_tests() {
 	
 	/** Test: io/output/byte_output_stream. */
 	test(test_io_byos_create_free);
-	test(test_io_byos_feed_flush_count);
-	
-	/** Test: io/output/int_output_stream. */
-	test(test_io_ios_create_free);
-	test(test_io_ios_feed_flush_count);
-	
-	/** Test: io/output/output_stream. */
-	test(test_io_os_create_free);
-	test(test_io_os_feed_read_count);
+	test(test_io_byos_feed_flush);
 	
 	/** Test: util/algorithm. */
 	test(test_arguments_algorithm);
