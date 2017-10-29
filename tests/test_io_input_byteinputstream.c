@@ -31,13 +31,7 @@ char *test_io_byis_feed_byte_read() {
 		byis_feed_byte(byis, (byte) (i % 256));
 	}
 	
-	for (size_t i = 0; i < INPUT_BUFFER_SIZE; ++i) {
-		byte rd = byis_read(byis);
-		printf("Read = %d - %d\n", rd, i);
-		assertThat(rd == (byte) (i % 256));
-	}
-	
-//	assertThat(test_read_count(byis, INPUT_BUFFER_SIZE) == 0);
+	assertThat(test_read_count(byis, INPUT_BUFFER_SIZE) == 0);
 	
 	byis_free(byis);
 	
