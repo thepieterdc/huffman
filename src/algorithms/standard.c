@@ -7,6 +7,7 @@
 #include "util/standard.h"
 #include "../util/logging.h"
 #include "../util/errors.h"
+#include "../io/input/bit_input_stream.h"
 
 /**
  * Created by Pieter De Clercq.
@@ -77,7 +78,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Encode every character in the input string. */
 	byte b = byis_read(inputStream);
-	while (!inputStream->end) {
+	while (inputStream->cursor <= inputStream->buffer_size) {
 		huffman_code *encode = tree->leaves[b]->code;
 		bos_feed_huffmancode(outputStream, encode);
 		b = byis_read(inputStream);
@@ -100,48 +101,41 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 }
 
 void huffman_standard_decompress(FILE *input, FILE *output) {
-//	/* Create a buffer to store the input. */
-//	bit_input_stream *inputStream = bis_create(input);
-//
-//	/* Create a buffer to store the output. */
-//	byte_output_stream *outputStream = byos_create(output);
-//
-//	/* Failsafe for empty input. */
-//	if (bis_empty(inputStream)) {
-//		error(ERROR_EMPTY_INPUT);
-//	}
-//
-//	/* Build up the Huffman tree. */
-//	huffman_tree *tree = huffmantree_create(NULL);
-//	tree->root->code = huffmancode_create();
-//
-//	build_tree(tree->root, inputStream);
-//
-//	/* Clear the remaining padding bits. */
-//	bis_clear_buffer(inputStream);
-//
-//	/* Assign characters to codes. */
-//	assign_characters(tree->root, inputStream);
-//
-//	/* Decode every code in the input string. */
-//	while (true) {
-//		if (bis_count(inputStream) < 16) {
-//			byte current = inputStream->current_byte;
-//			size_t current_cursor = inputStream->current_cursor;
-//			bis_clear_buffer(inputStream);
-//			byte next = bis_read_byte(inputStream);
-//			decode_final_byte(tree->root, outputStream, current, (size_t) (next - current_cursor));
-//			break;
-//		} else {
-//			byos_feed(outputStream, decode_character(tree->root, inputStream));
-//		}
-//	}
-//
-//	/* Flush the output buffer. */
-//	byos_flush(outputStream);
-//
-//	/* Cleanup allocated memory. */
-//	huffmantree_free(tree);
-//	byos_free(outputStream);
-//	bis_free(inputStream);
+	/* Create a buffer to store the input. */
+	bit_input_stream *inputStream = bis_create(input, false);
+	
+	/* Create a buffer to store the output. */
+	byte_output_stream *outputStream = byos_create(output);
+	
+	/* Build up the Huffman tree. */
+	huffman_tree *tree = huffmantree_create(NULL);
+	tree->root->code = huffmancode_create();
+	
+	build_tree(tree->root, inputStream);
+	
+	/* Clear the remaining padding bits. */
+	bis_clear_current_byte(inputStream);
+	
+	/* Assign characters to codes. */
+	assign_characters(tree->root, inputStream);
+	
+	/* Decode every code in the input string. */
+	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
+		byos_feed(outputStream, decode_character(tree->root, inputStream));
+	}
+
+	/* Decode the remaining bytes. */
+	byte final_byte = inputStream->current_byte;
+	size_t final_cursor_cursor = inputStream->current_cursor;
+	bis_clear_current_byte(inputStream);
+	size_t indicator = bis_read_byte(inputStream);
+	decode_final_byte(tree->root, outputStream, final_byte, (size_t) (indicator - final_cursor_cursor));
+
+	/* Flush the output buffer. */
+	byos_flush(outputStream);
+
+	/* Cleanup allocated memory. */
+	huffmantree_free(tree);
+	byos_free(outputStream);
+	bis_free(inputStream);
 }

@@ -33,9 +33,6 @@ bit bis_read_bit(bit_input_stream *bis) {
 	if (bis->current_cursor == 8) {
 		bis->current_byte = byis_read(bis->stream);
 		bis->current_cursor = 0;
-		if (bis->stream->end) {
-			error(ERROR_END_OF_INPUT);
-		}
 	}
 	
 	bit ret = (bit) (bis->current_byte & (1 << 7));

@@ -23,7 +23,6 @@ typedef struct {
 	size_t buffer_size;
 	size_t max_buffer_size;
 	bool retain;
-	bool end;
 } byte_input_stream;
 
 /**

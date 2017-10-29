@@ -14,7 +14,7 @@
 /**
  * Expands or clears the internal buffer if necessary.
  *
- * @param byis
+ * @param byis the byte input stream
  */
 static void buffer_expand(byte_input_stream *byis) {
 	if (byis->buffer_size == byis->max_buffer_size) {
@@ -22,18 +22,20 @@ static void buffer_expand(byte_input_stream *byis) {
 			byis->max_buffer_size *= 2;
 			byis->buffer = (byte *) reallocate(byis->buffer, byis->max_buffer_size);
 		} else {
-			byis->buffer_size = 0;
-			memset(byis->buffer, '\0', byis->max_buffer_size);
+			byis->cursor = 0;
+			byis->buffer[0] = byis->buffer[byis->buffer_size - 2];
+			byis->buffer[1] = byis->buffer[byis->buffer_size - 1];
+			byis->buffer_size = 2;
+			memset(byis->buffer + 2, '\0', byis->max_buffer_size - 2);
 		}
 	}
 }
 
 byte_input_stream *byis_create(FILE *channel, bool retain) {
 	byte_input_stream *ret = (byte_input_stream *) callocate(1, sizeof(byte_input_stream));
-	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE, sizeof(byte));
+	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE + 2, sizeof(byte));
 	ret->channel = channel;
-	ret->end = false;
-	ret->max_buffer_size = INPUT_BUFFER_SIZE;
+	ret->max_buffer_size = INPUT_BUFFER_SIZE + 2;
 	ret->retain = retain;
 	return ret;
 }
@@ -58,17 +60,9 @@ void byis_free(byte_input_stream *byis) {
 }
 
 byte byis_read(byte_input_stream *byis) {
-	if (byis->end) {
-		error(ERROR_END_OF_INPUT);
-	}
-	
-	if (byis->cursor == byis->buffer_size) {
+	if (byis->cursor + 2 == byis->buffer_size || byis->buffer_size == 0) {
 		if (byis->channel) {
 			byis_feed_stream(byis, byis->channel);
-		}
-		if (byis->cursor == byis->buffer_size) {
-			byis->end = true;
-			return '\0';
 		}
 	}
 	return byis->buffer[byis->cursor++];

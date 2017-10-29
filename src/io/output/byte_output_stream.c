@@ -36,6 +36,7 @@ void byos_feed(byte_output_stream *byos, byte data) {
 void byos_flush(byte_output_stream *byos) {
 	if(byos->buffer_size > 0) {
 		fwrite(byos->buffer, 1, byos->buffer_size, byos->channel);
+		fflush(byos->channel);
 	}
 	byos_clear(byos);
 }
