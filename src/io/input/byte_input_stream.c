@@ -65,5 +65,10 @@ byte byis_read(byte_input_stream *byis) {
 			byis_feed_stream(byis, byis->channel);
 		}
 	}
+	
+	if(byis->buffer_size == 0) {
+		error(ERROR_END_OF_INPUT);
+	}
+	
 	return byis->buffer[byis->cursor++];
 }

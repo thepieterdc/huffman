@@ -36,7 +36,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Failsafe for empty input. */
 	if (inputStream->buffer_size == 0) {
-		error(ERROR_EMPTY_INPUT);
+		error(ERROR_END_OF_INPUT);
 	}
 	
 	/* Create a new empty Huffman tree. */
