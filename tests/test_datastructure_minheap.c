@@ -14,16 +14,16 @@
 
 char *test_minheap_create_free() {
 	min_heap *heap = minheap_create(2);
-	assertThat(heap != NULL);
-	assertThat(heap->heap != NULL);
-	assertThat(heap->maxsize == 2);
+	assertNotNull(heap);
+	assertNotNull(heap->heap);
+	assertEquals(heap->maxsize, 2);
 	minheap_free(heap);
 	return 0;
 }
 
 char *test_minheap_insert_find_extract_min() {
 	min_heap *heap = minheap_create(8);
-	assertThat(heap != NULL);
+	assertNotNull(heap);
 	
 	byte originals[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 	
@@ -35,7 +35,7 @@ char *test_minheap_insert_find_extract_min() {
 	minheap_insert(heap, 7, (void *) &originals[5]);
 	minheap_insert(heap, 6, (void *) &originals[6]);
 	minheap_insert(heap, 2, (void *) &originals[7]);
-	assertThat(heap->size == 8);
+	assertEquals(heap->size, 8);
 	
 	byte testcases[8] = {'E', 'H', 'B', 'A', 'C', 'G', 'F', 'D'};
 	
@@ -44,9 +44,9 @@ char *test_minheap_insert_find_extract_min() {
 	for (size_t i = 0; i < 8; ++i) {
 		find_min = (byte *) minheap_find_min(heap);
 		extract_min = (byte *) minheap_extract_min(heap);
-		assertThat(*find_min == testcases[i]);
-		assertThat(*extract_min == testcases[i]);
-		assertThat(heap->size == 8 - 1 - i);
+		assertEquals(*find_min, testcases[i]);
+		assertEquals(*extract_min, testcases[i]);
+		assertEquals(heap->size, 8 - 1 - i);
 	}
 	
 	minheap_free(heap);

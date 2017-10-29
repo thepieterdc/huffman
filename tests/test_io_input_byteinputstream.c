@@ -11,15 +11,15 @@
 
 static char *test_read_count(byte_input_stream *byis, size_t amount) {
 	for (size_t i = 0; i < amount; ++i) {
-		assertThat(byis_read(byis) == (byte) (i % 256));
+		assertEquals(byis_read(byis), (byte) (i % 256));
 	}
 	return 0;
 }
 
 char *test_io_byis_create_free() {
 	byte_input_stream *byis = byis_create(stdin, false);
-	assertThat(byis != NULL);
-	assertThat(byis->buffer != NULL);
+	assertNotNull(byis);
+	assertNotNull(byis->buffer);
 	byis_free(byis);
 	return 0;
 }
@@ -31,7 +31,7 @@ char *test_io_byis_feed_byte_read() {
 		byis_feed_byte(byis, (byte) (i % 256));
 	}
 	
-	assertThat(test_read_count(byis, INPUT_BUFFER_SIZE) == 0);
+	assertEquals(test_read_count(byis, INPUT_BUFFER_SIZE), 0);
 	
 	byis_free(byis);
 	
@@ -49,7 +49,7 @@ char *test_io_byis_feed_stream_read() {
 		fprintf(memfile, "%c", (byte) (i % 256));
 	}
 	
-	assertThat(test_read_count(byis, INPUT_BUFFER_SIZE * 2) == 0);
+	assertEquals(test_read_count(byis, INPUT_BUFFER_SIZE * 2), 0);
 	
 	byis_free(byis);
 	

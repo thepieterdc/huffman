@@ -17,7 +17,7 @@
 
 char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 	DIR *testvectors = opendir(TEST_ALGORITHM_TESTVECTORS);
-	assertThat(testvectors != NULL);
+	assertNotNull(testvectors);
 	
 	struct dirent *dp;
 	while ((dp = readdir(testvectors)) != NULL) {
@@ -27,7 +27,7 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 			char *vector = str_concat(TEST_ALGORITHM_TESTVECTORS, dp->d_name);
 			
 			FILE *input = fopen(vector, "rb");
-			assertThat(input != NULL);
+			assertNotNull(input);
 			
 			char *encoded;
 			size_t encoded_size;
@@ -42,7 +42,7 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 			decode(encoded_stream, open_memstream(&decoded, &decoded_size));
 			
 			FILE *raw = fopen(vector, "rb");
-			assertThat(raw != NULL);
+			assertNotNull(raw);
 			
 			fseek(raw, 0, SEEK_END);
 			size_t raw_size = (size_t) ftell(raw);
@@ -52,8 +52,8 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 			size_t last = fread(raw_buffer, sizeof(char), raw_size, raw);
 			raw_buffer[last] = '\0';
 			
-			assertThat(raw_size == decoded_size);
-			assertThat(str_equals(decoded, raw_buffer));
+			assertEquals(raw_size, decoded_size);
+			assertTrue(str_equals(decoded, raw_buffer));
 
 			fclose(raw);
 			

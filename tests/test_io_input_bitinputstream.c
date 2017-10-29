@@ -11,8 +11,8 @@
 
 char *test_io_bis_create_free() {
 	bit_input_stream *bis = bis_create(NULL, false);
-	assertThat(bis != NULL);
-	assertThat(bis->stream != NULL);
+	assertNotNull(bis);
+	assertNotNull(bis->stream);
 	bis_free(bis);
 	return 0;
 }
@@ -21,22 +21,22 @@ char *test_io_bis_read_bit() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
-
+	
 	fprintf(memfile, "%c", 0b01010101);
 	fprintf(memfile, "%c", 0b10101010);
-
+	
 	bit_input_stream *bis = bis_create(memfile, false);
-
+	
 	for (size_t i = 0; i < 8; ++i) {
-		assertThat(bis_read_bit(bis) % 2 == i % 2);
+		assertEquals(bis_read_bit(bis) % 2, i % 2);
 	}
-
+	
 	for (size_t i = 0; i < 6; ++i) {
-		assertThat(bis_read_bit(bis) % 2 != i % 2);
+		assertNotEquals(bis_read_bit(bis) % 2, i % 2);
 	}
-
+	
 	bis_free(bis);
-
+	
 	free(buf);
 	
 	return 0;
@@ -46,7 +46,7 @@ char *test_io_bis_read_byte() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
-
+	
 	bit_input_stream *bis = bis_create(memfile, true);
 	
 	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
@@ -54,11 +54,11 @@ char *test_io_bis_read_byte() {
 	}
 	
 	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
-		assertThat(bis_read_byte(bis) == (byte) (i % 256));
+		assertEquals(bis_read_byte(bis), (byte) (i % 256));
 	}
-
+	
 	bis_free(bis);
-
+	
 	free(buf);
 	
 	return 0;

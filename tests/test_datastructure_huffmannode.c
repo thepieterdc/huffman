@@ -12,18 +12,18 @@ char *test_huffmannode_create_free_reset_counter() {
 	huffman_reset_ordercounter();
 	
 	huffman_node *leaf = huffmannode_create_leaf(5, 1);
-	assertThat(leaf != NULL);
-	assertThat(leaf->order_no == 0);
+	assertNotNull(leaf);
+	assertEquals(leaf->order_no, 0);
 	
 	huffman_node *node = huffmannode_create_node(NULL, NULL);
-	assertThat(node != NULL);
-	assertThat(node->order_no == 1);
+	assertNotNull(node);
+	assertEquals(node->order_no, 1);
 	
 	huffman_reset_ordercounter();
 	
 	huffman_node *node2 = huffmannode_create_node(NULL, NULL);
-	assertThat(node2 != NULL);
-	assertThat(node2->order_no == 0);
+	assertNotNull(node2);
+	assertEquals(node2->order_no, 0);
 	
 	huffmannode_free(leaf);
 	huffmannode_free(node);

@@ -11,15 +11,15 @@
 
 char *test_huffmancode_create_left_right() {
 	huffman_code *code = huffmancode_create();
-	assertThat(code != NULL);
+	assertNotNull(code);
 	
 	huffman_code *left = huffmancode_create_left(code);
-	assertThat(left != NULL);
-	assertThat(left->code == 0);
+	assertNotNull(left);
+	assertEquals(left->code, 0);
 	
 	huffman_code *right = huffmancode_create_right(code);
-	assertThat(right != NULL);
-	assertThat(right->code == 1);
+	assertNotNull(right);
+	assertEquals(right->code, 1);
 	
 	free(code);
 	free(left);

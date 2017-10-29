@@ -12,6 +12,6 @@
 char *test_algorithm_standard() {
 	_huffmanfunction enc = compressionfunctions[STANDARD];
 	_huffmanfunction dec = decompressionfunctions[STANDARD];
-	assertThat(test_huffman_algorithm(enc, dec) == 0);
+	assertEquals(test_huffman_algorithm(enc, dec), 0);
 	return 0;
 }

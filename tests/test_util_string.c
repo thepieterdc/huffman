@@ -11,7 +11,7 @@
 
 char *test_char_to_int() {
 	for (size_t i = 0; i < 9; ++i) {
-		assertThat(char_to_int((char) (48 + i)) == i);
+		assertEquals(char_to_int((char) (48 + i)), i);
 	}
 	return 0;
 }
@@ -22,10 +22,10 @@ char *test_string_concat() {
 	char s3[] = "everything";
 	
 	string s1s2 = str_concat(s1, s2);
-	assertThat(str_equals(s1s2, "firstlast"));
+	assertTrue(str_equals(s1s2, "firstlast"));
 	
 	string s1s2s3 = str_concat(s1s2, s3);
-	assertThat(str_equals(s1s2s3, "firstlasteverything"));
+	assertTrue(str_equals(s1s2s3, "firstlasteverything"));
 	
 	free(s1s2);
 	free(s1s2s3);
@@ -37,12 +37,12 @@ char *test_string_equals() {
 	char s2[] = "notequals";
 	char s3[] = "equals";
 	
-	assertThat(!str_equals(s1, s2));
-	assertThat(str_equals(s1, s3));
-	assertThat(!str_equals(s2, s1));
-	assertThat(!str_equals(s2, s3));
-	assertThat(str_equals(s3, s1));
-	assertThat(!str_equals(s3, s2));
+	assertFalse(str_equals(s1, s2));
+	assertTrue(str_equals(s1, s3));
+	assertFalse(str_equals(s2, s1));
+	assertFalse(str_equals(s2, s3));
+	assertTrue(str_equals(s3, s1));
+	assertFalse(str_equals(s3, s2));
 	
 	return 0;
 }
