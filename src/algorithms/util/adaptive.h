@@ -8,6 +8,7 @@
 #define HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H
 
 #include "../../datastructures/huffman_tree/adaptive_huffman_tree.h"
+#include "../../io/output/bit_output_stream.h"
 
 /**
  * Creates a tree for a new character in the existing Huffman tree.
@@ -28,6 +29,16 @@ huffman_node *add_character(adaptive_huffman_tree *tree, byte data);
 void do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_node *node2);
 
 /**
+ * Encodes a character and appends this to the output stream.
+ *
+ * @param tree the Adaptive Huffman tree
+ * @param character the character to encode
+ * @param out the output stream
+ * @return the leaf containing this character, returns NULL for a new character
+ */
+huffman_node *encode_character(adaptive_huffman_tree *tree, byte character, bit_output_stream *out);
+
+/**
  * Finds the node t' to swap with.
  *
  * @param tree the Adaptive Huffman tree
@@ -35,5 +46,13 @@ void do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_node *nod
  * @return the ordernumber to swap with
  */
 uint_least16_t find_swap(adaptive_huffman_tree *tree, uint_least64_t weight);
+
+/**
+ * Finds and outputs the Huffman code for a given node.
+ *
+ * @param node the node to find the code for
+ * @param out the output stream
+ */
+void print_code(huffman_node *node, bit_output_stream *out);
 
 #endif /* HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H */

@@ -9,6 +9,7 @@
 
 #include "huffman_node.h"
 
+#define HUFFMAN_MAX_CODE_LENGTH 256
 #define HUFFMAN_MAX_LEAVES 256
 
 /**

@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "adaptive_huffman_tree.h"
 #include "../../util/memory.h"
 
@@ -19,4 +20,5 @@ adaptive_huffman_tree *adaptivehuffmantree_create() {
 
 void adaptivehuffmantree_free(adaptive_huffman_tree *aht) {
 	huffmantree_free(aht->tree);
+	free(aht);
 }

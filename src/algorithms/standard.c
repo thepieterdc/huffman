@@ -87,10 +87,10 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Apply padding after the last bits. */
 	size_t padding = 8 - bos_pad(outputStream);
 	
-	/* Print how many padding was added. */
+	/* Output the amount of padding bits added. */
 	bos_feed_byte(outputStream, (byte) padding);
 	
-	/* Print the output buffer. */
+	/* Flush the output buffer. */
 	bos_flush(outputStream);
 	
 	/* Release allocated memory. */
