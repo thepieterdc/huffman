@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "adaptive.h"
 
 huffman_node *add_character(adaptive_huffman_tree *tree, byte data) {
@@ -60,17 +61,15 @@ void do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_node *nod
 huffman_node *encode_character(adaptive_huffman_tree *tree, byte character, bit_output_stream *out) {
 	if (tree->amt_nodes == 0) {
 		bos_feed_byte(out, character);
-		fprintf(stderr, "Printing character: %c\n", character);
 		return NULL;
 	}
 	
 	huffman_node *ret = tree->tree->leaves[character];
 	if (!ret) {
-		print_code(tree->nyt, out);
-		fprintf(stderr, "Printing character: %c (%d) \n", character, character);
-		bos_feed_byte(out, character);
+		print_code(tree, tree->nyt, out);
+//		bos_feed_byte(out, character);
 	} else {
-		print_code(ret, out);
+//		print_code(ret, out);
 	}
 	
 	return ret;
@@ -85,17 +84,24 @@ uint_least16_t find_swap(adaptive_huffman_tree *tree, uint_least64_t weight) {
 	return 0;
 }
 
-void print_code(huffman_node *node, bit_output_stream *out) {
+void print_code(adaptive_huffman_tree *tree, huffman_node *node, bit_output_stream *out) {
 	bit code[HUFFMAN_MAX_CODE_LENGTH];
 	size_t codelength = 0;
 	
 	huffman_node *cursor = node;
+	size_t len = 0;
+
 	while (cursor->parent != NULL) {
-		code[codelength++] = cursor->parent->left != cursor;
+//		code[codelength++] = cursor->parent->left != cursor;
 		cursor = cursor->parent;
+		len++;
+		
+		if(len == 256) {
+			huffmantree_print(tree->tree);
+			exit(10);
+		}
 	}
-	for (size_t i = codelength; i > 0; --i) {
-		fprintf(stderr, "Printing code: %d\n", code[i - 1]);
-		bos_feed_bit(out, code[i - 1]);
-	}
+//	for (size_t i = codelength; i > 0; --i) {
+//		bos_feed_bit(out, code[i - 1]);
+//	}
 }

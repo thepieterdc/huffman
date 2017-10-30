@@ -31,7 +31,7 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 			huffman_node *o = add_character(aht, z);
 			t = o->parent;
 		}
-		
+
 		/* Update the tree accordingly. */
 		huffman_node *swap_node;
 		while (t) {

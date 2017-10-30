@@ -53,6 +53,6 @@ uint_least16_t find_swap(adaptive_huffman_tree *tree, uint_least64_t weight);
  * @param node the node to find the code for
  * @param out the output stream
  */
-void print_code(huffman_node *node, bit_output_stream *out);
+void print_code(adaptive_huffman_tree *tree, huffman_node *node, bit_output_stream *out);
 
 #endif /* HUFFMAN_ALGORITHMS_UTIL_ADAPTIVE_H */
