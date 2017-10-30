@@ -21,10 +21,8 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
 	
 	/* Encode the input. */
-	byte z;
-	while (inputStream->cursor <= inputStream->buffer_size - 2) {
-		z = byis_read(inputStream);
-		
+	byte z = byis_read(inputStream);
+	while (inputStream->cursor <= inputStream->buffer_size) {
 		/* Output the encoded character. */
 		huffman_node *t = encode_character(aht, z, outputStream);
 		
@@ -45,6 +43,7 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 			t->weight++;
 			t = t->parent;
 		}
+		z = byis_read(inputStream);
 	}
 	
 	/* Apply padding after the last bits. */

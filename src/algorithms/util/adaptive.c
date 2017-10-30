@@ -60,12 +60,14 @@ void do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_node *nod
 huffman_node *encode_character(adaptive_huffman_tree *tree, byte character, bit_output_stream *out) {
 	if (tree->amt_nodes == 0) {
 		bos_feed_byte(out, character);
+		fprintf(stderr, "Printing character: %c\n", character);
 		return NULL;
 	}
 	
 	huffman_node *ret = tree->tree->leaves[character];
 	if (!ret) {
 		print_code(tree->nyt, out);
+		fprintf(stderr, "Printing character: %c (%d) \n", character, character);
 		bos_feed_byte(out, character);
 	} else {
 		print_code(ret, out);
@@ -93,6 +95,7 @@ void print_code(huffman_node *node, bit_output_stream *out) {
 		cursor = cursor->parent;
 	}
 	for (size_t i = codelength; i > 0; --i) {
+		fprintf(stderr, "Printing code: %d\n", code[i - 1]);
 		bos_feed_bit(out, code[i - 1]);
 	}
 }
