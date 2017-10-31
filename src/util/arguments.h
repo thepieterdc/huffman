@@ -22,7 +22,7 @@ typedef void (*_huffmanfunction)(FILE *input, FILE *output);
  * Algorithms.
  */
 enum algorithm {
-	STANDARD, ADAPTIVE, ADAPTIVE_SLIDING, TWO_PASS, BLOCKWISE
+	STANDARD, ADAPTIVE, ADAPTIVE_SLIDING, TWO_PASS, BLOCKWISE_ADAPTIVE
 };
 
 /**

@@ -13,7 +13,7 @@ char *test_arguments_algorithm() {
 	assertEquals(algorithm_from_opt('2'), ADAPTIVE);
 	assertEquals(algorithm_from_opt('3'), ADAPTIVE_SLIDING);
 	assertEquals(algorithm_from_opt('4'), TWO_PASS);
-	assertEquals(algorithm_from_opt('5'), BLOCKWISE);
+	assertEquals(algorithm_from_opt('5'), BLOCKWISE_ADAPTIVE);
 	return 0;
 }
 
