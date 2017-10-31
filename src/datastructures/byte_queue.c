@@ -5,17 +5,17 @@
  */
 
 #include <stdlib.h>
-#include "queue.h"
+#include "byte_queue.h"
 #include "../util/memory.h"
 
-queue *queue_create() {
-	queue *q = (queue *) mallocate(sizeof(queue));
+byte_queue *queue_create() {
+	byte_queue *q = (byte_queue *) mallocate(sizeof(byte_queue));
 	q->size = 0;
 	q->first = q->last = NULL;
 	return q;
 }
 
-void queue_empty(queue *q) {
+void queue_empty(byte_queue *q) {
 	queue_item *cursor = q->first;
 	queue_item *next = NULL;
 	
@@ -27,19 +27,19 @@ void queue_empty(queue *q) {
 	q->size = 0;
 }
 
-void queue_free(queue *q) {
+void queue_free(byte_queue *q) {
 	queue_empty(q);
 	free(q);
 }
 
-void *queue_peek(queue *q) {
+void *queue_peek(byte_queue *q) {
 	if (q->first == NULL) {
 		return NULL;
 	}
 	return q->first->data;
 }
 
-void *queue_pop(queue *q) {
+void *queue_pop(byte_queue *q) {
 	if (q->first == NULL) {
 		return NULL;
 	}
@@ -54,7 +54,7 @@ void *queue_pop(queue *q) {
 	return ret;
 }
 
-void queue_push(queue *q, void *data) {
+void queue_push(byte_queue *q, void *data) {
 	queue_item *newitem = (queue_item *) mallocate(sizeof(queue_item));
 	newitem->data = data;
 	if (q->last != NULL) {

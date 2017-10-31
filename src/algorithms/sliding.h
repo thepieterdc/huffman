@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#define HUFFMAN_SLIDING_WINDOWSIZE 50
+
 /**
  * Adaptive Huffman compression (sliding window).
  *

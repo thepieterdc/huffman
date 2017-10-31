@@ -7,18 +7,18 @@
 #include <stdlib.h>
 #include "test_unit.h"
 #include "test_datastructure_queue.h"
-#include "../src/datastructures/queue.h"
+#include "../src/datastructures/byte_queue.h"
 #include "../src/util/string.h"
 
 char *test_queue_create_free() {
-	queue *q = queue_create();
+	byte_queue *q = queue_create();
 	assertNotNull(q);
 	queue_free(q);
 	return 0;
 }
 
 char *test_queue_empty() {
-	queue *q = queue_create();
+	byte_queue *q = queue_create();
 	assertNotNull(q);
 	
 	queue_push(q, (void *) 5);
@@ -37,7 +37,7 @@ char *test_queue_empty() {
 }
 
 char *test_queue_push_peek_pop() {
-	queue *q = queue_create();
+	byte_queue *q = queue_create();
 	assertNotNull(q);
 	
 	queue_push(q, (void *) "fifty");
