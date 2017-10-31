@@ -9,6 +9,12 @@
 
 #include "../src/util/arguments.h"
 
+/** Tests: huffman_standard_compress(), huffman_standard_decompress(). */
+char *test_algorithm_adaptive();
+
+/** Tests: huffman_standard_compress(), huffman_standard_decompress(). */
+char *test_algorithm_standard();
+
 /**
  * Tests a Huffman algorithm.
  *

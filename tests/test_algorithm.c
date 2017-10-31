@@ -15,6 +15,20 @@
 
 #define TEST_ALGORITHM_TESTVECTORS "./tests/testvectors/"
 
+char *test_algorithm_adaptive() {
+	_huffmanfunction enc = compressionfunctions[ADAPTIVE];
+	_huffmanfunction dec = decompressionfunctions[ADAPTIVE];
+	assertEquals(test_huffman_algorithm(enc, dec), 0);
+	return 0;
+}
+
+char *test_algorithm_standard() {
+	_huffmanfunction enc = compressionfunctions[STANDARD];
+	_huffmanfunction dec = decompressionfunctions[STANDARD];
+	assertEquals(test_huffman_algorithm(enc, dec), 0);
+	return 0;
+}
+
 char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 	DIR *testvectors = opendir(TEST_ALGORITHM_TESTVECTORS);
 	assertNotNull(testvectors);
@@ -54,7 +68,7 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 			
 			assertEquals(raw_size, decoded_size);
 			assertTrue(str_equals(decoded, raw_buffer));
-
+			
 			fclose(raw);
 			
 			free(decoded);

@@ -19,7 +19,7 @@
  * @param root the root of the tree
  * @param in the input stream
  */
-void assign_characters(huffman_node *root, bit_input_stream *in);
+void standard_assign_characters(huffman_node *root, bit_input_stream *in);
 
 /**
  * Creates a Huffman tree from a binary representation.
@@ -27,7 +27,7 @@ void assign_characters(huffman_node *root, bit_input_stream *in);
  * @param root the root of the tree
  * @param input the input stream
  */
-void build_tree(huffman_node *root, bit_input_stream *input);
+void standard_build_tree(huffman_node *root, bit_input_stream *input);
 
 /**
  * Decodes the next character in the input stream.
@@ -36,7 +36,7 @@ void build_tree(huffman_node *root, bit_input_stream *input);
  * @param in the input stream
  * @return the decoded character
  */
-byte decode_character(huffman_node *tree, bit_input_stream *in);
+byte standard_decode_character(huffman_node *tree, bit_input_stream *in);
 
 /**
  * Decodes the final byte.
@@ -46,7 +46,7 @@ byte decode_character(huffman_node *tree, bit_input_stream *in);
  * @param out the output stream to write to
  * @param amount the amount of bits to decode
  */
-void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte byte, size_t amount);
+void standard_decode_final_byte(huffman_node *tree, byte_output_stream *out, byte byte, size_t amount);
 
 /**
  * Traverses the tree in a DFS manner and prints all characters.
@@ -54,7 +54,7 @@ void decode_final_byte(huffman_node *tree, byte_output_stream *out, byte byte, s
  * @param root the root of the tree
  * @param out the output stream
  */
-void print_characters(huffman_node *root, bit_output_stream *out);
+void standard_print_characters(huffman_node *root, bit_output_stream *out);
 
 /**
  * Prints a Huffman tree to the supplied output stream.
@@ -62,6 +62,6 @@ void print_characters(huffman_node *root, bit_output_stream *out);
  * @param root the root of the tree to print
  * @param out the output stream to write to
  */
-void print_tree(huffman_node *root, bit_output_stream *out);
+void standard_print_tree(huffman_node *root, bit_output_stream *out);
 
 #endif /* HUFFMAN_ALGORITHMS_UTIL_STANDARD_H */

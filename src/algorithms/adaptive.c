@@ -7,9 +7,6 @@
 #include <stdlib.h>
 #include "adaptive.h"
 #include "util/adaptive.h"
-#include "../io/input/byte_input_stream.h"
-#include "../io/output/bit_output_stream.h"
-#include "../util/logging.h"
 
 void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
@@ -25,25 +22,10 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	byte z = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
 		/* Output the encoded character. */
-		huffman_node *t = encode_character(aht, z, outputStream);
+		huffman_node *t = adaptive_encode_character(aht, z, outputStream);
 		
-		if (!t) {
-			/* z is a new character; add it to the tree. */
-			huffman_node *o = add_character(aht, z);
-			t = o->parent;
-		}
-
 		/* Update the tree accordingly. */
-		huffman_node *swap_node;
-		while (t) {
-			swap_node = aht->nodes[find_swap(aht, t->weight)];
-			if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
-				/* Swap the nodes in the tree. */
-				do_swap(aht, t, swap_node);
-			}
-			t->weight++;
-			t = t->parent;
-		}
+		adaptive_update_tree(aht, t);
 		
 		z = byis_read(inputStream);
 	}
@@ -64,5 +46,29 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 }
 
 void huffman_adaptive_decompress(FILE *input, FILE *output) {
-	info("Huffman adaptive decompress");
+	/* Create a buffer to store the input. */
+	bit_input_stream *inputStream = bis_create(input, false);
+	
+	/* Create a buffer to store the output. */
+	byte_output_stream *outputStream = byos_create(output);
+	
+	/* Create an Adaptive Huffman tree. */
+	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
+	
+	/* Decode the input. */
+	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
+		/* Output the decoded character. */
+		huffman_node *t = adaptive_decode_character(aht, inputStream, outputStream);
+		
+		/* Update the tree accordingly. */
+		adaptive_update_tree(aht, t);
+	}
+	
+	/* Flush the output buffer. */
+	byos_flush(outputStream);
+	
+	/* Cleanup allocated memory. */
+	adaptivehuffmantree_free(aht);
+	byos_free(outputStream);
+	bis_free(inputStream);
 }

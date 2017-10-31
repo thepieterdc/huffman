@@ -17,7 +17,7 @@
 #include "test_util_binary.h"
 #include "test_util_string.h"
 #include "test_datatype_huffmancode.h"
-#include "test_algorithm_standard.h"
+#include "test_algorithm.h"
 
 /**
  * Runs all tests.
@@ -25,7 +25,8 @@
  * @return N/A
  */
 static char *all_tests() {
-	/** Test: algorithms/standard. */
+	/** Test: algorithms. */
+	test(test_algorithm_adaptive);
 	test(test_algorithm_standard);
 	
 	/** Test: datastructures/huffman_node. */

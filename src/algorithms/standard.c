@@ -70,11 +70,11 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	huffmantree_set_codes(tree);
 	
 	/* Print the Huffman tree and apply padding. */
-	print_tree(tree->root, outputStream);
+	standard_print_tree(tree->root, outputStream);
 	bos_pad(outputStream);
 	
 	/* Print the characters from left to right. */
-	print_characters(tree->root, outputStream);
+	standard_print_characters(tree->root, outputStream);
 	
 	/* Encode every character in the input string. */
 	byte b = byis_read(inputStream);
@@ -111,17 +111,17 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	huffman_tree *tree = huffmantree_create(NULL);
 	tree->root->code = huffmancode_create();
 	
-	build_tree(tree->root, inputStream);
+	standard_build_tree(tree->root, inputStream);
 	
 	/* Clear the remaining padding bits. */
 	bis_clear_current_byte(inputStream);
 	
 	/* Assign characters to codes. */
-	assign_characters(tree->root, inputStream);
+	standard_assign_characters(tree->root, inputStream);
 	
 	/* Decode every code in the input string. */
 	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
-		byos_feed(outputStream, decode_character(tree->root, inputStream));
+		byos_feed(outputStream, standard_decode_character(tree->root, inputStream));
 	}
 	
 	/* Decode the remaining bytes. */
@@ -129,7 +129,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	size_t final_cursor_cursor = inputStream->current_cursor;
 	bis_clear_current_byte(inputStream);
 	size_t indicator = bis_read_byte(inputStream);
-	decode_final_byte(tree->root, outputStream, final_byte, (size_t) (indicator - final_cursor_cursor));
+	standard_decode_final_byte(tree->root, outputStream, final_byte, (size_t) (indicator - final_cursor_cursor));
 	
 	/* Flush the output buffer. */
 	byos_flush(outputStream);
