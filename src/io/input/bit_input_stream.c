@@ -47,13 +47,10 @@ bit bis_read_bit(bit_input_stream *bis) {
 byte bis_read_byte(bit_input_stream *bis) {
 	if (bis->current_cursor != 8) {
 		byte ret = 0;
-		fprintf(stderr, "Reading byte: ");
 		for (size_t i = 0; i < 8; ++i) {
 			ret <<= 1;
 			ret |= bis_read_bit(bis);
-			fprintf(stderr, "%d", ret & 1);
 		}
-		fprintf(stderr, "\n");
 		return ret;
 	}
 	return byis_read(bis->stream);

@@ -34,27 +34,20 @@ huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 }
 
 huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_stream *in, byte_output_stream *out) {
-	fprintf(stderr, "New character\n");
 	huffman_node *cursor = tree->tree->root;
 	
-	fprintf(stderr, "Read ");
 	while (cursor->type != NYT && cursor->type != LEAF) {
 		bit rd = bis_read_bit(in);
-		fprintf(stderr, "%d", rd);
 		cursor = rd ? cursor->right : cursor->left;
 	}
-	
-	fprintf(stderr, "\n");
 	
 	if (cursor->type == NYT) {
 		/* z is a new character; add it to the tree. */
 		byte z = bis_read_byte(in);
-		fprintf(stderr, "New character: %c (%d)\n", z, z);
 		huffman_node *o = adaptive_add_character(tree, z);
 		byos_feed(out, z);
 		return o->parent;
 	} else {
-		fprintf(stderr, "Existing character\n");
 		byos_feed(out, cursor->data);
 		return cursor;
 	}
