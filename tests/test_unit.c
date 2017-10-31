@@ -24,7 +24,7 @@ static char *_testunit_assert_failed(const char *func, const int line, const cha
 
 char *_testunit_assert_equals_failed(const char *fn, int line, const char *one, const char *two) {
 	char assert[256] = {'\0'};
-	snprintf("%s should equal %s", 255, one, two);
+	snprintf(assert, 255, "%s should equal %s", one, two);
 	return _testunit_assert_failed(fn, line, assert);
 }
 
