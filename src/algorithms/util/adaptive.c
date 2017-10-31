@@ -34,19 +34,28 @@ huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 }
 
 huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_stream *in, byte_output_stream *out) {
+	fprintf(stderr, "New character\n");
 	huffman_node *cursor = tree->tree->root;
 	
+	fprintf(stderr, "Read ");
 	while (cursor->type != NYT && cursor->type != LEAF) {
 		bit rd = bis_read_bit(in);
+		fprintf(stderr, "%d", rd);
 		cursor = rd ? cursor->right : cursor->left;
 	}
+	
+	fprintf(stderr, "\n");
 	
 	if (cursor->type == NYT) {
 		/* z is a new character; add it to the tree. */
 		byte z = bis_read_byte(in);
+		fprintf(stderr, "New character: %c (%d)\n", z, z);
 		huffman_node *o = adaptive_add_character(tree, z);
+		byos_feed(out, z);
 		return o->parent;
 	} else {
+		fprintf(stderr, "Existing character\n");
+		byos_feed(out, cursor->data);
 		return cursor;
 	}
 }
@@ -77,16 +86,18 @@ void adaptive_do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_
 }
 
 huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte character, bit_output_stream *out) {
+	huffman_node *ret = tree->tree->leaves[character];
+	
 	if (tree->amt_nodes == 0) {
 		bos_feed_byte(out, character);
-	}
-	
-	huffman_node *ret = tree->tree->leaves[character];
-	if (!ret) {
-		adaptive_print_code(tree->nyt, out);
-		bos_feed_byte(out, character);
+		ret = NULL;
 	} else {
-		adaptive_print_code(ret, out);
+		if (!ret) {
+			adaptive_print_code(tree->nyt, out);
+			bos_feed_byte(out, character);
+		} else {
+			adaptive_print_code(ret, out);
+		}
 	}
 	
 	if (!ret) {
@@ -94,6 +105,7 @@ huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte charac
 		huffman_node *o = adaptive_add_character(tree, character);
 		ret = o->parent;
 	}
+	
 	
 	return ret;
 }
