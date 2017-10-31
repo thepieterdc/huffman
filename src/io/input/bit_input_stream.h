@@ -35,6 +35,13 @@ void bis_clear_current_byte(bit_input_stream *bis);
 bit_input_stream *bis_create(FILE *channel, bool retain);
 
 /**
+ * Clears the entire input stream.
+ *
+ * @param bis the bit input stream
+ */
+void bis_flush(bit_input_stream *bis);
+
+/**
  * Frees the memory allocated by the bit input stream.
  *
  * @param bis the bit input stream

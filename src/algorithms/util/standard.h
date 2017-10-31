@@ -39,16 +39,6 @@ void standard_build_tree(huffman_node *root, bit_input_stream *input);
 byte standard_decode_character(huffman_node *tree, bit_input_stream *in);
 
 /**
- * Decodes the final byte.
- *
- * @param tree the Huffman tree
- * @param byte the byte to decode
- * @param out the output stream to write to
- * @param amount the amount of bits to decode
- */
-void standard_decode_final_byte(huffman_node *tree, byte_output_stream *out, byte byte, size_t amount);
-
-/**
  * Traverses the tree in a DFS manner and prints all characters.
  *
  * @param root the root of the tree

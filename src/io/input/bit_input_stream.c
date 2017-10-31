@@ -18,10 +18,16 @@ void bis_clear_current_byte(bit_input_stream *bis) {
 }
 
 bit_input_stream *bis_create(FILE *channel, bool retain) {
-	bit_input_stream *ret = (bit_input_stream *) callocate(1, sizeof(bit_input_stream));
-	ret->current_cursor = 8;
+	bit_input_stream *ret = (bit_input_stream *) mallocate(sizeof(bit_input_stream));
 	ret->stream = byis_create(channel, retain);
+	bis_flush(ret);
 	return ret;
+}
+
+void bis_flush(bit_input_stream *bis) {
+	bis->current_byte = 0;
+	bis->current_cursor = 8;
+	bis->stream->buffer_size = 0;
 }
 
 void bis_free(bit_input_stream *bis) {

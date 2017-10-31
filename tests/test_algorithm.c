@@ -66,6 +66,12 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 			size_t last = fread(raw_buffer, sizeof(char), raw_size, raw);
 			raw_buffer[last] = '\0';
 			
+			if(raw_size != decoded_size) {
+				fprintf(stderr, "%d - %d\n", raw_size, decoded_size);
+				fprintf(stderr, "%s - %s\n", decoded, raw_buffer);
+				exit(0);
+			}
+			
 			assertEquals(raw_size, decoded_size);
 			assertTrue(str_equals(decoded, raw_buffer));
 			

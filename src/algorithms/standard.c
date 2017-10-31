@@ -126,10 +126,15 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	
 	/* Decode the remaining bytes. */
 	byte final_byte = inputStream->current_byte;
-	size_t final_cursor_cursor = inputStream->current_cursor;
-	bis_clear_current_byte(inputStream);
-	size_t indicator = bis_read_byte(inputStream);
-	standard_decode_final_byte(tree->root, outputStream, final_byte, (size_t) (indicator - final_cursor_cursor));
+	size_t final_cursor = inputStream->current_cursor;
+	size_t indicator = byis_read(inputStream->stream);
+	bis_flush(inputStream);
+	
+	inputStream->current_byte = final_byte;
+	inputStream->current_cursor = final_cursor;
+	while(inputStream->current_cursor < indicator) {
+		byos_feed(outputStream, standard_decode_character(tree->root, inputStream));
+	}
 	
 	/* Flush the output buffer. */
 	byos_flush(outputStream);

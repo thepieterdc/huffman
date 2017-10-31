@@ -38,19 +38,6 @@ byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 	return cursor->data;
 }
 
-void standard_decode_final_byte(huffman_node *tree, byte_output_stream *out, byte b, size_t amount) {
-	while (amount > 0) {
-		huffman_node *cursor = tree;
-		while (cursor->type != LEAF) {
-			bit rd = (bit) (b & (1 << 7));
-			cursor = rd ? cursor->right : cursor->left;
-			b <<= 1;
-			--amount;
-		}
-		byos_feed(out, cursor->data);
-	}
-}
-
 void standard_print_characters(huffman_node *root, bit_output_stream *out) {
 	if (root->type == LEAF) {
 		bos_feed_byte(out, root->data);
