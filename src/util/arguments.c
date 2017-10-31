@@ -11,12 +11,15 @@
 #include "logging.h"
 #include "errors.h"
 #include "../algorithms/adaptive.h"
+#include "../algorithms/sliding.h"
 
-_huffmanfunction compressionfunctions[2] = {(_huffmanfunction) huffman_standard_compress,
-                                            (_huffmanfunction) huffman_adaptive_compress};
+_huffmanfunction compressionfunctions[3] = {(_huffmanfunction) huffman_standard_compress,
+                                            (_huffmanfunction) huffman_adaptive_compress,
+                                            (_huffmanfunction) huffman_sliding_compress};
 
-_huffmanfunction decompressionfunctions[2] = {(_huffmanfunction) huffman_standard_decompress,
-                                              (_huffmanfunction) huffman_adaptive_decompress};
+_huffmanfunction decompressionfunctions[3] = {(_huffmanfunction) huffman_standard_decompress,
+                                              (_huffmanfunction) huffman_adaptive_decompress,
+                                              (_huffmanfunction) huffman_sliding_decompress};
 
 enum algorithm algorithm_from_opt(char opt) {
 	int optval = char_to_int(opt);
