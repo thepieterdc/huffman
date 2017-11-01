@@ -58,6 +58,9 @@ CTestTestfile.cmake
 huffman
 huffman_tests
 
+### Zip
+out.zip
+
 ### Linux
 *~
 .fuse_hidden*
