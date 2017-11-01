@@ -24,7 +24,7 @@
  *
  * @return N/A
  */
-static char *all_tests() {
+static const char *all_tests() {
 	/** Test: algorithms. */
 	test(test_algorithm_adaptive);
 	test(test_algorithm_standard);

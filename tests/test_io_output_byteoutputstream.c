@@ -9,14 +9,14 @@
 #include "test_unit.h"
 #include "../src/io/output/byte_output_stream.h"
 
-char *test_io_byos_create_free() {
+const char *test_io_byos_create_free() {
 	byte_output_stream *bos = byos_create(NULL);
 	assertNotNull(bos);
 	byos_free(bos);
 	return 0;
 }
 
-char *test_io_byos_feed_flush() {
+const char *test_io_byos_feed_flush() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);

@@ -9,14 +9,14 @@
 #include "test_unit.h"
 #include "../src/io/input/byte_input_stream.h"
 
-static char *test_read_count(byte_input_stream *byis, size_t amount) {
+static const char *test_read_count(byte_input_stream *byis, size_t amount) {
 	for (size_t i = 0; i < amount; ++i) {
 		assertEquals(byis_read(byis), (byte) (i % 256));
 	}
 	return 0;
 }
 
-char *test_io_byis_create_free() {
+const char *test_io_byis_create_free() {
 	byte_input_stream *byis = byis_create(stdin, false);
 	assertNotNull(byis);
 	assertNotNull(byis->buffer);
@@ -24,7 +24,7 @@ char *test_io_byis_create_free() {
 	return 0;
 }
 
-char *test_io_byis_feed_byte_read() {
+const char *test_io_byis_feed_byte_read() {
 	byte_input_stream *byis = byis_create(NULL, false);
 	
 	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
@@ -38,7 +38,7 @@ char *test_io_byis_feed_byte_read() {
 	return 0;
 }
 
-char *test_io_byis_feed_stream_read() {
+const char *test_io_byis_feed_stream_read() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);

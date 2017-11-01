@@ -9,7 +9,7 @@
 #include "test_unit.h"
 #include "../src/io/output/bit_output_stream.h"
 
-char *test_io_bos_create_free() {
+const char *test_io_bos_create_free() {
 	bit_output_stream *bos = bos_create(NULL);
 	assertNotNull(bos);
 	assertNotNull(bos->stream);
@@ -17,7 +17,7 @@ char *test_io_bos_create_free() {
 	return 0;
 }
 
-char *test_io_bos_feed_bit_flush_count() {
+const char *test_io_bos_feed_bit_flush_count() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
@@ -52,7 +52,7 @@ char *test_io_bos_feed_bit_flush_count() {
 	return 0;
 }
 
-char *test_io_bos_feed_bit_pad_flush_count() {
+const char *test_io_bos_feed_bit_pad_flush_count() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
@@ -84,7 +84,7 @@ char *test_io_bos_feed_bit_pad_flush_count() {
 	return 0;
 }
 
-char *test_io_bos_feed_byte_flush_count() {
+const char *test_io_bos_feed_byte_flush_count() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);

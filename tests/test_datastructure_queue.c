@@ -10,14 +10,14 @@
 #include "../src/datastructures/queue.h"
 #include "../src/util/string.h"
 
-char *test_queue_create_free() {
+const char *test_queue_create_free() {
 	queue *q = queue_create();
 	assertNotNull(q);
 	queue_free(q);
 	return 0;
 }
 
-char *test_queue_empty() {
+const char *test_queue_empty() {
 	queue *q = queue_create();
 	assertNotNull(q);
 	
@@ -36,7 +36,7 @@ char *test_queue_empty() {
 	return 0;
 }
 
-char *test_queue_push_peek_pop() {
+const char *test_queue_push_peek_pop() {
 	queue *q = queue_create();
 	assertNotNull(q);
 	

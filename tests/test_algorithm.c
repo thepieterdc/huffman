@@ -15,21 +15,15 @@
 
 #define TEST_ALGORITHM_TESTVECTORS "./tests/testvectors/"
 
-char *test_algorithm_adaptive() {
-	_huffmanfunction enc = compressionfunctions[ADAPTIVE];
-	_huffmanfunction dec = decompressionfunctions[ADAPTIVE];
-	assertEquals(test_huffman_algorithm(enc, dec), 0);
-	return 0;
-}
-
-char *test_algorithm_standard() {
-	_huffmanfunction enc = compressionfunctions[STANDARD];
-	_huffmanfunction dec = decompressionfunctions[STANDARD];
-	assertEquals(test_huffman_algorithm(enc, dec), 0);
-	return 0;
-}
-
-char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
+/**
+ * Tests a Huffman algorithm.
+ *
+ * @param encoder the encoding function
+ * @param decoder the decoding function
+ * @return null if test was succesful
+ */
+static const char *test_huffman_algorithm(const _huffmanfunction encode, const _huffmanfunction decode) {
+	
 	DIR *testvectors = opendir(TEST_ALGORITHM_TESTVECTORS);
 	assertNotNull(testvectors);
 	
@@ -80,5 +74,19 @@ char *test_huffman_algorithm(_huffmanfunction encode, _huffmanfunction decode) {
 	
 	closedir(testvectors);
 	
+	return 0;
+}
+
+const char *test_algorithm_adaptive() {
+	_huffmanfunction enc = compressionfunctions[ADAPTIVE];
+	_huffmanfunction dec = decompressionfunctions[ADAPTIVE];
+	assertEquals(test_huffman_algorithm(enc, dec), 0);
+	return 0;
+}
+
+const char *test_algorithm_standard() {
+	_huffmanfunction enc = compressionfunctions[STANDARD];
+	_huffmanfunction dec = decompressionfunctions[STANDARD];
+	assertEquals(test_huffman_algorithm(enc, dec), 0);
 	return 0;
 }

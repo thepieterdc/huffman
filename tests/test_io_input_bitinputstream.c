@@ -9,7 +9,7 @@
 #include "test_unit.h"
 #include "../src/io/input/bit_input_stream.h"
 
-char *test_io_bis_create_free() {
+const char *test_io_bis_create_free() {
 	bit_input_stream *bis = bis_create(NULL, false);
 	assertNotNull(bis);
 	assertNotNull(bis->stream);
@@ -17,7 +17,7 @@ char *test_io_bis_create_free() {
 	return 0;
 }
 
-char *test_io_bis_read_bit() {
+const char *test_io_bis_read_bit() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
@@ -42,7 +42,7 @@ char *test_io_bis_read_bit() {
 	return 0;
 }
 
-char *test_io_bis_read_byte() {
+const char *test_io_bis_read_byte() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);

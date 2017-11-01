@@ -10,18 +10,9 @@
 #include "../src/util/arguments.h"
 
 /** Tests: huffman_standard_compress(), huffman_standard_decompress(). */
-char *test_algorithm_adaptive();
+const char *test_algorithm_adaptive();
 
 /** Tests: huffman_standard_compress(), huffman_standard_decompress(). */
-char *test_algorithm_standard();
-
-/**
- * Tests a Huffman algorithm.
- *
- * @param encoder the encoding function
- * @param decoder the decoding function
- * @return null if test was succesful
- */
-char *test_huffman_algorithm(_huffmanfunction encoder, _huffmanfunction decoder);
+const char *test_algorithm_standard();
 
 #endif /* HUFFMAN_TEST_ALGORITHM_H */

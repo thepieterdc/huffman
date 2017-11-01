@@ -22,27 +22,27 @@ void error(int code);
  * @param msg the error message
  * @param exit true to exit the program after throwing this error
  */
-void error_custom(char *msg, bool exit);
+void error_custom(const char *msg, bool exit);
 
 /**
  * Shows an informational message to stdout.
  *
  * @param msg te message
  */
-void info(char *msg);
+void info(const char *msg);
 
 /**
  * Shows a success message to stdout.
  *
  * @param msg te message
  */
-void success(char *msg);
+void success(const char *msg);
 
 /**
  * Throws an warning message to stderr.
  *
  * @param msg te message
  */
-void warning(char *msg);
+void warning(const char *msg);
 
 #endif /* HUFFMAN_UTIL_LOGGING_H */
