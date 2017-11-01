@@ -31,7 +31,6 @@ static const char *test_huffman_algorithm(const _huffmanfunction encode, const _
 	while ((dp = readdir(testvectors)) != NULL) {
 		string ext = strrchr(dp->d_name, '.');
 		if (ext && str_equals(ext, ".in")) {
-			
 			char *vector = str_concat(TEST_ALGORITHM_TESTVECTORS, dp->d_name);
 			
 			FILE *input = fopen(vector, "rb");

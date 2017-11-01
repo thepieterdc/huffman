@@ -8,32 +8,34 @@
 #include "bit_output_stream.h"
 #include "../../util/memory.h"
 
-static void add_buffer_to_stream(bit_output_stream *bos) {
-	bos->current_byte <<= (8 - bos->current_cursor);
+/**
+ * Prints the contents of the internal buffer.
+ *
+ * @param bos the bit output stream
+ */
+static void print_buffer(bit_output_stream *bos) {
 	putc(bos->current_byte, bos->channel);
 	bos->current_byte = 0;
-	bos->current_cursor = 0;
+	bos->current_cursor = 8;
 }
 
 bit_output_stream *bos_create(FILE *channel) {
 	bit_output_stream *ret = (bit_output_stream *) mallocate(sizeof(bit_output_stream));
 	ret->channel = channel;
 	ret->current_byte = 0;
-	ret->current_cursor = 0;
+	ret->current_cursor = 8;
 	return ret;
 }
 
 void bos_feed_bit(bit_output_stream *bos, bit b) {
-	if (bos->current_cursor == 8) {
-		add_buffer_to_stream(bos);
+	bos->current_byte |= (b << (--bos->current_cursor));
+	if (bos->current_cursor == 0) {
+		print_buffer(bos);
 	}
-	bos->current_byte <<= 1;
-	bos->current_byte |= b;
-	bos->current_cursor++;
 }
 
 void bos_feed_byte(bit_output_stream *bos, byte b) {
-	if (bos->current_cursor == 0) {
+	if (bos->current_cursor == 8) {
 		putc(b, bos->channel);
 	} else {
 		for (size_t i = 0; i < 8; ++i) {
@@ -59,8 +61,8 @@ void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 }
 
 void bos_flush(bit_output_stream *bos) {
-	if (bos->current_cursor != 0) {
-		add_buffer_to_stream(bos);
+	if (bos->current_cursor != 8) {
+		print_buffer(bos);
 	}
 	fflush(bos->channel);
 }
@@ -73,10 +75,7 @@ void bos_free(bit_output_stream *bos) {
 }
 
 size_t bos_pad(bit_output_stream *bos) {
-	size_t padding = 8 - bos->current_cursor;
-	bos->current_byte <<= padding;
-	bos->current_cursor = 8;
-	add_buffer_to_stream(bos);
-	
+	size_t padding = bos->current_cursor;
+	print_buffer(bos);
 	return padding;
 }
