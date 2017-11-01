@@ -22,8 +22,8 @@ typedef struct byte_queue_item {
  * A queue for bytes.
  */
 typedef struct byte_queue {
-	struct queue_item *first;
-	struct queue_item *last;
+	struct byte_queue_item *first;
+	struct byte_queue_item *last;
 	size_t size;
 } byte_queue;
 
@@ -54,7 +54,7 @@ void byte_queue_free(byte_queue *q);
  * @param q the byte queue
  * @return the first item in the byte queue
  */
-void *byte_queue_peek(byte_queue *q);
+byte byte_queue_peek(byte_queue *q);
 
 /**
  * Pops the first item from the byte queue.
@@ -62,7 +62,7 @@ void *byte_queue_peek(byte_queue *q);
  * @param q the byte queue
  * @return the first item in the byte queue, that has been removed
  */
-void *byte_queue_pop(byte_queue *q);
+byte byte_queue_pop(byte_queue *q);
 
 /**
  * Pushes an item to the back of the byte queue.

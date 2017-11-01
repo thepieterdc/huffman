@@ -23,12 +23,12 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
 	
 	/* Create a byte_queue to store the characters order. */
-	byte_queue *window = queue_create();
+	byte_queue *window = byte_queue_create();
 	
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
-		queue_push(window, (void *) z);
+		byte_queue_push(window, z);
 		
 		/* Output the encoded character. */
 		huffman_node *t = adaptive_encode_character(aht, z, outputStream);
@@ -49,7 +49,7 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 	bos_flush(outputStream);
 	
 	/* Release allocated memory. */
-	queue_free(window);
+	byte_queue_free(window);
 	adaptivehuffmantree_free(aht);
 	bos_free(outputStream);
 	byis_free(inputStream);

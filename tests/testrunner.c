@@ -8,7 +8,7 @@
 #include "test_unit.h"
 #include "test_datastructure_huffmannode.h"
 #include "test_datastructure_minheap.h"
-#include "test_datastructure_queue.h"
+#include "test_datastructure_bytequeue.h"
 #include "test_io_input_bitinputstream.h"
 #include "test_io_input_byteinputstream.h"
 #include "test_io_output_bitoutputstream.h"
@@ -36,10 +36,10 @@ static char *all_tests() {
 	test(test_minheap_create_free);
 	test(test_minheap_insert_find_extract_min);
 	
-	/** Test: datastructures/queue. */
-	test(test_queue_create_free);
-	test(test_queue_empty);
-	test(test_queue_push_peek_pop);
+	/** Test: datastructures/byte_queue. */
+	test(test_byte_queue_create_free);
+	test(test_byte_queue_empty);
+	test(test_byte_queue_push_peek_pop);
 	
 	/** Test: datatypes/huffman_code. */
 	test(test_huffmancode_create_left_right);

@@ -7,17 +7,19 @@
 #include <stdlib.h>
 #include "byte_queue.h"
 #include "../util/memory.h"
+#include "../util/logging.h"
+#include "../util/errors.h"
 
-byte_queue *queue_create() {
+byte_queue *byte_queue_create() {
 	byte_queue *q = (byte_queue *) mallocate(sizeof(byte_queue));
 	q->size = 0;
 	q->first = q->last = NULL;
 	return q;
 }
 
-void queue_empty(byte_queue *q) {
-	queue_item *cursor = q->first;
-	queue_item *next = NULL;
+void byte_queue_empty(byte_queue *q) {
+	byte_queue_item *cursor = q->first;
+	byte_queue_item *next = NULL;
 	
 	for (size_t i = 0; i < q->size; ++i) {
 		next = cursor->next;
@@ -27,25 +29,25 @@ void queue_empty(byte_queue *q) {
 	q->size = 0;
 }
 
-void queue_free(byte_queue *q) {
-	queue_empty(q);
+void byte_queue_free(byte_queue *q) {
+	byte_queue_empty(q);
 	free(q);
 }
 
-void *queue_peek(byte_queue *q) {
+byte byte_queue_peek(byte_queue *q) {
 	if (q->first == NULL) {
-		return NULL;
+		error(ERROR_EMPTY_BYTEQUEUE);
 	}
 	return q->first->data;
 }
 
-void *queue_pop(byte_queue *q) {
+byte byte_queue_pop(byte_queue *q) {
 	if (q->first == NULL) {
-		return NULL;
+		error(ERROR_EMPTY_BYTEQUEUE);
 	}
 	
-	queue_item *first = q->first;
-	void *ret = first->data;
+	byte_queue_item *first = q->first;
+	byte ret = first->data;
 	
 	q->first = first->next;
 	q->size--;
@@ -54,8 +56,8 @@ void *queue_pop(byte_queue *q) {
 	return ret;
 }
 
-void queue_push(byte_queue *q, void *data) {
-	queue_item *newitem = (queue_item *) mallocate(sizeof(queue_item));
+void byte_queue_push(byte_queue *q, byte data) {
+	byte_queue_item *newitem = (byte_queue_item *) mallocate(sizeof(byte_queue_item));
 	newitem->data = data;
 	if (q->last != NULL) {
 		q->last->next = newitem;
