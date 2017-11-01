@@ -48,7 +48,7 @@ extern _huffmanfunction decompressionfunctions[];
  * @param opt the option flag given
  * @return the algorithm
  */
-enum algorithm algorithm_from_opt(char opt);
+const enum algorithm algorithm_from_opt(char opt);
 
 /**
  * Gets the appropriate Huffman function to execute.
@@ -57,7 +57,7 @@ enum algorithm algorithm_from_opt(char opt);
  * @param argv the arguments
  * @return the required Huffman function
  */
-_huffmanfunction argument_parse(int argc, char **argv);
+const _huffmanfunction argument_parse(int argc, char **argv);
 
 /**
  * Gets the correct mode for a given option flag.
@@ -65,6 +65,6 @@ _huffmanfunction argument_parse(int argc, char **argv);
  * @param opt the option flag given
  * @return the mode
  */
-enum mode mode_from_opt(char opt);
+const enum mode mode_from_opt(char opt);
 
 #endif /* HUFFMAN_UTIL_ARGUMENTS_H */

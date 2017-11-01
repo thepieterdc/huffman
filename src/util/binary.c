@@ -8,11 +8,11 @@
 #include "binary.h"
 #include "memory.h"
 
-inline char bit_to_bitchar(bit b) {
+inline char bit_to_bitchar(const bit b) {
 	return (char) (b ? 49 : 48);
 }
 
-inline bit bitchar_to_bit(char c) {
+inline bit bitchar_to_bit(const char c) {
 	return c == 49;
 }
 

@@ -8,7 +8,7 @@
 #include "memory.h"
 #include "string.h"
 
-inline int char_to_int(char c) {
+inline int char_to_int(const char c) {
 	return c - '0';
 }
 

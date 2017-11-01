@@ -16,6 +16,6 @@
 /**
  * Contains all error messages; keys are defined above.
  */
-extern char *_error_messages[];
+extern const char *_error_messages[];
 
 #endif /* HUFFMAN_UTIL_ERRORS_H */
