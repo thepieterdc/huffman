@@ -4,28 +4,20 @@
  * Project: huffman
  */
 
-#ifndef HUFFMAN_IO_OUTPUT_BIT_OUTPUTSTREAM_H
-#define HUFFMAN_IO_OUTPUT_BIT_OUTPUTSTREAM_H
+#ifndef HUFFMAN_IO_OUTPUT_BITOUTPUTSTREAM_H
+#define HUFFMAN_IO_OUTPUT_BITOUTPUTSTREAM_H
 
-#include "byte_output_stream.h"
+#include <stdio.h>
 #include "../../datatypes/huffman_code.h"
 
 /**
  * An output stream for bits.
  */
 typedef struct {
-	byte_output_stream *stream;
+	FILE *channel;
 	byte current_byte;
 	size_t current_cursor;
 } bit_output_stream;
-
-/**
- * Gets the amount of items in the bit output stream buffer.
- *
- * @param bos the bit output stream
- * @return the amount of items in the bit output stream buffer
- */
-size_t bos_count(bit_output_stream *bos);
 
 /**
  * Creates a new output stream for bytes.
@@ -81,4 +73,4 @@ void bos_free(bit_output_stream *bos);
  */
 size_t bos_pad(bit_output_stream *bos);
 
-#endif /* HUFFMAN_IO_OUTPUT_BIT_OUTPUTSTREAM_H */
+#endif /* HUFFMAN_IO_OUTPUT_BITOUTPUTSTREAM_H */

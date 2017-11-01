@@ -49,16 +49,13 @@ void huffman_adaptive_decompress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
 	bit_input_stream *inputStream = bis_create(input, false);
 	
-	/* Create a buffer to store the output. */
-	byte_output_stream *outputStream = byos_create(output);
-	
 	/* Create an Adaptive Huffman tree. */
 	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
 	
 	/* Decode the input. */
 	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
 		/* Output the decoded character. */
-		huffman_node *t = adaptive_decode_character(aht, inputStream, outputStream);
+		huffman_node *t = adaptive_decode_character(aht, inputStream, output);
 		
 		/* Update the tree accordingly. */
 		adaptive_update_tree(aht, t);
@@ -73,15 +70,14 @@ void huffman_adaptive_decompress(FILE *input, FILE *output) {
 	inputStream->current_byte = final_byte;
 	inputStream->current_cursor = final_cursor;
 	while(inputStream->current_cursor < indicator) {
-		huffman_node *t = adaptive_decode_character(aht, inputStream, outputStream);
+		huffman_node *t = adaptive_decode_character(aht, inputStream, output);
 		adaptive_update_tree(aht, t);
 	}
 	
 	/* Flush the output buffer. */
-	byos_flush(outputStream);
+	fflush(output);
 	
 	/* Cleanup allocated memory. */
 	adaptivehuffmantree_free(aht);
-	byos_free(outputStream);
 	bis_free(inputStream);
 }

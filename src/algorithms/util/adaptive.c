@@ -33,7 +33,7 @@ huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 	return ret;
 }
 
-huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_stream *in, byte_output_stream *out) {
+huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_stream *in, FILE *out) {
 	huffman_node *cursor = tree->tree->root;
 	
 	while (cursor->type != NYT && cursor->type != LEAF) {
@@ -45,10 +45,10 @@ huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_s
 		/* z is a new character; add it to the tree. */
 		byte z = bis_read_byte(in);
 		huffman_node *o = adaptive_add_character(tree, z);
-		byos_feed(out, z);
+		putc(z, out);
 		return o->parent;
 	} else {
-		byos_feed(out, cursor->data);
+		putc(cursor->data, out);
 		return cursor;
 	}
 }

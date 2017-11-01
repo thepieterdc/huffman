@@ -1,3 +1,9 @@
+/**
+ * Created by Pieter De Clercq.
+ *
+ * Project: huffman
+ */
+
 #include <stdio.h>
 #include "../io/input/byte_input_stream.h"
 #include "../io/output/bit_output_stream.h"
@@ -8,12 +14,6 @@
 #include "../util/logging.h"
 #include "../util/errors.h"
 #include "../io/input/bit_input_stream.h"
-
-/**
- * Created by Pieter De Clercq.
- *
- * Project: huffman
- */
 
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
@@ -104,9 +104,6 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
 	bit_input_stream *inputStream = bis_create(input, false);
 	
-	/* Create a buffer to store the output. */
-	byte_output_stream *outputStream = byos_create(output);
-	
 	/* Build up the Huffman tree. */
 	huffman_tree *tree = huffmantree_create(NULL);
 	tree->root->code = huffmancode_create();
@@ -121,7 +118,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	
 	/* Decode every code in the input string. */
 	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
-		byos_feed(outputStream, standard_decode_character(tree->root, inputStream));
+		putc(standard_decode_character(tree->root, inputStream), output);
 	}
 	
 	/* Decode the remaining bytes. */
@@ -132,15 +129,14 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	
 	inputStream->current_byte = final_byte;
 	inputStream->current_cursor = final_cursor;
-	while(inputStream->current_cursor < indicator) {
-		byos_feed(outputStream, standard_decode_character(tree->root, inputStream));
+	while (inputStream->current_cursor < indicator) {
+		putc(standard_decode_character(tree->root, inputStream), output);
 	}
 	
 	/* Flush the output buffer. */
-	byos_flush(outputStream);
+	fflush(output);
 	
 	/* Cleanup allocated memory. */
 	huffmantree_free(tree);
-	byos_free(outputStream);
 	bis_free(inputStream);
 }

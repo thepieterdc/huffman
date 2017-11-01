@@ -5,27 +5,19 @@
  */
 
 #include <stdlib.h>
-#include <math.h>
 #include "bit_output_stream.h"
-#include "../../util/binary.h"
-#include "byte_output_stream.h"
-#include "byte_output_stream.h"
 #include "../../util/memory.h"
 
 static void add_buffer_to_stream(bit_output_stream *bos) {
 	bos->current_byte <<= (8 - bos->current_cursor);
-	byos_feed(bos->stream, bos->current_byte);
+	putc(bos->current_byte, bos->channel);
 	bos->current_byte = 0;
 	bos->current_cursor = 0;
 }
 
-size_t bos_count(bit_output_stream *bos) {
-	return bos->stream->buffer_size * 8 + bos->current_cursor;
-}
-
 bit_output_stream *bos_create(FILE *channel) {
 	bit_output_stream *ret = (bit_output_stream *) mallocate(sizeof(bit_output_stream));
-	ret->stream = byos_create(channel);
+	ret->channel = channel;
 	ret->current_byte = 0;
 	ret->current_cursor = 0;
 	return ret;
@@ -42,7 +34,7 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 
 void bos_feed_byte(bit_output_stream *bos, byte b) {
 	if (bos->current_cursor == 0) {
-		byos_feed(bos->stream, b);
+		putc(b, bos->channel);
 	} else {
 		for (size_t i = 0; i < 8; ++i) {
 			bos_feed_bit(bos, (bit) (b & (1 << (7 - i))) != 0);
@@ -70,11 +62,13 @@ void bos_flush(bit_output_stream *bos) {
 	if (bos->current_cursor != 0) {
 		add_buffer_to_stream(bos);
 	}
-	byos_flush(bos->stream);
+	fflush(bos->channel);
 }
 
 void bos_free(bit_output_stream *bos) {
-	byos_free(bos->stream);
+	if (bos->channel) {
+		fclose(bos->channel);
+	}
 	free(bos);
 }
 
