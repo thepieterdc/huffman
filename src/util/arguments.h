@@ -7,6 +7,7 @@
 #ifndef HUFFMAN_UTIL_ARGUMENTS_H
 #define HUFFMAN_UTIL_ARGUMENTS_H
 
+#include <getopt.h>
 #include <stdio.h>
 #include "string.h"
 

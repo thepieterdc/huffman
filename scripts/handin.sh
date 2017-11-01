@@ -10,8 +10,8 @@ cd "$(dirname $0)"
 cd "../"
 
 # Generate sources-file
-echo "$SOURCES_FILE_PREFIX" "$(find ./src/ -name '*.c' | sed 's_^\./src/__' | tr '\n' ' ')" > sources
+echo "$SOURCES_FILE_PREFIX" "$(find ./src/ -name '*.[c|h]' | sed 's_^\./src/__' | tr '\n' ' ')" > sources
 
 # Create zip
 rm -f "$OUTFILE"
-zip -q -z -r "$OUTFILE" src/ tests/ extra/ sources
+zip -r "$OUTFILE" src/ tests/ extra/ sources
