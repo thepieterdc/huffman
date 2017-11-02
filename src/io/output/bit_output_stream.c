@@ -59,9 +59,11 @@ void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 		if (left < bos->current_cursor) {
 			bos->current_byte |= (hc->code << (bos->current_cursor -= left));
 			left = 0;
+		} else if (bos->current_cursor == 0) {
+			print_buffer(bos);
 		} else {
 			uint_fast8_t shift = left - bos->current_cursor;
-			bos->current_byte |= (hc->code & (bitmask_n_bits(bos->current_cursor) << (shift)));
+			bos->current_byte |= (hc->code & (bitmask_n_bits(bos->current_cursor) << shift)) >> shift;
 			left -= bos->current_cursor;
 			print_buffer(bos);
 		}
