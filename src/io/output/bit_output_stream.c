@@ -37,10 +37,16 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 void bos_feed_byte(bit_output_stream *bos, byte b) {
 	if (bos->current_cursor == 8) {
 		putc(b, bos->channel);
+	} else if (bos->current_cursor == 0) {
+		print_buffer(bos);
+		putc(b, bos->channel);
 	} else {
-		for (size_t i = 0; i < 8; ++i) {
-			bos_feed_bit(bos, (bit) (b & (1 << (7 - i))) != 0);
-		}
+		uint_fast8_t bits_in_other_part = (uint_fast8_t) (8 - bos->current_cursor);
+		bos->current_byte |= (b >> bits_in_other_part);
+		
+		putc(bos->current_byte, bos->channel);
+		
+		bos->current_byte = (b << bos->current_cursor);
 	}
 }
 
@@ -76,6 +82,9 @@ void bos_free(bit_output_stream *bos) {
 
 size_t bos_pad(bit_output_stream *bos) {
 	size_t padding = bos->current_cursor;
-	print_buffer(bos);
-	return padding;
+	if (padding != 8) {
+		print_buffer(bos);
+		return padding;
+	}
+	return 0;
 }

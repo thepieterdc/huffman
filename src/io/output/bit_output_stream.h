@@ -16,7 +16,7 @@
 typedef struct {
 	FILE *channel;
 	byte current_byte;
-	size_t current_cursor;
+	uint_fast8_t current_cursor;
 } bit_output_stream;
 
 /**

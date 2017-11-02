@@ -11,6 +11,6 @@
 #include <stdint.h>
 
 typedef bool bit;
-typedef uint8_t byte;
+typedef uint_fast8_t byte;
 
 #endif /* HUFFMAN_DATATYPES_BIT_H */
