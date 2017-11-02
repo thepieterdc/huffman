@@ -23,6 +23,19 @@ const char *test_bitchar_to_bit() {
 	return 0;
 }
 
+const char *test_bitmask_n_bits() {
+	assertEquals(bitmask_n_bits(0), 0x0);
+	assertEquals(bitmask_n_bits(1), 0x1);
+	assertEquals(bitmask_n_bits(2), 0x3);
+	assertEquals(bitmask_n_bits(3), 0x7);
+	assertEquals(bitmask_n_bits(4), 0xF);
+	assertEquals(bitmask_n_bits(5), 0x1F);
+	assertEquals(bitmask_n_bits(6), 0x3F);
+	assertEquals(bitmask_n_bits(7), 0x7F);
+	assertEquals(bitmask_n_bits(8), 0xFF);
+	return 0;
+}
+
 const char *test_bitstring_to_byte() {
 	assertEquals(bitstring_to_byte("10001"), 0b10001);
 	assertEquals(bitstring_to_byte("0"), 0);

@@ -66,6 +66,7 @@ static const char *all_tests() {
 	/** Test: util/binary. */
 	test(test_bit_to_bitchar);
 	test(test_bitchar_to_bit);
+	test(test_bitmask_n_bits);
 	test(test_bitstring_to_byte);
 	test(test_byte_to_bitstring);
 	

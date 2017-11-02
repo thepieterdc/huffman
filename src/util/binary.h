@@ -28,6 +28,14 @@
 #define bitchar_to_bit(c) ((c) == '1')
 
 /**
+ * A bitmask to get n bits from a byte.
+ *
+ * @param n the amount of bits to fetch
+ * @return the mask to use
+ */
+#define bitmask_n_bits(n) ((1 << (n))-1)
+
+/**
  * Converts a string of bits to a byte.
  *
  * @param s the string to convert
