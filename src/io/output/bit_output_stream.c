@@ -8,6 +8,8 @@
 #include "bit_output_stream.h"
 #include "../../util/memory.h"
 
+#define OUTPUT_BUFFER_SIZE 8192
+
 /**
  * Prints the contents of the internal buffer.
  *
@@ -24,6 +26,7 @@ bit_output_stream *bos_create(FILE *channel) {
 	ret->channel = channel;
 	ret->current_byte = 0;
 	ret->current_cursor = 8;
+	setvbuf(channel, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
 	return ret;
 }
 
