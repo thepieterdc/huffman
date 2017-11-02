@@ -17,7 +17,7 @@
  * @param b the bit to convert
  * @return the character representation
  */
-#define bit_to_bitchar(b) ((b) ? 49 : 48)
+#define bit_to_bitchar(b) (char) ((b) ? 49 : 48)
 
 /**
  * Converts a character to a bit.

@@ -16,7 +16,7 @@
  * @param c the character
  * @return the corresponding integer
  */
-int char_to_int(char c);
+#define char_to_int(c) ((c) - '0')
 
 /**
  * Concatenates 2 strings into one.
