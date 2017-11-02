@@ -52,10 +52,10 @@ void byis_feed_stream(byte_input_stream *byis, FILE *stream) {
 }
 
 void byis_free(byte_input_stream *byis) {
-	free(byis->buffer);
 	if (byis->channel) {
 		fclose(byis->channel);
 	}
+	free(byis->buffer);
 	free(byis);
 }
 

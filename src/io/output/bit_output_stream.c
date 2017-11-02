@@ -9,14 +9,14 @@
 #include "../../util/memory.h"
 #include "../../util/binary.h"
 
-#define OUTPUT_BUFFER_SIZE 8192
+#define OUTPUT_BUFFER_SIZE 32768
 
 /**
  * Prints the contents of the internal buffer.
  *
  * @param bos the bit output stream
  */
-static void print_buffer(bit_output_stream *bos) {
+static inline void print_buffer(bit_output_stream *bos) {
 	putc(bos->current_byte, bos->channel);
 	bos->current_byte = 0;
 	bos->current_cursor = 8;
@@ -59,8 +59,6 @@ void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 		if (left < bos->current_cursor) {
 			bos->current_byte |= (hc->code << (bos->current_cursor -= left));
 			left = 0;
-		} else if (bos->current_cursor == 0) {
-			print_buffer(bos);
 		} else {
 			uint_fast8_t shift = left - bos->current_cursor;
 			bos->current_byte |= (hc->code & (bitmask_n_bits(bos->current_cursor) << shift)) >> shift;
