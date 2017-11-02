@@ -17,7 +17,7 @@
  * @param b the bit to convert
  * @return the character representation
  */
-char bit_to_bitchar(bit b);
+#define bit_to_bitchar(b) ((b) ? 49 : 48)
 
 /**
  * Converts a character to a bit.
@@ -25,7 +25,7 @@ char bit_to_bitchar(bit b);
  * @param c character 1 or 0
  * @return bit 1 or 0
  */
-bit bitchar_to_bit(char c);
+#define bitchar_to_bit(c) ((c) == '1')
 
 /**
  * Converts a string of bits to a byte.
