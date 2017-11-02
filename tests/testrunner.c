@@ -12,7 +12,6 @@
 #include "test_io_input_bitinputstream.h"
 #include "test_io_input_byteinputstream.h"
 #include "test_io_output_bitoutputstream.h"
-#include "test_io_output_byteoutputstream.h"
 #include "test_util_arguments.h"
 #include "test_util_binary.h"
 #include "test_util_string.h"
@@ -24,7 +23,7 @@
  *
  * @return N/A
  */
-static char *all_tests() {
+static const char *all_tests() {
 	/** Test: algorithms. */
 	test(test_algorithm_adaptive);
 	test(test_algorithm_standard);
@@ -56,13 +55,9 @@ static char *all_tests() {
 	
 	/** Test: io/output/bit_output_stream. */
 	test(test_io_bos_create_free);
-	test(test_io_bos_feed_bit_flush_count);
-	test(test_io_bos_feed_bit_pad_flush_count);
-	test(test_io_bos_feed_byte_flush_count);
-	
-	/** Test: io/output/byte_output_stream. */
-	test(test_io_byos_create_free);
-	test(test_io_byos_feed_flush);
+	test(test_io_bos_feed_bit_flush);
+	test(test_io_bos_feed_bit_pad_flush);
+	test(test_io_bos_feed_byte_flush);
 	
 	/** Test: util/algorithm. */
 	test(test_arguments_algorithm);
@@ -71,6 +66,7 @@ static char *all_tests() {
 	/** Test: util/binary. */
 	test(test_bit_to_bitchar);
 	test(test_bitchar_to_bit);
+	test(test_bitmask_n_bits);
 	test(test_bitstring_to_byte);
 	test(test_byte_to_bitstring);
 	

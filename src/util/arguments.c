@@ -21,7 +21,7 @@ _huffmanfunction decompressionfunctions[3] = {(_huffmanfunction) huffman_standar
                                               (_huffmanfunction) huffman_adaptive_decompress,
                                               (_huffmanfunction) huffman_sliding_decompress};
 
-enum algorithm algorithm_from_opt(char opt) {
+const enum algorithm algorithm_from_opt(const char opt) {
 	int optval = char_to_int(opt);
 	if (optval < 1 || optval > 5) {
 		error(ERROR_SYNTAX_INVALID);
@@ -29,7 +29,7 @@ enum algorithm algorithm_from_opt(char opt) {
 	return (enum algorithm) (optval - 1);
 }
 
-_huffmanfunction argument_parse(int argc, char **argv) {
+const _huffmanfunction argument_parse(const int argc, char **argv) {
 	enum algorithm algorithm = STANDARD;
 	bool algorithm_set = false;
 	
@@ -71,7 +71,7 @@ _huffmanfunction argument_parse(int argc, char **argv) {
 	return decompressionfunctions[algorithm];
 }
 
-enum mode mode_from_opt(char opt) {
+const enum mode mode_from_opt(const char opt) {
 	if (opt != 'c' && opt != 'd') {
 		error(ERROR_SYNTAX_INVALID);
 	}

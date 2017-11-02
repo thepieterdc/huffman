@@ -14,8 +14,8 @@
  * A code in a Huffman tree
  */
 typedef struct huffman_code {
-	uint_least64_t code;
-	uint_least8_t padding;
+	uint_fast64_t code;
+	uint_fast8_t length;
 } huffman_code;
 
 /**

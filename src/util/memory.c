@@ -9,7 +9,7 @@
 #include "logging.h"
 #include "memory.h"
 
-void *callocate(size_t amount, size_t size) {
+void *callocate(const size_t amount, const size_t size) {
 	void *ret = calloc(amount, size);
 	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
@@ -17,7 +17,7 @@ void *callocate(size_t amount, size_t size) {
 	return ret;
 }
 
-void *mallocate(size_t size) {
+void *mallocate(const size_t size) {
 	void *ret = malloc(size);
 	if (!ret) {
 		error(ERROR_MALLOC_FAILED);
@@ -25,7 +25,7 @@ void *mallocate(size_t size) {
 	return ret;
 }
 
-void *reallocate(void *block, size_t size) {
+void *reallocate(void *block, const size_t size) {
 	void *ret = realloc(block, size);
 	if (!ret) {
 		free(block);

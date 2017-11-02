@@ -8,10 +8,6 @@
 #include "memory.h"
 #include "string.h"
 
-inline int char_to_int(char c) {
-	return c - '0';
-}
-
 string str_concat(string s1, string s2) {
 	string result = (string) mallocate((strlen(s1) + strlen(s2) + 1) * sizeof(char));
 	strcpy(result, s1);

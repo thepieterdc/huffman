@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-char *test_minheap_create_free() {
+const char *test_minheap_create_free() {
 	min_heap *heap = minheap_create(2);
 	assertNotNull(heap);
 	assertNotNull(heap->heap);
@@ -21,7 +21,7 @@ char *test_minheap_create_free() {
 	return 0;
 }
 
-char *test_minheap_insert_find_extract_min() {
+const char *test_minheap_insert_find_extract_min() {
 	min_heap *heap = minheap_create(8);
 	assertNotNull(heap);
 	

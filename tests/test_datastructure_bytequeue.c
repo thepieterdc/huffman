@@ -10,14 +10,14 @@
 #include "../src/datastructures/byte_queue.h"
 #include "../src/util/string.h"
 
-char *test_byte_queue_create_free() {
+const char *test_byte_queue_create_free() {
 	byte_queue *q = byte_queue_create();
 	assertNotNull(q);
 	byte_queue_free(q);
 	return 0;
 }
 
-char *test_byte_queue_empty() {
+const char *test_byte_queue_empty() {
 	byte_queue *q = byte_queue_create();
 	assertNotNull(q);
 	
@@ -36,7 +36,7 @@ char *test_byte_queue_empty() {
 	return 0;
 }
 
-char *test_byte_queue_push_peek_pop() {
+const char *test_byte_queue_push_peek_pop() {
 	byte_queue *q = byte_queue_create();
 	assertNotNull(q);
 	

@@ -8,7 +8,7 @@
 #include "test_unit.h"
 #include "../src/datastructures/huffman_tree/huffman_node.h"
 
-char *test_huffmannode_create_free() {
+const char *test_huffmannode_create_free() {
 	huffman_node *leaf = huffmannode_create_leaf(5, 1);
 	assertNotNull(leaf);
 	assertEquals(leaf->type, LEAF);

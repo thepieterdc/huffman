@@ -17,7 +17,7 @@
  * @param b the bit to convert
  * @return the character representation
  */
-char bit_to_bitchar(bit b);
+#define bit_to_bitchar(b) (char) ((b) ? 49 : 48)
 
 /**
  * Converts a character to a bit.
@@ -25,7 +25,15 @@ char bit_to_bitchar(bit b);
  * @param c character 1 or 0
  * @return bit 1 or 0
  */
-bit bitchar_to_bit(char c);
+#define bitchar_to_bit(c) ((c) == '1')
+
+/**
+ * A bitmask to get n bits from a byte.
+ *
+ * @param n the amount of bits to fetch
+ * @return the mask to use
+ */
+#define bitmask_n_bits(n) ((1 << (n))-1)
 
 /**
  * Converts a string of bits to a byte.

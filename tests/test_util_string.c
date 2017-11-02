@@ -9,14 +9,14 @@
 #include "test_util_string.h"
 #include "../src/util/string.h"
 
-char *test_char_to_int() {
+const char *test_char_to_int() {
 	for (size_t i = 0; i < 9; ++i) {
 		assertEquals(char_to_int((char) (48 + i)), i);
 	}
 	return 0;
 }
 
-char *test_string_concat() {
+const char *test_string_concat() {
 	char s1[] = "first";
 	char s2[] = "last";
 	char s3[] = "everything";
@@ -32,7 +32,7 @@ char *test_string_concat() {
 	return 0;
 }
 
-char *test_string_equals() {
+const char *test_string_equals() {
 	char s1[] = "equals";
 	char s2[] = "notequals";
 	char s3[] = "equals";

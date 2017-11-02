@@ -29,7 +29,7 @@ huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data);
  * @param out the output stream
  * @return the leaf containing this character
  */
-huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_stream *in, byte_output_stream *out);
+huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_stream *in, FILE *out);
 
 /**
  * Swaps 2 nodes in the Adaptive Huffman tree.

@@ -8,14 +8,6 @@
 #include "binary.h"
 #include "memory.h"
 
-inline char bit_to_bitchar(bit b) {
-	return (char) (b ? 49 : 48);
-}
-
-inline bit bitchar_to_bit(char c) {
-	return c == 49;
-}
-
 byte bitstring_to_byte(string s) {
 	byte ret = 0;
 	for (size_t c = 0; c < strlen(s); ++c) {
