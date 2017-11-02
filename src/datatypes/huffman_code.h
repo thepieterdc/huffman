@@ -15,6 +15,7 @@
  */
 typedef struct huffman_code {
 	uint_fast64_t code;
+	uint_fast8_t length;
 	uint_fast8_t padding;
 } huffman_code;
 

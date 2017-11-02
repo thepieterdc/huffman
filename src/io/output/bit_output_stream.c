@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "bit_output_stream.h"
 #include "../../util/memory.h"
+#include "../../util/binary.h"
 
 #define OUTPUT_BUFFER_SIZE 8192
 
@@ -46,29 +47,25 @@ void bos_feed_byte(bit_output_stream *bos, byte b) {
 		print_buffer(bos);
 		putc(b, bos->channel);
 	} else {
-		uint_fast8_t bits_in_other_part = (uint_fast8_t) (8 - bos->current_cursor);
-		bos->current_byte |= (b >> bits_in_other_part);
-		
+		bos->current_byte |= (b >> (8 - bos->current_cursor));
 		putc(bos->current_byte, bos->channel);
-		
 		bos->current_byte = (b << bos->current_cursor);
 	}
 }
 
 void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
-	for (size_t pad = 0; pad < hc->padding; ++pad) {
-		bos_feed_bit(bos, 0);
+	uint_fast8_t left = hc->length;
+	while (left > 0) {
+		if (left < bos->current_cursor) {
+			bos->current_byte |= (hc->code << (bos->current_cursor -= left));
+			left = 0;
+		} else {
+			uint_fast8_t shift = left - bos->current_cursor;
+			bos->current_byte |= (hc->code & (bitmask_n_bits(bos->current_cursor) << (shift)));
+			left -= bos->current_cursor;
+			print_buffer(bos);
+		}
 	}
-	
-	if (hc->code == 0) return;
-	
-	uint_fast64_t mask = ((uint_fast64_t) 1) << 63;
-	while ((mask > 0) && ((hc->code & mask) == 0)) mask >>= 1;
-	
-	do {
-		bos_feed_bit(bos, (hc->code & mask) != 0);
-		mask >>= 1;
-	} while (mask > 0);
 }
 
 void bos_flush(bit_output_stream *bos) {
