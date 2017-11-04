@@ -99,7 +99,6 @@ huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte charac
 		ret = o->parent;
 	}
 	
-	
 	return ret;
 }
 

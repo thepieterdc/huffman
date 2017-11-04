@@ -2,11 +2,12 @@
 
 - uint256 gmaakt maar weggegooid want (enkel in standaard gebruikt)
     worst case: 256bits code
-        -> fibonacci verdeeld
+        -> fibonacci verdeeld -- CHECK DIT NOG EENS MET EEN VOORBEELD
             -> 256 bits = 256e fibo getal = complete zever
             -> 64 bits = 64e fibo getal = 10tb -> nog steeds teveel
             -> 32 bits = 32e fibo getal = 2mb -> veel te weinig -> 64 bits is genoeg
                 -> 256 structuur mag weg
+
 
 - Nodes apart opgeslagen in tree zodat O(1) access voor bvb standaard encoder
 

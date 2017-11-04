@@ -5,11 +5,9 @@
  */
 
 #include "sliding.h"
-#include "../util/logging.h"
-#include "../io/input/byte_input_stream.h"
-#include "../io/output/bit_output_stream.h"
-#include "../datastructures/huffman_tree/adaptive_huffman_tree.h"
 #include "util/adaptive.h"
+#include "util/sliding.h"
+#include "../util/logging.h"
 #include "../datastructures/byte_queue.h"
 
 void huffman_sliding_compress(FILE *input, FILE *output) {
@@ -35,6 +33,11 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 		
 		/* Update the tree accordingly. */
 		adaptive_update_tree(aht, t);
+		
+		/* Update the tree using the sliding window. */
+		if (window->size >= HUFFMAN_SLIDING_WINDOWSIZE) {
+			sliding_decrease_character(aht, byte_queue_pop(window));
+		}
 		
 		z = byis_read(inputStream);
 	}
