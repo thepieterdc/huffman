@@ -26,6 +26,7 @@
 static const char *all_tests() {
 	/** Test: algorithms. */
 	test(test_algorithm_adaptive);
+	test(test_algorithm_sliding);
 	test(test_algorithm_standard);
 	
 	/** Test: datastructures/huffman_node. */

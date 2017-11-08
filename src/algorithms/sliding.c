@@ -59,5 +59,47 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 }
 
 void huffman_sliding_decompress(FILE *input, FILE *output) {
-	info("Huffman Sliding (decode)");
+	/* Create a buffer to store the input. */
+	bit_input_stream *inputStream = bis_create(input, false);
+	
+	/* Create an Adaptive Huffman tree. */
+	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
+	
+	/* Create a byte_queue to store the characters order. */
+	byte_queue *window = byte_queue_create();
+	
+	/* Decode the input. */
+	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
+		/* Output the decoded character and append it to the window. */
+		huffman_node *t = sliding_decode_character(aht, window, inputStream, output);
+		
+		/* Update the tree accordingly. */
+		adaptive_update_tree(aht, t);
+		
+		/* Update the tree using the sliding window. */
+		if (window->size > HUFFMAN_SLIDING_WINDOWSIZE) {
+			sliding_update_tree(aht, byte_queue_pop(window));
+		}
+	}
+	
+	/* Decode the remaining bytes. */
+	byte final_byte = inputStream->current_byte;
+	size_t final_cursor = inputStream->current_cursor;
+	size_t indicator = byis_read(inputStream->stream);
+	bis_flush(inputStream);
+	
+	inputStream->current_byte = final_byte;
+	inputStream->current_cursor = final_cursor;
+	while(inputStream->current_cursor < indicator) {
+		huffman_node *t = adaptive_decode_character(aht, inputStream, output);
+		adaptive_update_tree(aht, t);
+	}
+	
+	/* Flush the output buffer. */
+	fflush(output);
+	
+	/* Cleanup allocated memory. */
+	byte_queue_free(window);
+	adaptivehuffmantree_free(aht);
+	bis_free(inputStream);
 }

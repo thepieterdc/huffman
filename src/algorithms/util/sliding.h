@@ -10,6 +10,19 @@
 #include "../../datastructures/huffman_tree/adaptive_huffman_tree.h"
 #include "../../io/output/bit_output_stream.h"
 #include "../../io/input/bit_input_stream.h"
+#include "../../datastructures/byte_queue.h"
+
+/**
+ * Decodes a character and appends this to the output stream and to the window.
+ * New characters will be added to the tree.
+ *
+ * @param tree the Adaptive Huffman tree
+ * @param window the sliding window
+ * @param in the input stream
+ * @param out the output stream
+ * @return the leaf containing this character
+ */
+huffman_node *sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_input_stream *in, FILE *out);
 
 /**
  * Finds the node t' to swap with.

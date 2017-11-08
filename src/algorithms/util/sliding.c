@@ -8,6 +8,29 @@
 #include "sliding.h"
 #include "../../util/logging.h"
 #include "adaptive.h"
+#include "../../datastructures/byte_queue.h"
+
+huffman_node *sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_input_stream *in, FILE *out) {
+	huffman_node *cursor = tree->tree->root;
+	
+	while (cursor->type != NYT && cursor->type != LEAF) {
+		bit rd = bis_read_bit(in);
+		cursor = rd ? cursor->right : cursor->left;
+	}
+	
+	if (cursor->type == NYT) {
+		/* z is a new character; add it to the tree. */
+		byte z = bis_read_byte(in);
+		huffman_node *o = adaptive_add_character(tree, z);
+		putc(z, out);
+		byte_queue_push(window, z);
+		return o->parent;
+	} else {
+		putc(cursor->data, out);
+		byte_queue_push(window, cursor->data);
+		return cursor;
+	}
+}
 
 uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, uint_least64_t weight) {
 	for (uint_least16_t i = tree->amt_nodes; i > 0; --i) {
