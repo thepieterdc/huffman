@@ -36,7 +36,7 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 		
 		/* Update the tree using the sliding window. */
 		if (window->size >= HUFFMAN_SLIDING_WINDOWSIZE) {
-			sliding_decrease_character(aht, byte_queue_pop(window));
+			sliding_update_tree(aht, byte_queue_pop(window));
 		}
 		
 		z = byis_read(inputStream);
