@@ -52,6 +52,8 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 		swap_node = tree->nodes[sliding_find_swap(tree, t->weight)];
 		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */
+			huffmantree_print(tree->tree);
+			fprintf(stderr, "Swapping: %d - %d\n", t->order_no, swap_node->order_no);
 			adaptive_do_swap(tree, t, swap_node);
 		}
 		t->weight--;
