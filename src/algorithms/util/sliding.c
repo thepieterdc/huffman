@@ -84,6 +84,12 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 		huffmannode_free(parent);
 		huffmannode_free(remove_node);
 		
+		/**
+		 * NYT zelfde ordernummer geven als vorige parent met weight 1
+		 * NYT swappen en tree fixen
+		 * NYT ordernummer terug herstellen en weight naar 0
+		 */
+		
 		tree->amt_nodes -= 2;
 		huffmantree_print(tree->tree);
 	}
