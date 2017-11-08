@@ -48,22 +48,28 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 	/* Remove the node from the tree. */
 	bool remove = t->weight == 1;
 	
+	fprintf(stderr, "Decreasing %c\n", b);
+	huffmantree_print(tree->tree);
+	
 	while (t->parent) {
 		swap_node = tree->nodes[sliding_find_swap(tree, t->weight)];
 		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */
-			huffmantree_print(tree->tree);
 			fprintf(stderr, "Swapping: %d - %d\n", t->order_no, swap_node->order_no);
 			adaptive_do_swap(tree, t, swap_node);
 		}
 		t->weight--;
 		t = t->parent;
+		huffmantree_print(tree->tree);
 	}
 	t->weight--;
 	
 	if (remove) {
+		fprintf(stderr, "\nRemoving %c\n", b);
 		huffman_node *parent = tree->nyt->parent;
 		huffman_node *remove_node = parent->right;
+		
+		huffmantree_print(tree->tree);
 		
 		tree->nyt->parent = parent->parent;
 		if (parent->parent->left == parent) {
@@ -79,5 +85,8 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 		huffmannode_free(remove_node);
 		
 		tree->amt_nodes -= 2;
+		huffmantree_print(tree->tree);
 	}
+	
+	fprintf(stderr, "\n\n\n\n");
 }
