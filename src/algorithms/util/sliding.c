@@ -37,8 +37,6 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 	t->weight--;
 	
 	if (remove) {
-		huffmantree_print(tree->tree);
-		
 		huffman_node *parent = tree->nyt->parent;
 		huffman_node *remove_node = parent->right;
 		
@@ -56,7 +54,5 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 		huffmannode_free(remove_node);
 		
 		tree->amt_nodes -= 2;
-		
-		huffmantree_print(tree->tree);
 	}
 }

@@ -35,12 +35,14 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 		adaptive_update_tree(aht, t);
 		
 		/* Update the tree using the sliding window. */
-		if (window->size >= HUFFMAN_SLIDING_WINDOWSIZE) {
+		if (window->size > HUFFMAN_SLIDING_WINDOWSIZE) {
 			sliding_update_tree(aht, byte_queue_pop(window));
 		}
 		
 		z = byis_read(inputStream);
 	}
+	
+	huffmantree_print(aht->tree);
 	
 	/* Apply padding after the last bits. */
 	size_t padding = 8 - bos_pad(outputStream);
