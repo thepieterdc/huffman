@@ -42,8 +42,6 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 		z = byis_read(inputStream);
 	}
 	
-	huffmantree_print(aht->tree);
-	
 	/* Apply padding after the last bits. */
 	size_t padding = 8 - bos_pad(outputStream);
 	
