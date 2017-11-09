@@ -57,24 +57,27 @@ void adaptive_do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_
 	tree->nodes[node1->order_no] = node2;
 	tree->nodes[node2->order_no] = node1;
 	
-	huffman_node *temp = node1->parent;
-	node1->parent = node2->parent;
-	node2->parent = temp;
+	bool node1_left_of_parent = node1->parent->left == node1;
+	bool node2_left_of_parent = node2->parent->left == node2;
 	
 	uint_least16_t temp_o = node1->order_no;
 	node1->order_no = node2->order_no;
 	node2->order_no = temp_o;
 	
-	if (node1->parent->left == node2) {
-		node1->parent->left = node1;
-	} else {
-		node1->parent->right = node1;
-	}
+	huffman_node *temp = node1->parent;
+	node1->parent = node2->parent;
+	node2->parent = temp;
 	
-	if (node2->parent->left == node1) {
+	if(node1_left_of_parent) {
 		node2->parent->left = node2;
 	} else {
 		node2->parent->right = node2;
+	}
+	
+	if(node2_left_of_parent) {
+		node1->parent->left = node1;
+	} else {
+		node1->parent->right = node1;
 	}
 }
 
