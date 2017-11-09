@@ -47,7 +47,9 @@ void huffmantree_free(huffman_tree *tree);
  *
  * @param tree the tree to print
  */
+#ifdef IS_DEBUG
 void huffmantree_print(huffman_tree *tree);
+#endif
 
 /**
  * Sets the codes in a Huffman tree.

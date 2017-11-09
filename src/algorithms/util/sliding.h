@@ -34,6 +34,14 @@ huffman_node *sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *
 uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, uint_least64_t weight);
 
 /**
+ * Removes a node from the Adaptive Huffman tree.
+ *
+ * @param tree the Adaptive Huffman tree
+ * @param node the node to remove
+ */
+void sliding_remove_node(adaptive_huffman_tree *tree, huffman_node *node);
+
+/**
  * Decreases a character in an Adaptive Huffman tree and updates the tree.
  *
  * @param tree the Adaptive Huffman tree

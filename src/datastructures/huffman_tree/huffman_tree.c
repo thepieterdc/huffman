@@ -37,6 +37,7 @@ void huffmantree_free(huffman_tree *tree) {
  * @param root the root of the subtree to print
  * @param indent the indentation level
  */
+#ifdef IS_DEBUG
 static void huffmantree_print_rec(huffman_node *root, uint_fast16_t indent) {
 	for (size_t i = 0; i < indent; ++i) {
 		fprintf(stderr, "\t");
@@ -59,6 +60,7 @@ static void huffmantree_print_rec(huffman_node *root, uint_fast16_t indent) {
 void huffmantree_print(huffman_tree *tree) {
 	huffmantree_print_rec(tree->root, 0);
 }
+#endif
 
 /**
  * Recursive step to set the codes in a Huffman tree.
