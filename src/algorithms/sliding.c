@@ -26,7 +26,6 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
-		fprintf(stderr, "=============== [Reading %c] ===============\n", z);
 		byte_queue_push(window, z);
 		
 		/* Output the encoded character. */
@@ -39,8 +38,6 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 		if (window->size > HUFFMAN_SLIDING_WINDOWSIZE) {
 			sliding_update_tree(aht, byte_queue_pop(window));
 		}
-		
-		huffmantree_print(aht->tree);
 		
 		z = byis_read(inputStream);
 	}

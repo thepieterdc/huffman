@@ -81,6 +81,10 @@ void sliding_remove_node(adaptive_huffman_tree *tree, huffman_node *node) {
 	
 	tree->nyt->weight = 0;
 	tree->nyt->order_no = HUFFMAN_MAX_NODES - 1;
+	
+	if (tree->nyt->parent->order_no != tree->amt_nodes - 2) {
+		adaptive_do_swap(tree, tree->nyt->parent, tree->nodes[tree->amt_nodes - 2]);
+	}
 }
 
 void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
