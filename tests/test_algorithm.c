@@ -96,3 +96,10 @@ const char *test_algorithm_standard() {
 	assertEquals(test_huffman_algorithm(enc, dec), 0);
 	return 0;
 }
+
+const char *test_algorithm_twopass() {
+	_huffmanfunction enc = compressionfunctions[TWO_PASS];
+	_huffmanfunction dec = decompressionfunctions[TWO_PASS];
+	assertEquals(test_huffman_algorithm(enc, dec), 0);
+	return 0;
+}

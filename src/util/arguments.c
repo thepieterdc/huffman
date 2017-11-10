@@ -8,18 +8,21 @@
 #include <unistd.h>
 #include "arguments.h"
 #include "../algorithms/standard.h"
-#include "logging.h"
-#include "errors.h"
 #include "../algorithms/adaptive.h"
 #include "../algorithms/sliding.h"
+#include "../algorithms/twopass.h"
+#include "logging.h"
+#include "errors.h"
 
-_huffmanfunction compressionfunctions[3] = {(_huffmanfunction) huffman_standard_compress,
+_huffmanfunction compressionfunctions[4] = {(_huffmanfunction) huffman_standard_compress,
                                             (_huffmanfunction) huffman_adaptive_compress,
-                                            (_huffmanfunction) huffman_sliding_compress};
+                                            (_huffmanfunction) huffman_sliding_compress,
+                                            (_huffmanfunction) huffman_twopass_compress};
 
-_huffmanfunction decompressionfunctions[3] = {(_huffmanfunction) huffman_standard_decompress,
+_huffmanfunction decompressionfunctions[4] = {(_huffmanfunction) huffman_standard_decompress,
                                               (_huffmanfunction) huffman_adaptive_decompress,
-                                              (_huffmanfunction) huffman_sliding_decompress};
+                                              (_huffmanfunction) huffman_sliding_decompress,
+                                              (_huffmanfunction) huffman_twopass_decompress};
 
 const enum algorithm algorithm_from_opt(const char opt) {
 	int optval = char_to_int(opt);

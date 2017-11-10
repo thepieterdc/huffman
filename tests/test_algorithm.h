@@ -18,4 +18,7 @@ const char *test_algorithm_sliding();
 /** Tests: huffman_standard_compress(), huffman_standard_decompress(). */
 const char *test_algorithm_standard();
 
+/** Tests: huffman_twopass_compress(), huffman_twopass_decompress(). */
+const char *test_algorithm_twopass();
+
 #endif /* HUFFMAN_TEST_ALGORITHM_H */
