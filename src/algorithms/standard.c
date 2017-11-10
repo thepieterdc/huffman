@@ -76,7 +76,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Print the characters from left to right. */
 	standard_print_characters(tree->root, outputStream);
 	
-	/* Encode every character in the input string. */
+	/* Encode the input. */
 	byte b = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
 		huffman_code *encode = tree->leaves[b]->code;
