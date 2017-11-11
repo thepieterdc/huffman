@@ -22,12 +22,3 @@ void adaptivehuffmantree_free(adaptive_huffman_tree *aht) {
 	huffmantree_free(aht->tree);
 	free(aht);
 }
-
-void adaptivehuffmantree_initialise(adaptive_huffman_tree *aht, huffman_tree *tree) {
-	aht->tree = tree;
-	aht->nyt = huffmannode_create_nyt();
-	aht->nyt->order_no = HUFFMAN_MAX_NODES - 1;
-	//set ordernumbers (BFS!!!!)
-	//add ordernumbers @  aht->nodes
-	//set aht->amt_nodes
-}

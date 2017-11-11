@@ -68,15 +68,15 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	
 	tree->root = minheap_find_min(heap);
 	
-	/* Convert the tree into an Adaptive Huffman tree. */
-	adaptivehuffmantree_initialise(&aht, tree);
-	
 	/* Print the Huffman tree and apply padding. */
 	standard_print_tree(tree->root, outputStream);
 	bos_pad(outputStream);
 	
 	/* Print the characters from left to right. */
 	standard_print_characters(tree->root, outputStream);
+	
+	/* Convert the tree into an Adaptive Huffman tree. */
+	adaptivehuffmantree_initialise(&aht, tree);
 	
 	/* Encode the input. */
 	byte z = byis_read(inputStream);

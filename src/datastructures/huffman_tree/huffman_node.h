@@ -63,9 +63,4 @@ huffman_node *huffmannode_create_nyt();
  */
 void huffmannode_free(huffman_node *node);
 
-/**
- * Resets the order-no counter.
- */
-void huffman_reset_ordercounter();
-
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H */

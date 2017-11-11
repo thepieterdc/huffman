@@ -35,11 +35,4 @@ adaptive_huffman_tree *adaptivehuffmantree_create();
  */
 void adaptivehuffmantree_free(adaptive_huffman_tree *aht);
 
-/**
- * Initialises an Adaptive Huffman tree.
- *
- * @param aht the Adaptive Huffman tree
- */
-void adaptivehuffmantree_initialise(adaptive_huffman_tree *aht, huffman_tree *tree);
-
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_ADAPTIVEHUFFMANTREE_H */
