@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "adaptive.h"
 #include "util/adaptive.h"
+#include "util/common.h"
 
 void huffman_adaptive_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
@@ -62,13 +63,7 @@ void huffman_adaptive_decompress(FILE *input, FILE *output) {
 	}
 	
 	/* Decode the remaining bytes. */
-	byte final_byte = inputStream->current_byte;
-	size_t final_cursor = inputStream->current_cursor;
-	size_t indicator = byis_read(inputStream->stream);
-	bis_flush(inputStream);
-	
-	inputStream->current_byte = final_byte;
-	inputStream->current_cursor = final_cursor;
+	size_t indicator = huffman_finalize_input(inputStream);
 	while(inputStream->current_cursor < indicator) {
 		huffman_node *t = adaptive_decode_character(aht, inputStream, output);
 		adaptive_update_tree(aht, t);

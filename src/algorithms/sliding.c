@@ -9,6 +9,7 @@
 #include "util/sliding.h"
 #include "../util/logging.h"
 #include "../datastructures/byte_queue.h"
+#include "util/common.h"
 
 void huffman_sliding_compress(FILE *input, FILE *output) {
 /* Create a stream to process the input. */
@@ -83,13 +84,7 @@ void huffman_sliding_decompress(FILE *input, FILE *output) {
 	}
 	
 	/* Decode the remaining bytes. */
-	byte final_byte = inputStream->current_byte;
-	size_t final_cursor = inputStream->current_cursor;
-	size_t indicator = byis_read(inputStream->stream);
-	bis_flush(inputStream);
-	
-	inputStream->current_byte = final_byte;
-	inputStream->current_cursor = final_cursor;
+	size_t indicator = huffman_finalize_input(inputStream);
 	while(inputStream->current_cursor < indicator) {
 		huffman_node *t = adaptive_decode_character(aht, inputStream, output);
 		adaptive_update_tree(aht, t);
