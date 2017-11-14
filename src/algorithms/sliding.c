@@ -11,8 +11,8 @@
 #include "../datastructures/byte_queue.h"
 #include "util/common.h"
 
-void huffman_sliding_compress(FILE *input, FILE *output) {
-/* Create a stream to process the input. */
+void __huffman_sliding_compress(FILE *input, FILE *output, size_t window_size) {
+	/* Create a stream to process the input. */
 	byte_input_stream *inputStream = byis_create(input, false);
 	
 	/* Create a buffer to store the output. */
@@ -27,7 +27,9 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
-		byte_queue_push(window, z);
+		if(window_size > 0) {
+			byte_queue_push(window, z);
+		}
 		
 		/* Output the encoded character. */
 		huffman_node *t = adaptive_encode_character(aht, z, outputStream);
@@ -36,7 +38,7 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 		adaptive_update_tree(aht, t);
 		
 		/* Update the tree using the sliding window. */
-		if (window->size > HUFFMAN_SLIDING_WINDOWSIZE) {
+		if (window->size > window_size) {
 			sliding_update_tree(aht, byte_queue_pop(window));
 		}
 		
@@ -57,6 +59,10 @@ void huffman_sliding_compress(FILE *input, FILE *output) {
 	adaptivehuffmantree_free(aht);
 	bos_free(outputStream);
 	byis_free(inputStream);
+}
+
+void huffman_sliding_compress(FILE *input, FILE *output) {
+	__huffman_sliding_compress(input, output, HUFFMAN_SLIDING_WINDOWSIZE);
 }
 
 void huffman_sliding_decompress(FILE *input, FILE *output) {
