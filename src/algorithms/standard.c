@@ -14,6 +14,7 @@
 #include "../util/logging.h"
 #include "../util/errors.h"
 #include "../io/input/bit_input_stream.h"
+#include "util/common.h"
 
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
@@ -122,13 +123,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	}
 	
 	/* Decode the remaining bytes. */
-	byte final_byte = inputStream->current_byte;
-	size_t final_cursor = inputStream->current_cursor;
-	size_t indicator = byis_read(inputStream->stream);
-	bis_flush(inputStream);
-	
-	inputStream->current_byte = final_byte;
-	inputStream->current_cursor = final_cursor;
+	size_t indicator = huffman_finalize_input(inputStream);
 	while (inputStream->current_cursor < indicator) {
 		putc(standard_decode_character(tree->root, inputStream), output);
 	}
