@@ -9,6 +9,8 @@
 #include "util/sliding.h"
 #include "util/common.h"
 
+#define HUFFMAN_SLIDING_WINDOWSIZE 5
+
 void __huffman_sliding_compress(FILE *input, FILE *output, size_t window_size) {
 	/* Create a stream to process the input. */
 	byte_input_stream *inputStream = byis_create(input, false);
