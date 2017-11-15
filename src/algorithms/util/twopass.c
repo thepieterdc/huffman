@@ -79,9 +79,9 @@ void twopass_parse_tree(adaptive_huffman_tree *aht, huffman_tree *tree) {
 
 void twopass_print_weights(huffman_node *root, bit_output_stream *out) {
 	if (root->type == LEAF) {
-		bos_feed_byte(out, (byte) (root->weight & (BYTE_MASK << 24)));
-		bos_feed_byte(out, (byte) (root->weight & (BYTE_MASK << 16)));
-		bos_feed_byte(out, (byte) (root->weight & (BYTE_MASK << 8)));
+		bos_feed_byte(out, (byte) ((root->weight >> 24) & BYTE_MASK));
+		bos_feed_byte(out, (byte) ((root->weight >> 16) & BYTE_MASK));
+		bos_feed_byte(out, (byte) ((root->weight >> 8) & BYTE_MASK));
 		bos_feed_byte(out, (byte) (root->weight & BYTE_MASK));
 	} else {
 		twopass_print_weights(root->left, out);
