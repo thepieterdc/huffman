@@ -92,12 +92,12 @@ void huffman_blockwise_decompress(FILE *input, FILE *output) {
 			adaptive_update_tree(aht, t);
 		}
 		
-		/* Release allocated memory. */
-		adaptivehuffmantree_free(aht);
-		
 		if(inputStream->stream->cursor > inputStream->stream->buffer_size - 2) {
 			break;
 		}
+		
+		/* Release allocated memory. */
+		adaptivehuffmantree_free(aht);
 	}
 	
 	/* Decode the remaining bytes. */
@@ -111,5 +111,6 @@ void huffman_blockwise_decompress(FILE *input, FILE *output) {
 	fflush(output);
 	
 	/* Cleanup allocated memory. */
+	adaptivehuffmantree_free(aht);
 	bis_free(inputStream);
 }
