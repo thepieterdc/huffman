@@ -55,16 +55,16 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Convert the tree into an Adaptive Huffman tree. */
 	twopass_parse_tree(&aht, tree);
 	
-	huffmantree_print(tree);
-	
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
 		/* Output the encoded character. */
 		adaptive_print_code(tree->leaves[z], outputStream);
-
-		/* Update the tree. */
-		sliding_update_tree(&aht, z);
+		
+		/* Update the tree, don't update if there is only 1 character leaf left. */
+		if(aht.amt_nodes > 2) {
+			sliding_update_tree(&aht, z);
+		}
 
 		z = byis_read(inputStream);
 	}

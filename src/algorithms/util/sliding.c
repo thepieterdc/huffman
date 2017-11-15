@@ -47,6 +47,7 @@ void sliding_remove_node(adaptive_huffman_tree *tree) {
 	huffman_node *remove_node = parent->right;
 	
 	tree->nyt->parent = parent->parent;
+	
 	if (parent->parent->left == parent) {
 		parent->parent->left = tree->nyt;
 	} else {
