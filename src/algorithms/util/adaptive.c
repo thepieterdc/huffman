@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "adaptive.h"
+#include "../../util/binary.h"
 
 huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 	huffman_node *parent = tree->nyt->parent;

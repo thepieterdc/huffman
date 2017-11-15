@@ -87,8 +87,16 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 }
 
 void huffman_twopass_decompress(FILE *input, FILE *output) {
-/* Create a buffer to store the input. */
+	/* Create a buffer to store the input. */
 	bit_input_stream *inputStream = bis_create(input, false);
+
+#ifdef IS_DEBUG
+#ifndef IS_TEST
+	setvbuf(output, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
+#endif
+#else
+	setvbuf(output, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
+#endif
 	
 	/* Build up the Huffman tree. */
 	huffman_tree *tree = huffmantree_create(NULL);
@@ -124,7 +132,7 @@ void huffman_twopass_decompress(FILE *input, FILE *output) {
 	
 	/* Decode the remaining bytes. */
 	size_t indicator = huffman_finalize_input(inputStream);
-	while(inputStream->current_cursor < indicator) {
+	while (inputStream->current_cursor < indicator) {
 		/* Output the decoded character. */
 		z = twopass_decode_character(tree, inputStream, output);
 		

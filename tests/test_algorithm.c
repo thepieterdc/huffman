@@ -23,7 +23,6 @@
  * @return null if test was succesful
  */
 static const char *test_huffman_algorithm(const _huffmanfunction encode, const _huffmanfunction decode) {
-	
 	DIR *testvectors = opendir(TEST_ALGORITHM_TESTVECTORS);
 	assertNotNull(testvectors);
 	

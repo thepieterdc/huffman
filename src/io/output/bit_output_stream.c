@@ -9,8 +9,6 @@
 #include "../../util/memory.h"
 #include "../../util/binary.h"
 
-#define OUTPUT_BUFFER_SIZE 32768
-
 /**
  * Prints the contents of the internal buffer.
  *
@@ -28,7 +26,13 @@ bit_output_stream *bos_create(FILE *channel) {
 	ret->current_byte = 0;
 	ret->current_cursor = 8;
 	if (channel) {
+#ifdef IS_DEBUG
+#ifndef IS_TEST
+		setvbuf(channel, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
+#endif
+#else
 		setvbuf(channel, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
+#endif
 	}
 	return ret;
 }
