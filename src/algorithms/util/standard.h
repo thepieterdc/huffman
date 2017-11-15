@@ -7,7 +7,7 @@
 #ifndef HUFFMAN_ALGORITHMS_UTIL_STANDARD_H
 #define HUFFMAN_ALGORITHMS_UTIL_STANDARD_H
 
-#include "../../datastructures/huffman_tree/huffman_node.h"
+#include "../../datastructures/huffman_tree/huffman_tree.h"
 #include "../../io/input/bit_input_stream.h"
 #include "../../io/output/bit_output_stream.h"
 
@@ -21,12 +21,19 @@
 void standard_assign_characters(huffman_node *root, bit_input_stream *in);
 
 /**
- * Creates a Huffman tree from a binary representation.
+ * Creates a Huffman tree from a binary input.
  *
  * @param root the root of the tree
  * @param input the input stream
  */
-void standard_build_tree(huffman_node *root, bit_input_stream *input);
+void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input);
+
+/**
+ * Creates a Huffman tree from a frequency table.
+ *
+ * @param frequencies the frequency table
+ */
+huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[]);
 
 /**
  * Decodes the next character in the input stream.

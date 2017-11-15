@@ -14,6 +14,8 @@
 #include "util/standard.h"
 #include "util/twopass.h"
 #include "../datastructures/huffman_tree/adaptive_huffman_tree.h"
+#include "util/adaptive.h"
+#include "util/sliding.h"
 
 void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
@@ -41,33 +43,7 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	
 	/* Create a new Adaptive Huffman tree. */
 	adaptive_huffman_tree aht;
-	huffman_tree *tree = huffmantree_create_empty();
-	
-	/* Add all bytes to a heap. */
-	min_heap *heap = minheap_create(256);
-	for (size_t i = 0; i < 256; ++i) {
-		if (frequencies[i] > 0) {
-			huffman_node *leaf = huffmannode_create_leaf((byte) i, frequencies[i]);
-			tree->leaves[i] = leaf;
-			minheap_insert(heap, leaf->weight, leaf);
-		}
-	}
-	
-	/* Failsafe for strings containing 1 character. */
-	if (heap->size == 1) {
-		huffman_node *nullnode = huffmannode_create_leaf(0, 1);
-		minheap_insert(heap, nullnode->weight, nullnode);
-	}
-	
-	/* Fill the Huffman tree. */
-	while (heap->size > 1) {
-		huffman_node *left = minheap_extract_min(heap);
-		huffman_node *right = minheap_extract_min(heap);
-		huffman_node *parent = huffmannode_create_node(left, right);
-		minheap_insert(heap, parent->weight, parent);
-	}
-	
-	tree->root = minheap_find_min(heap);
+	huffman_tree *tree = standard_build_tree_from_frequencies(frequencies);
 	
 	/* Print the Huffman tree and apply padding. */
 	standard_print_tree(tree->root, outputStream);
@@ -79,24 +55,19 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Convert the tree into an Adaptive Huffman tree. */
 	twopass_parse_tree(&aht, tree);
 	
+	huffmantree_print(tree);
+	
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
-//	while (inputStream->cursor <= inputStream->buffer_size) {
-//		byte_queue_push(window, z);
-//
-//		/* Output the encoded character. */
-//		huffman_node *t = adaptive_encode_character(aht, z, outputStream);
-//
-//		/* Update the tree accordingly. */
-//		adaptive_update_tree(aht, t);
-//
-//		/* Update the tree using the sliding window. */
-//		if (window->size > HUFFMAN_SLIDING_WINDOWSIZE) {
-//			sliding_update_tree(aht, byte_queue_pop(window));
-//		}
-//
-//		z = byis_read(inputStream);
-//	}
+	while (inputStream->cursor <= inputStream->buffer_size) {
+		/* Output the encoded character. */
+		adaptive_print_code(tree->leaves[z], outputStream);
+
+		/* Update the tree. */
+		sliding_update_tree(&aht, z);
+
+		z = byis_read(inputStream);
+	}
 	
 	/* Apply padding after the last bits. */
 	size_t padding = 8 - bos_pad(outputStream);
@@ -108,7 +79,6 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	bos_flush(outputStream);
 	
 	/* Release allocated memory. */
-	minheap_free(heap);
 	huffmantree_free(tree);
 	bos_free(outputStream);
 	byis_free(inputStream);

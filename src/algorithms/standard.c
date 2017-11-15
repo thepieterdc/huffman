@@ -41,33 +41,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	}
 	
 	/* Create a new empty Huffman tree. */
-	huffman_tree *tree = huffmantree_create_empty();
-	
-	/* Add all bytes to a heap. */
-	min_heap *heap = minheap_create(256);
-	for (size_t i = 0; i < 256; ++i) {
-		if (frequencies[i] > 0) {
-			huffman_node *leaf = huffmannode_create_leaf((byte) i, frequencies[i]);
-			tree->leaves[i] = leaf;
-			minheap_insert(heap, leaf->weight, leaf);
-		}
-	}
-	
-	/* Failsafe for strings containing 1 character. */
-	if (heap->size == 1) {
-		huffman_node *nullnode = huffmannode_create_leaf(0, 1);
-		minheap_insert(heap, nullnode->weight, nullnode);
-	}
-	
-	/* Fill the Huffman tree. */
-	while (heap->size > 1) {
-		huffman_node *left = minheap_extract_min(heap);
-		huffman_node *right = minheap_extract_min(heap);
-		huffman_node *parent = huffmannode_create_node(left, right);
-		minheap_insert(heap, parent->weight, parent);
-	}
-	
-	tree->root = minheap_find_min(heap);
+	huffman_tree *tree = standard_build_tree_from_frequencies(frequencies);
 	huffmantree_set_codes(tree);
 	
 	/* Print the Huffman tree and apply padding. */
@@ -95,7 +69,6 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	bos_flush(outputStream);
 	
 	/* Release allocated memory. */
-	minheap_free(heap);
 	huffmantree_free(tree);
 	bos_free(outputStream);
 	byis_free(inputStream);
@@ -109,7 +82,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	huffman_tree *tree = huffmantree_create(NULL);
 	tree->root->code = huffmancode_create();
 	
-	standard_build_tree(tree->root, inputStream);
+	standard_build_tree_from_bits(tree->root, inputStream);
 	
 	/* Clear the remaining padding bits. */
 	bis_clear_current_byte(inputStream);
