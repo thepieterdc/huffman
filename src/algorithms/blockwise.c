@@ -6,6 +6,8 @@
 
 #include "blockwise.h"
 
+#define HUFFMAN_BLOCKWISE_BLOCKSIZE 3
+
 void huffman_blockwise_compress(FILE *input, FILE *output) {
 
 }

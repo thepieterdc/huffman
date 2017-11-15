@@ -9,8 +9,6 @@
 
 #include <stdio.h>
 
-#define HUFFMAN_SLIDING_WINDOWSIZE 5
-
 /**
  * @internal
  *
