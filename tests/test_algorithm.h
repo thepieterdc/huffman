@@ -12,6 +12,9 @@
 /** Tests: huffman_adaptive_compress(), huffman_adaptive_decompress(). */
 const char *test_algorithm_adaptive();
 
+/** Tests: huffman_blockwise_compress(), huffman_blockwise_decompress(). */
+const char *test_algorithm_blockwise();
+
 /** Tests: huffman_sliding_compress(), huffman_sliding_decompress(). */
 const char *test_algorithm_sliding();
 

@@ -83,6 +83,13 @@ const char *test_algorithm_adaptive() {
 	return 0;
 }
 
+const char *test_algorithm_blockwise() {
+	_huffmanfunction enc = compressionfunctions[BLOCKWISE];
+	_huffmanfunction dec = decompressionfunctions[BLOCKWISE];
+	assertEquals(test_huffman_algorithm(enc, dec), 0);
+	return 0;
+}
+
 const char *test_algorithm_sliding() {
 	_huffmanfunction enc = compressionfunctions[SLIDING];
 	_huffmanfunction dec = decompressionfunctions[SLIDING];
