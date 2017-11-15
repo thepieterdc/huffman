@@ -22,17 +22,18 @@ void huffman_blockwise_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	adaptive_huffman_tree *aht;
-	byte z;
+	byte z = byis_read(inputStream);
 	size_t blocksize;
 	while(true) {
+		fprintf(stderr, "====== NEW BLOCK ======\n");
 		blocksize = 0;
 		
 		/* Create an Adaptive Huffman tree. */
 		aht = adaptivehuffmantree_create();
 		
 		/* Encode the input. */
-		z = byis_read(inputStream);
 		while (++blocksize < HUFFMAN_BLOCKWISE_BLOCKSIZE && inputStream->cursor <= inputStream->buffer_size) {
+			fprintf(stderr, "Read: %c\n", z);
 			/* Output the encoded character. */
 			huffman_node *t = adaptive_encode_character(aht, z, outputStream);
 			
