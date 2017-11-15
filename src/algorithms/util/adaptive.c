@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "adaptive.h"
+#include "../../util/binary.h"
 
 huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 	huffman_node *parent = tree->nyt->parent;
@@ -86,10 +87,12 @@ huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte charac
 	
 	if (tree->amt_nodes == 0) {
 		bos_feed_byte(out, character);
+		fprintf(stderr, "Fed byte: %s\n", byte_to_bitstring(character));
 		ret = NULL;
 	} else {
 		if (!ret) {
 			adaptive_print_code(tree->nyt, out);
+			fprintf(stderr, "Fed byte: %s\n", byte_to_bitstring(character));
 			bos_feed_byte(out, character);
 		} else {
 			adaptive_print_code(ret, out);
@@ -124,9 +127,12 @@ void adaptive_print_code(huffman_node *node, bit_output_stream *out) {
 		code[codelength++] = cursor->parent->left != cursor;
 		cursor = cursor->parent;
 	}
+	fprintf(stderr, "Fed code: ");
 	for (size_t i = codelength; i > 0; --i) {
+		fprintf(stderr, "%d", code[i-1]);
 		bos_feed_bit(out, code[i - 1]);
 	}
+	fprintf(stderr,"\n");
 }
 
 void adaptive_update_tree(adaptive_huffman_tree *tree, huffman_node *t) {

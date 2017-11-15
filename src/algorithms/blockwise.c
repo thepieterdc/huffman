@@ -12,7 +12,7 @@
 #include "util/adaptive.h"
 #include "util/common.h"
 
-#define HUFFMAN_BLOCKWISE_BLOCKSIZE 4
+#define HUFFMAN_BLOCKWISE_BLOCKSIZE 3
 
 void huffman_blockwise_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
@@ -25,16 +25,16 @@ void huffman_blockwise_compress(FILE *input, FILE *output) {
 	byte z = byis_read(inputStream);
 	size_t blocksize;
 	while(true) {
-		fprintf(stderr, "====== NEW BLOCK ======\n");
+		fprintf(stderr, "New block\n");
 		blocksize = 0;
 		
 		/* Create an Adaptive Huffman tree. */
 		aht = adaptivehuffmantree_create();
 		
 		/* Encode the input. */
-		while (++blocksize < HUFFMAN_BLOCKWISE_BLOCKSIZE && inputStream->cursor <= inputStream->buffer_size) {
-			fprintf(stderr, "Read: %c\n", z);
+		while (blocksize++ < HUFFMAN_BLOCKWISE_BLOCKSIZE && inputStream->cursor <= inputStream->buffer_size) {
 			/* Output the encoded character. */
+			fprintf(stderr, "Encoding character: %c\n", z);
 			huffman_node *t = adaptive_encode_character(aht, z, outputStream);
 			
 			/* Update the tree accordingly. */
@@ -79,12 +79,13 @@ void huffman_blockwise_decompress(FILE *input, FILE *output) {
 	adaptive_huffman_tree *aht;
 	size_t blocksize;
 	while(true) {
+		fprintf(stderr, "New block\n");
 		blocksize = 0;
 		
 		aht = adaptivehuffmantree_create();
 		
 		/* Decode the input. */
-		while (blocksize++ < HUFFMAN_BLOCKWISE_BLOCKSIZE && inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
+		while (blocksize < HUFFMAN_BLOCKWISE_BLOCKSIZE && inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
 			/* Output the decoded character and append it to the window. */
 			huffman_node *t = adaptive_decode_character(aht, inputStream, output);
 			
