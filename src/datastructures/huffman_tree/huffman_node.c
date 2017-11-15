@@ -8,7 +8,7 @@
 #include "huffman_node.h"
 #include "../../util/memory.h"
 
-huffman_node *huffmannode_create_leaf(byte data, size_t weight) {
+huffman_node *huffmannode_create_leaf(byte data, uint_least32_t weight) {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
 	ret->data = data;
 	ret->type = LEAF;

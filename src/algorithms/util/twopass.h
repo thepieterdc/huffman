@@ -12,6 +12,14 @@
 #include "../../io/output/bit_output_stream.h"
 
 /**
+ * Traverses the tree in a DFS manner and assigns a weight value to each leaf.
+ *
+ * @param root the root of the tree
+ * @param in the input stream
+ */
+void twopass_assign_weights(huffman_node *root, bit_input_stream *in);
+
+/**
  * Decodes a character and appends this to the output stream.
  *
  * @param tree the Huffman tree
@@ -29,5 +37,13 @@ byte twopass_decode_character(huffman_tree *tree, bit_input_stream *in, FILE *ou
  * @param tree the original Huffman tree
  */
 void twopass_parse_tree(adaptive_huffman_tree *aht, huffman_tree *tree);
+
+/**
+ * Traverses the tree in a DFS manner and prints all weights.
+ *
+ * @param root the root of the tree
+ * @param out the output stream
+ */
+void twopass_print_weights(huffman_node *root, bit_output_stream *out);
 
 #endif /* HUFFMAN_ALGORITHMS_UTIL_TWOPASS_H */

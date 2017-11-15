@@ -51,12 +51,18 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Print the characters from left to right. */
 	standard_print_characters(tree->root, outputStream);
 	
+	/* Print the weights from left to right. */
+	twopass_print_weights(tree->root, outputStream);
+	
 	/* Convert the tree into an Adaptive Huffman tree. */
 	twopass_parse_tree(&aht, tree);
 	
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
+		fprintf(stderr, "Encoding %c\n", z);
+		huffmantree_print(tree);
+		
 		/* Output the encoded character. */
 		adaptive_print_code(tree->leaves[z], outputStream);
 		
@@ -101,11 +107,22 @@ void huffman_twopass_decompress(FILE *input, FILE *output) {
 	/* Assign characters to leaves. */
 	standard_assign_characters(tree->root, inputStream);
 	
+	/* Assign weights to leaves. */
+	twopass_assign_weights(tree->root, inputStream);
+	
+	/* Convert the tree into an Adaptive Huffman tree. */
+	twopass_parse_tree(&aht, tree);
+	
 	/* Decode the input. */
 	byte z;
 	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
+		fprintf(stderr, "Decoding\n");
+		huffmantree_print(tree);
+		
 		/* Output the decoded character. */
 		z = twopass_decode_character(tree, inputStream, output);
+		
+		fprintf(stderr, " - %c\n", z);
 		
 		/* Update the tree, don't update if there is only 1 character leaf left. */
 		if (aht.amt_nodes > 2) {

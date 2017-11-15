@@ -11,6 +11,8 @@
 #include "../datatypes/bit.h"
 #include "../datatypes/string.h"
 
+#define BYTE_MASK 0xFF
+
 /**
  * Converts a bit to a character representation.
  *

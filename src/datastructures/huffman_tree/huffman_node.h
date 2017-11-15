@@ -24,7 +24,7 @@ typedef struct huffman_node {
 	enum huffman_node_type type;
 	byte data;
 	uint_least16_t order_no;
-	uint_least64_t weight;
+	uint_least32_t weight;
 	huffman_code *code;
 	struct huffman_node *parent;
 	struct huffman_node *left;
@@ -38,7 +38,7 @@ typedef struct huffman_node {
  * @param weight the weight of this leaf
  * @return the created node
  */
-huffman_node *huffmannode_create_leaf(byte data, size_t weight);
+huffman_node *huffmannode_create_leaf(byte data, uint_least32_t weight);
 
 /**
  * Creates a new Huffman node-node.

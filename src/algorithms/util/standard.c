@@ -22,10 +22,12 @@ void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, 
 	root->type = rd ? LEAF : NODE;
 	if (!rd) {
 		root->left = huffmannode_create_node(NULL, NULL);
+		root->left->parent = root;
 		root->left->code = assign_codes ? huffmancode_create_left(root->code) : NULL;
 		standard_build_tree_from_bits(root->left, input, assign_codes);
 		
 		root->right = huffmannode_create_node(NULL, NULL);
+		root->right->parent = root;
 		root->right->code = assign_codes ? huffmancode_create_right(root->code) : NULL;
 		standard_build_tree_from_bits(root->right, input, assign_codes);
 	}

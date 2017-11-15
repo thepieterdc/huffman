@@ -21,3 +21,5 @@
 - Ordernummers bij adaptive omgekeerd zodat ik ze nooit moet incrementeren
 
 - putc bij printen gbruikt aangezien dat intern buffert
+
+- twopass slechtste want gewichten doorsturen die 4 bytes nemen
