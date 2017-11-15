@@ -11,7 +11,7 @@
 #include "../datastructures/huffman_tree/adaptive_huffman_tree.h"
 #include "util/adaptive.h"
 
-#define HUFFMAN_BLOCKWISE_BLOCKSIZE 3
+#define HUFFMAN_BLOCKWISE_BLOCKSIZE 4
 
 void huffman_blockwise_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
@@ -29,16 +29,12 @@ void huffman_blockwise_compress(FILE *input, FILE *output) {
 		
 		/* Encode the input. */
 		z = byis_read(inputStream);
-		while (inputStream->cursor <= inputStream->buffer_size) {
+		while (++blocksize < HUFFMAN_BLOCKWISE_BLOCKSIZE && inputStream->cursor <= inputStream->buffer_size) {
 			/* Output the encoded character. */
 			huffman_node *t = adaptive_encode_character(aht, z, outputStream);
 			
 			/* Update the tree accordingly. */
 			adaptive_update_tree(aht, t);
-			
-			if(++blocksize >= HUFFMAN_BLOCKWISE_BLOCKSIZE) {
-				break;
-			}
 			
 			z = byis_read(inputStream);
 		}
@@ -46,7 +42,7 @@ void huffman_blockwise_compress(FILE *input, FILE *output) {
 		/* Release allocated memory. */
 		adaptivehuffmantree_free(aht);
 		
-		if(blocksize < HUFFMAN_BLOCKWISE_BLOCKSIZE) {
+		if(inputStream->cursor > inputStream->buffer_size) {
 			break;
 		}
 	}
