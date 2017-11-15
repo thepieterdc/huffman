@@ -12,6 +12,7 @@
 #include "../datastructures/huffman_tree/huffman_tree.h"
 #include "../datastructures/min_heap.h"
 #include "util/standard.h"
+#include "util/twopass.h"
 #include "../datastructures/huffman_tree/adaptive_huffman_tree.h"
 
 void huffman_twopass_compress(FILE *input, FILE *output) {
@@ -76,7 +77,7 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	standard_print_characters(tree->root, outputStream);
 	
 	/* Convert the tree into an Adaptive Huffman tree. */
-	adaptivehuffmantree_initialise(&aht, tree);
+	twopass_parse_tree(&aht, tree);
 	
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
