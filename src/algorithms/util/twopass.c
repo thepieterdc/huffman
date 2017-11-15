@@ -21,8 +21,8 @@ void twopass_parse_tree(adaptive_huffman_tree *aht, huffman_tree *tree) {
 		aht->nodes[cursor]->order_no = (uint_least16_t) cursor;
 		
 		if (queue[cursor]->type == NODE) {
-			queue[max++] = queue[cursor]->left;
 			queue[max++] = queue[cursor]->right;
+			queue[max++] = queue[cursor]->left;
 		}
 		
 		++cursor;
@@ -49,5 +49,5 @@ void twopass_parse_tree(adaptive_huffman_tree *aht, huffman_tree *tree) {
 	
 	aht->nodes[cursor - 1] = parent;
 	aht->nodes[cursor] = parent->right;
-	aht->amt_nodes = (uint_least16_t) (max + 2);
+	aht->amt_nodes = (uint_least16_t) (max + 1);
 }

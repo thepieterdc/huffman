@@ -42,7 +42,7 @@ uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, uint_least64_t wei
 	return 0;
 }
 
-void sliding_remove_node(adaptive_huffman_tree *tree, huffman_node *node) {
+void sliding_remove_node(adaptive_huffman_tree *tree) {
 	huffman_node *parent = tree->nyt->parent;
 	huffman_node *remove_node = parent->right;
 	
@@ -106,7 +106,7 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 	t->weight--;
 	
 	if (remove) {
-		sliding_remove_node(tree, tree->tree->leaves[b]);
+		sliding_remove_node(tree);
 		tree->tree->leaves[b] = NULL;
 	}
 }
