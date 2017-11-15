@@ -7,7 +7,7 @@
 #include "util/arguments.h"
 
 int main(int argc, char **argv) {
-	FILE *in = fopen("tests/testvectors/banaan.in", "rb");
+	FILE *in = fopen("/tmp/testtwopass.enc", "rb");
 //	FILE *in = stdin;
 	FILE *out = stdout;
 

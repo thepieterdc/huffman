@@ -25,8 +25,9 @@ void standard_assign_characters(huffman_node *root, bit_input_stream *in);
  *
  * @param root the root of the tree
  * @param input the input stream
+ * @param assign_codes true to assign a code to every node
  */
-void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input);
+void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes);
 
 /**
  * Creates a Huffman tree from a frequency table.

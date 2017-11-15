@@ -12,6 +12,16 @@
 #include "../../io/output/bit_output_stream.h"
 
 /**
+ * Decodes a character and appends this to the output stream.
+ *
+ * @param tree the Huffman tree
+ * @param in the input stream
+ * @param out the output stream
+ * @return the character
+ */
+byte twopass_decode_character(huffman_tree *tree, bit_input_stream *in, FILE *out);
+
+/**
  * Parses a Huffman tree into an Adaptive Huffman tree; including setting the
  * order numbers and creating a NYT node.
  *

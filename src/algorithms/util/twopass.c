@@ -7,6 +7,17 @@
 #include "twopass.h"
 #include "../../datastructures/byte_queue.h"
 
+byte twopass_decode_character(huffman_tree *tree, bit_input_stream *in, FILE *out) {
+	huffman_node *cursor = tree->root;
+	
+	while (cursor->type != NYT && cursor->type != LEAF) {
+		bit rd = bis_read_bit(in);
+		cursor = rd ? cursor->right : cursor->left;
+	}
+	putc(cursor->data, out);
+	return cursor->data;
+}
+
 void twopass_parse_tree(adaptive_huffman_tree *aht, huffman_tree *tree) {
 	aht->tree = tree;
 	

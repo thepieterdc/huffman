@@ -17,17 +17,17 @@ void standard_assign_characters(huffman_node *root, bit_input_stream *in) {
 	}
 }
 
-void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input) {
+void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes) {
 	bit rd = bis_read_bit(input);
 	root->type = rd ? LEAF : NODE;
 	if (!rd) {
 		root->left = huffmannode_create_node(NULL, NULL);
-		root->left->code = huffmancode_create_left(root->code);
-		standard_build_tree_from_bits(root->left, input);
+		root->left->code = assign_codes ? huffmancode_create_left(root->code) : NULL;
+		standard_build_tree_from_bits(root->left, input, assign_codes);
 		
 		root->right = huffmannode_create_node(NULL, NULL);
-		root->right->code = huffmancode_create_right(root->code);
-		standard_build_tree_from_bits(root->right, input);
+		root->right->code = assign_codes ? huffmancode_create_right(root->code) : NULL;
+		standard_build_tree_from_bits(root->right, input, assign_codes);
 	}
 }
 

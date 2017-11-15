@@ -10,12 +10,11 @@
 #include "../io/output/bit_output_stream.h"
 #include "../util/errors.h"
 #include "../datastructures/huffman_tree/huffman_tree.h"
-#include "../datastructures/min_heap.h"
 #include "util/standard.h"
 #include "util/twopass.h"
-#include "../datastructures/huffman_tree/adaptive_huffman_tree.h"
 #include "util/adaptive.h"
 #include "util/sliding.h"
+#include "util/common.h"
 
 void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
@@ -62,10 +61,10 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 		adaptive_print_code(tree->leaves[z], outputStream);
 		
 		/* Update the tree, don't update if there is only 1 character leaf left. */
-		if(aht.amt_nodes > 2) {
+		if (aht.amt_nodes > 2) {
 			sliding_update_tree(&aht, z);
 		}
-
+		
 		z = byis_read(inputStream);
 	}
 	
@@ -85,5 +84,51 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 }
 
 void huffman_twopass_decompress(FILE *input, FILE *output) {
-	info("Huffman TwoPass decompress.");
+/* Create a buffer to store the input. */
+	bit_input_stream *inputStream = bis_create(input, false);
+	
+	/* Build up the Huffman tree. */
+	huffman_tree *tree = huffmantree_create(NULL);
+	tree->root->code = huffmancode_create();
+	
+	/* Create a new Adaptive Huffman tree. */
+	adaptive_huffman_tree aht;
+	standard_build_tree_from_bits(tree->root, inputStream, false);
+	
+	/* Clear the remaining padding bits. */
+	bis_clear_current_byte(inputStream);
+	
+	/* Assign characters to leaves. */
+	standard_assign_characters(tree->root, inputStream);
+	
+	/* Decode the input. */
+	byte z;
+	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
+		/* Output the decoded character. */
+		z = twopass_decode_character(tree, inputStream, output);
+		
+		/* Update the tree, don't update if there is only 1 character leaf left. */
+		if (aht.amt_nodes > 2) {
+			sliding_update_tree(&aht, z);
+		}
+	}
+	
+	/* Decode the remaining bytes. */
+	size_t indicator = huffman_finalize_input(inputStream);
+	while(inputStream->current_cursor < indicator) {
+		/* Output the decoded character. */
+		z = twopass_decode_character(tree, inputStream, output);
+		
+		/* Update the tree, don't update if there is only 1 character leaf left. */
+		if (aht.amt_nodes > 2) {
+			sliding_update_tree(&aht, z);
+		}
+	}
+	
+	/* Flush the output buffer. */
+	fflush(output);
+	
+	/* Cleanup allocated memory. */
+	huffmantree_free(tree);
+	bis_free(inputStream);
 }

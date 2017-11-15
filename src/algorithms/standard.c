@@ -82,12 +82,12 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	huffman_tree *tree = huffmantree_create(NULL);
 	tree->root->code = huffmancode_create();
 	
-	standard_build_tree_from_bits(tree->root, inputStream);
+	standard_build_tree_from_bits(tree->root, inputStream, true);
 	
 	/* Clear the remaining padding bits. */
 	bis_clear_current_byte(inputStream);
 	
-	/* Assign characters to codes. */
+	/* Assign characters to leaves. */
 	standard_assign_characters(tree->root, inputStream);
 	
 	/* Decode every code in the input string. */
