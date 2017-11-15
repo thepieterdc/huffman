@@ -24,7 +24,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Determine the frequencies of each character. */
-	uint_least64_t frequencies[256] = {0};
+	uint_least32_t frequencies[256] = {0};
 	
 	int in;
 	while ((in = getc(input)) != EOF) {
@@ -88,7 +88,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	bis_clear_current_byte(inputStream);
 	
 	/* Assign characters to leaves. */
-	standard_assign_characters(tree->root, inputStream);
+	standard_assign_characters(tree, inputStream);
 	
 	/* Decode every code in the input string. */
 	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {

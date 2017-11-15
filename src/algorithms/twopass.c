@@ -24,7 +24,7 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Determine the frequencies of each character. */
-	uint_least64_t frequencies[256] = {0};
+	uint_least32_t frequencies[256] = {0};
 	
 	int in;
 	while ((in = getc(input)) != EOF) {
@@ -60,9 +60,6 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Encode the input. */
 	byte z = byis_read(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
-		fprintf(stderr, "Encoding %c\n", z);
-		huffmantree_print(tree);
-		
 		/* Output the encoded character. */
 		adaptive_print_code(tree->leaves[z], outputStream);
 		
@@ -105,7 +102,7 @@ void huffman_twopass_decompress(FILE *input, FILE *output) {
 	bis_clear_current_byte(inputStream);
 	
 	/* Assign characters to leaves. */
-	standard_assign_characters(tree->root, inputStream);
+	standard_assign_characters(tree, inputStream);
 	
 	/* Assign weights to leaves. */
 	twopass_assign_weights(tree->root, inputStream);
@@ -116,13 +113,8 @@ void huffman_twopass_decompress(FILE *input, FILE *output) {
 	/* Decode the input. */
 	byte z;
 	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
-		fprintf(stderr, "Decoding\n");
-		huffmantree_print(tree);
-		
 		/* Output the decoded character. */
 		z = twopass_decode_character(tree, inputStream, output);
-		
-		fprintf(stderr, " - %c\n", z);
 		
 		/* Update the tree, don't update if there is only 1 character leaf left. */
 		if (aht.amt_nodes > 2) {

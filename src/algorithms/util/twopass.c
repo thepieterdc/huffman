@@ -24,10 +24,8 @@ void twopass_assign_weights(huffman_node *root, bit_input_stream *in) {
 byte twopass_decode_character(huffman_tree *tree, bit_input_stream *in, FILE *out) {
 	huffman_node *cursor = tree->root;
 	
-	fprintf(stderr, "Read: ");
 	while (cursor->type != NYT && cursor->type != LEAF) {
 		bit rd = bis_read_bit(in);
-		fprintf(stderr, "%d", rd);
 		cursor = rd ? cursor->right : cursor->left;
 	}
 	putc(cursor->data, out);

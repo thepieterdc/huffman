@@ -124,12 +124,9 @@ void adaptive_print_code(huffman_node *node, bit_output_stream *out) {
 		code[codelength++] = cursor->parent->left != cursor;
 		cursor = cursor->parent;
 	}
-	fprintf(stderr, "Fed: ");
 	for (size_t i = codelength; i > 0; --i) {
-		fprintf(stderr, "%d", code[i - 1]);
 		bos_feed_bit(out, code[i - 1]);
 	}
-	fprintf(stderr, "\n\n\n");
 }
 
 void adaptive_update_tree(adaptive_huffman_tree *tree, huffman_node *t) {

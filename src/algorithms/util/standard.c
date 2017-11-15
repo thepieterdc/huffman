@@ -8,13 +8,25 @@
 #include "../../datastructures/huffman_tree/huffman_tree.h"
 #include "../../datastructures/min_heap.h"
 
-void standard_assign_characters(huffman_node *root, bit_input_stream *in) {
+/**
+ * Recursive step to set the characters in a Huffman tree.
+ *
+ * @param tree the Huffman tree
+ * @param root the root of the current subtree
+ * @param in the input stream
+ */
+static void standard_assign_characters_rec(huffman_tree *tree, huffman_node *root, bit_input_stream *in) {
 	if (root->type == LEAF) {
 		root->data = bis_read_byte(in);
+		tree->leaves[root->data] = root;
 	} else {
-		standard_assign_characters(root->left, in);
-		standard_assign_characters(root->right, in);
+		standard_assign_characters_rec(tree, root->left, in);
+		standard_assign_characters_rec(tree, root->right, in);
 	}
+}
+
+void standard_assign_characters(huffman_tree *tree, bit_input_stream *in) {
+	standard_assign_characters_rec(tree, tree->root, in);
 }
 
 void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes) {
@@ -33,7 +45,7 @@ void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, 
 	}
 }
 
-huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[]) {
+huffman_tree *standard_build_tree_from_frequencies(uint_least32_t frequencies[]) {
 	huffman_tree *tree = huffmantree_create_empty();
 	
 	/* Add all bytes to a heap. */

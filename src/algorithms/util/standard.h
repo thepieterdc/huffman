@@ -15,10 +15,10 @@
  * Traverses the tree in a DFS manner and assigns a character value to each
  * leaf.
  *
- * @param root the root of the tree
+ * @param tree the Huffman tree
  * @param in the input stream
  */
-void standard_assign_characters(huffman_node *root, bit_input_stream *in);
+void standard_assign_characters(huffman_tree *tree, bit_input_stream *in);
 
 /**
  * Creates a Huffman tree from a binary input.
@@ -34,7 +34,7 @@ void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, 
  *
  * @param frequencies the frequency table
  */
-huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[]);
+huffman_tree *standard_build_tree_from_frequencies(uint_least32_t frequencies[]);
 
 /**
  * Decodes the next character in the input stream.
