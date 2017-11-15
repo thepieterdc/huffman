@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include "../../datatypes/huffman_code.h"
 
+#define OUTPUT_BUFFER_SIZE 32768
+
 /**
  * An output stream for bits.
  */
