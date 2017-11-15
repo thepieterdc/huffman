@@ -27,7 +27,9 @@ bit_output_stream *bos_create(FILE *channel) {
 	ret->current_cursor = 8;
 	if (channel) {
 #ifdef IS_DEBUG
+#ifndef IS_TEST
 		setvbuf(channel, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
+#endif
 #else
 		setvbuf(channel, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
 #endif

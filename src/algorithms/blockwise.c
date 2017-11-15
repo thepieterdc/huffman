@@ -68,7 +68,9 @@ void huffman_blockwise_decompress(FILE *input, FILE *output) {
 	bit_input_stream *inputStream = bis_create(input, false);
 
 #ifdef IS_DEBUG
+#ifndef IS_TEST
 	setvbuf(output, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
+#endif
 #else
 	setvbuf(output, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
 #endif

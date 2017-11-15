@@ -69,11 +69,11 @@ void __huffman_sliding_decompress(FILE *input, FILE *output, size_t window_size)
 	/* Create a buffer to store the input. */
 	bit_input_stream *inputStream = bis_create(input, false);
 
-#ifdef IS_DEBUG
-	setvbuf(output, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
-#else
-	setvbuf(output, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
-#endif
+//#ifdef IS_DEBUG
+//	setvbuf(output, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
+//#else
+//	setvbuf(output, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
+//#endif
 	
 	/* Create an Adaptive Huffman tree. */
 	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
