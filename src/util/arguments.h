@@ -61,6 +61,13 @@ const enum algorithm algorithm_from_opt(char opt);
 const _huffmanfunction argument_parse(int argc, char **argv);
 
 /**
+ * Displays the usage instructions for this application.
+ *
+ * @param channel the output channel to write the instructions to
+ */
+void usage_display(const FILE *channel);
+
+/**
  * Gets the correct mode for a given option flag.
  *
  * @param opt the option flag given

@@ -77,6 +77,10 @@ const _huffmanfunction argument_parse(const int argc, char **argv) {
 	return decompressionfunctions[algorithm];
 }
 
+void usage_display(const FILE *channel) {
+
+}
+
 const enum mode mode_from_opt(const char opt) {
 	if (opt != 'c' && opt != 'd') {
 		error(ERROR_SYNTAX_INVALID);
