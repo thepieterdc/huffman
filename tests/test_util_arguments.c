@@ -29,7 +29,13 @@ const char *test_arguments_usage_display() {
 	
 	usage_display(open_memstream(&usage, &usage_size));
 	
-	assertTrue(str)
+	assertTrue(str_contains(usage, "-c"));
+	assertTrue(str_contains(usage, "-d"));
+	assertTrue(str_contains(usage, "Standard"));
+	assertTrue(str_contains(usage, "Adaptive"));
+	assertTrue(str_contains(usage, "sliding"));
+	assertTrue(str_contains(usage, "Blockwise"));
+	assertTrue(str_contains(usage, "sliding"));
 	
 	return 0;
 }

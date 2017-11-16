@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "arguments.h"
 #include "../algorithms/standard.h"
 #include "../algorithms/adaptive.h"
@@ -30,7 +31,8 @@ _huffmanfunction decompressionfunctions[5] = {(_huffmanfunction) huffman_standar
 const enum algorithm algorithm_from_opt(const char opt) {
 	int optval = char_to_int(opt);
 	if (optval < 1 || optval > 5) {
-		error(ERROR_SYNTAX_INVALID);
+		usage_display(stderr);
+		exit(64);
 	}
 	return (enum algorithm) (optval - 1);
 }
@@ -61,13 +63,14 @@ const _huffmanfunction argument_parse(const int argc, char **argv) {
 				break;
 			
 			default:
-				error(ERROR_SYNTAX_INVALID);
-				break;
+				usage_display(stderr);
+				exit(64);
 		}
 	}
 	
 	if (!algorithm_set || !mode_set) {
-		error(ERROR_SYNTAX_INVALID);
+		usage_display(stderr);
+		exit(64);
 	}
 	
 	if (mode == COMPRESS) {
@@ -78,12 +81,27 @@ const _huffmanfunction argument_parse(const int argc, char **argv) {
 }
 
 void usage_display(FILE *channel) {
-	fprintf(channel, "Displaying help.\n");
+	fprintf(channel,
+	        "Usage: huffman [-cd] [-t algorithm]\n"
+			        "Reads from standard input and sends either encoded or decoded bytes to standard output.\n"
+			        "\n"
+			        "  -c\t\t\t\t encode the input\n"
+			        "  -d\t\t\t\t decode the input\n"
+			        "  -t algorithm\t\t specify which encoding/decoding algorithm to use\n"
+			        "\t\t\t\t\t 1 - Standard Huffman\n"
+			        "\t\t\t\t\t 2 - Adaptive Huffman\n"
+			        "\t\t\t\t\t 3 - Adaptive Huffman (sliding window)\n"
+			        "\t\t\t\t\t 4 - Two-pass Adaptive Huffman\n"
+			        "\t\t\t\t\t 5 - Blockwise Adaptive Huffman\n"
+			        "\n"
+			        "Created by Pieter De Clercq. All rights reserved.\n"
+	);
 }
 
 const enum mode mode_from_opt(const char opt) {
 	if (opt != 'c' && opt != 'd') {
-		error(ERROR_SYNTAX_INVALID);
+		usage_display(stderr);
+		exit(64);
 	}
 	
 	if (opt == 'c') {
