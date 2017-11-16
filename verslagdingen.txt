@@ -23,3 +23,11 @@
 - putc bij printen gbruikt aangezien dat intern buffert
 
 - twopass slechtste want gewichten doorsturen die 4 bytes nemen
+
+- windowsize: (inputs verticaal: 10k, 25k, 100k)
+    d=500   d = 750     d=1OOO  d = 1250    d= 1500 d=infty
+    50823   50456       50257   50248       50256   50440
+    129083  128202      127900  128045      128375  129120
+    526736  523541      521102  520248      520706  519561
+avg:235547  234066      233086  232847      233112  2330404
+        -> 1250 wint (d betekent windowsize en avg is average textlengte)
