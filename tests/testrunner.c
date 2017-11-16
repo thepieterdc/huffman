@@ -62,9 +62,10 @@ static const char *all_tests() {
 	test(test_io_bos_feed_bit_pad_flush);
 	test(test_io_bos_feed_byte_flush);
 	
-	/** Test: util/algorithm. */
+	/** Test: util/arguments. */
 	test(test_arguments_algorithm);
 	test(test_arguments_mode);
+	test(test_arguments_usage_display);
 	
 	/** Test: util/binary. */
 	test(test_bit_to_bitchar);
@@ -76,6 +77,7 @@ static const char *all_tests() {
 	/** Test: util/string. */
 	test(test_char_to_int);
 	test(test_string_concat);
+	test(test_string_contains);
 	test(test_string_equals);
 	return 0;
 }

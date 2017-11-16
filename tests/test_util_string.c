@@ -32,6 +32,19 @@ const char *test_string_concat() {
 	return 0;
 }
 
+const char *test_string_contains() {
+	char alpha[] = "alpha";
+	char beta[] = "beta";
+	char alphabet[] = "alphabet";
+	
+	assertTrue(str_contains(alphabet, alpha));
+	assertFalse(str_contains(alpha, beta));
+	assertFalse(str_contains(alpha, alphabet));
+	assertFalse(str_contains(alphabet, beta));
+	
+	return 0;
+}
+
 const char *test_string_equals() {
 	char s1[] = "equals";
 	char s2[] = "notequals";

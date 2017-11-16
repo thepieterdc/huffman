@@ -13,6 +13,9 @@ const char *test_char_to_int();
 /** Tests: str_concat(). */
 const char *test_string_concat();
 
+/** Tests: str_contains(). */
+const char *test_string_contains();
+
 /** Tests: str_equals(). */
 const char *test_string_equals();
 

@@ -65,7 +65,7 @@ const _huffmanfunction argument_parse(int argc, char **argv);
  *
  * @param channel the output channel to write the instructions to
  */
-void usage_display(const FILE *channel);
+void usage_display(FILE *channel);
 
 /**
  * Gets the correct mode for a given option flag.

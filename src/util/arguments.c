@@ -77,8 +77,8 @@ const _huffmanfunction argument_parse(const int argc, char **argv) {
 	return decompressionfunctions[algorithm];
 }
 
-void usage_display(const FILE *channel) {
-
+void usage_display(FILE *channel) {
+	fprintf(channel, "Displaying help.\n");
 }
 
 const enum mode mode_from_opt(const char opt) {

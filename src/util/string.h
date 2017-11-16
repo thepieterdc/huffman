@@ -28,6 +28,15 @@
 string str_concat(string s1, string s2);
 
 /**
+ * Returns whether {haystack} contains {needle}.
+ *
+ * @param haystack the string to search in
+ * @param needle the string to find in haystack
+ * @return true if haystack contains needle
+ */
+bool str_contains(string haystack, string needle);
+
+/**
  * Returns whether 2 strings are equal.
  *
  * @param s1 the first string

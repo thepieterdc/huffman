@@ -15,6 +15,10 @@ string str_concat(string s1, string s2) {
 	return result;
 }
 
+inline bool str_contains(string haystack, string needle) {
+	return strstr(haystack, needle) != NULL;
+}
+
 inline bool str_equals(string s1, string s2) {
 	return strcmp(s1, s2) == 0;
 }
