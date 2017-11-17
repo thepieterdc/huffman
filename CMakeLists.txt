@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 project(huffman C)
 
 if (NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release)
+	set(CMAKE_BUILD_TYPE Debug)
 endif ()
 
 message(STATUS "Building: " ${CMAKE_BUILD_TYPE})

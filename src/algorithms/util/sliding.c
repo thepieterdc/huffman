@@ -93,9 +93,6 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 	huffman_node *swap_node;
 	
 	/* Remove the node from the tree. */
-	if(t == NULL) {
-		huffmantree_print(tree->tree);
-	}
 	bool remove = t->weight == 1;
 	
 	while (t->parent) {
