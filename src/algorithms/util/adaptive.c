@@ -19,12 +19,14 @@ huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 	ret->order_no = tree->amt_nodes;
 	ret->parent = parent;
 	
-	
 	if (parent) {
 		parent->left = ret;
 	} else {
 		tree->tree->root = ret;
 	}
+	
+	ret->depth = tree->nyt->depth++;
+	newleaf->depth = tree->nyt->depth;
 	
 	tree->nodes[ret->order_no] = ret;
 	tree->nodes[newleaf->order_no] = newleaf;
@@ -65,17 +67,21 @@ void adaptive_do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_
 	node1->order_no = node2->order_no;
 	node2->order_no = temp_o;
 	
+	uint_least8_t temp_depth = node1->depth;
+	node1->depth = node2->depth;
+	node2->depth = temp_depth;
+	
 	huffman_node *temp = node1->parent;
 	node1->parent = node2->parent;
 	node2->parent = temp;
 	
-	if(node1_left_of_parent) {
+	if (node1_left_of_parent) {
 		node2->parent->left = node2;
 	} else {
 		node2->parent->right = node2;
 	}
 	
-	if(node2_left_of_parent) {
+	if (node2_left_of_parent) {
 		node1->parent->left = node1;
 	} else {
 		node1->parent->right = node1;

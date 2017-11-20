@@ -36,7 +36,6 @@ huffman_node *huffmannode_create_node(huffman_node *left, huffman_node *right) {
 huffman_node *huffmannode_create_nyt() {
 	huffman_node *ret = (huffman_node *) callocate(1, sizeof(huffman_node));
 	ret->type = NYT;
-	ret->weight = 0;
 	return ret;
 }
 
