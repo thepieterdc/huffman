@@ -4,6 +4,7 @@
  * Project: huffman
  */
 
+#include <stdlib.h>
 #include "test_unit.h"
 #include "test_util_arguments.h"
 #include "../src/util/arguments.h"
@@ -27,7 +28,9 @@ const char *test_arguments_usage_display() {
 	char *usage;
 	size_t usage_size;
 	
-	usage_display(open_memstream(&usage, &usage_size));
+	FILE *stream = open_memstream(&usage, &usage_size);
+	usage_display(stream);
+	fclose(stream);
 	
 	assertTrue(str_contains(usage, "-c"));
 	assertTrue(str_contains(usage, "-d"));
@@ -36,6 +39,8 @@ const char *test_arguments_usage_display() {
 	assertTrue(str_contains(usage, "sliding"));
 	assertTrue(str_contains(usage, "Blockwise"));
 	assertTrue(str_contains(usage, "sliding"));
+	
+	free(usage);
 	
 	return 0;
 }
