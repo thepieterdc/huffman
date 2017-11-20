@@ -60,7 +60,10 @@ void bos_feed_byte(bit_output_stream *bos, byte b) {
 void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
 	uint_fast8_t left = hc->length;
 	while (left > 0) {
-		if (left < bos->current_cursor) {
+		if(bos->current_cursor == 8 && left == 8) {
+			putc((uint_fast8_t) (hc->code & 0b11111111), bos->channel);
+			return;
+		} else if (left < bos->current_cursor) {
 			bos->current_byte |= (hc->code << (bos->current_cursor -= left));
 			left = 0;
 		} else {
