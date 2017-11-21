@@ -38,6 +38,15 @@ bit_output_stream *bos_create(FILE *channel);
 void bos_feed_bit(bit_output_stream *bos, bit b);
 
 /**
+ * Feeds the stream with multiple bits.
+ *
+ * @param bos the bit output stream
+ * @param bits the bits to feed
+ * @param amount the amount of bits to feed
+ */
+void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t amount);
+
+/**
  * Feeds the stream with one byte.
  *
  * @param bos the bit output stream
