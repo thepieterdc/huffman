@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include "../../datatypes/bit.h"
 
-#define INPUT_BUFFER_SIZE 32768
+#define INPUT_BUFFER_SIZE 4194304
 
 /**
  * A byte input stream.
@@ -64,5 +64,13 @@ void byis_free(byte_input_stream *byis);
  * @return the byte read
  */
 byte byis_read(byte_input_stream *byis);
+
+/**
+ * Reads a byte from the input stream without checking for overflows.
+ *
+ * @param byis the byte input stream
+ * @return the byte read
+ */
+byte byis_read_dirty(byte_input_stream *byis);
 
 #endif /* HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H */

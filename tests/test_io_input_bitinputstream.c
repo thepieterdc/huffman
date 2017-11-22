@@ -37,6 +37,8 @@ const char *test_io_bis_read_bit() {
 	
 	bis_free(bis);
 	
+	fclose(memfile);
+	
 	free(buf);
 	
 	return 0;
@@ -58,6 +60,8 @@ const char *test_io_bis_read_byte() {
 	}
 	
 	bis_free(bis);
+	
+	fclose(memfile);
 	
 	free(buf);
 	

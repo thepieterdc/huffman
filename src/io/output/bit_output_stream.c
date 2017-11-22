@@ -74,10 +74,6 @@ void bos_feed_byte(bit_output_stream *bos, byte b) {
 	}
 }
 
-void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc) {
-	bos_feed_bits(bos, hc->code, hc->length);
-}
-
 void bos_flush(bit_output_stream *bos) {
 	if (bos->current_cursor != 8) {
 		print_buffer(bos);

@@ -55,14 +55,6 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t amou
 void bos_feed_byte(bit_output_stream *bos, byte b);
 
 /**
- * Feeds the stream with a Huffman code.
- *
- * @param bos the bit output stream
- * @param hc the Huffman code to feed
- */
-void bos_feed_huffmancode(bit_output_stream *bos, huffman_code *hc);
-
-/**
  * Flushes the output buffer.
  *
  * @param bos the byte output stream

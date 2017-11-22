@@ -53,6 +53,8 @@ const char *test_io_byis_feed_stream_read() {
 	
 	byis_free(byis);
 	
+	fclose(memfile);
+	
 	free(buf);
 	
 	return 0;

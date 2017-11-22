@@ -52,9 +52,6 @@ void byis_feed_stream(byte_input_stream *byis, FILE *stream) {
 }
 
 void byis_free(byte_input_stream *byis) {
-	if (byis->channel) {
-		fclose(byis->channel);
-	}
 	free(byis->buffer);
 	free(byis);
 }
@@ -70,5 +67,9 @@ byte byis_read(byte_input_stream *byis) {
 		error(ERROR_END_OF_INPUT);
 	}
 	
+	return byis->buffer[byis->cursor++];
+}
+
+byte byis_read_dirty(byte_input_stream *byis) {
 	return byis->buffer[byis->cursor++];
 }
