@@ -41,11 +41,14 @@ static const char *test_huffman_algorithm(const _huffmanfunction encode, const _
 			char *decoded;
 			size_t decoded_size;
 			
-			encode(input, open_memstream(&encoded, &encoded_size));
+			FILE *input_stream = open_memstream(&encoded, &encoded_size);
+			
+			encode(input, input_stream);
 			
 			FILE *encoded_stream = fmemopen(encoded, encoded_size, "rb");
+			FILE *output_stream = open_memstream(&decoded, &decoded_size);
 			
-			decode(encoded_stream, open_memstream(&decoded, &decoded_size));
+			decode(encoded_stream, output_stream);
 			
 			FILE *raw = fopen(vector, "rb");
 			assertNotNull(raw);
@@ -62,6 +65,11 @@ static const char *test_huffman_algorithm(const _huffmanfunction encode, const _
 			assertTrue(str_equals(decoded, raw_buffer));
 			
 			fclose(raw);
+			
+			fclose(output_stream);
+			fclose(encoded_stream);
+			
+			fclose(input_stream);
 			
 			free(decoded);
 			free(encoded);

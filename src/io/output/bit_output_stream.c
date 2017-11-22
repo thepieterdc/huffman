@@ -82,9 +82,6 @@ void bos_flush(bit_output_stream *bos) {
 }
 
 void bos_free(bit_output_stream *bos) {
-	if (bos->channel) {
-		fclose(bos->channel);
-	}
 	free(bos);
 }
 

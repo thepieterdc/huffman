@@ -38,6 +38,8 @@ const char *test_io_bos_feed_bit_flush() {
 	
 	bos_free(bos);
 	
+	fclose(memfile);
+	
 	free(buf);
 	
 	return 0;
@@ -62,6 +64,8 @@ const char *test_io_bos_feed_bit_pad_flush() {
 	
 	bos_free(bos);
 	
+	fclose(memfile);
+	
 	free(buf);
 	
 	return 0;
@@ -83,6 +87,8 @@ const char *test_io_bos_feed_byte_flush() {
 	assertEquals((byte) getc(memfile), 0b10101010);
 	
 	bos_free(bos);
+	
+	fclose(memfile);
 	
 	free(buf);
 	
