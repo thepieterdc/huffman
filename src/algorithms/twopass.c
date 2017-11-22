@@ -18,7 +18,7 @@
 
 void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
-	byte_input_stream *inputStream = byis_create(NULL, true);
+	byte_input_stream *inputStream = byis_create(input, true);
 	
 	/* Create a buffer to store the output. */
 	bit_output_stream *outputStream = bos_create(output);
@@ -26,14 +26,9 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Determine the frequencies of each character. */
 	uint_least32_t frequencies[256] = {0};
 	
-	int in;
-	while ((in = getc(input)) != EOF) {
-		frequencies[in]++;
-		byis_feed_byte(inputStream, (byte) in);
+	while (inputStream->cursor <= inputStream->buffer_size) {
+		frequencies[byis_read(inputStream)]++;
 	}
-	
-	/* Close the input channel. */
-	fclose(input);
 	
 	/* Failsafe for empty input. */
 	if (inputStream->buffer_size == 0) {
@@ -57,8 +52,11 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	/* Convert the tree into an Adaptive Huffman tree. */
 	twopass_parse_tree(&aht, tree);
 	
+	/* Rewind the input. */
+	inputStream->cursor = 0;
+	
 	/* Encode the input. */
-	byte z = byis_read(inputStream);
+	byte z = byis_read_dirty(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
 		/* Output the encoded character. */
 		adaptive_print_code(tree->leaves[z], outputStream);
@@ -68,7 +66,7 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 			sliding_update_tree(&aht, z);
 		}
 		
-		z = byis_read(inputStream);
+		z = byis_read_dirty(inputStream);
 	}
 	
 	/* Apply padding after the last bits. */

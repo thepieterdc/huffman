@@ -30,9 +30,6 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		frequencies[byis_read(inputStream)]++;
 	}
 	
-	/* Close the input channel. */
-	fclose(input);
-	
 	/* Failsafe for empty input. */
 	if (inputStream->buffer_size == 0) {
 		error(ERROR_END_OF_INPUT);
