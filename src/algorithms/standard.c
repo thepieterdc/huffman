@@ -56,7 +56,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	byte b = byis_read_dirty(inputStream);
 	if (data_is_random) {
 		while (inputStream->cursor <= inputStream->buffer_size) {
-			putc((uint_fast8_t) tree->leaves[b]->code->code, output);
+			bos_feed_byte_dirty(outputStream, (byte) tree->leaves[b]->code->code);
 			b = byis_read_dirty(inputStream);
 		}
 	} else {

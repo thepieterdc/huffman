@@ -70,6 +70,6 @@ byte byis_read(byte_input_stream *byis) {
 	return byis->buffer[byis->cursor++];
 }
 
-byte byis_read_dirty(byte_input_stream *byis) {
+inline byte byis_read_dirty(byte_input_stream *byis) {
 	return byis->buffer[byis->cursor++];
 }

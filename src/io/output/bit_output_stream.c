@@ -74,6 +74,10 @@ void bos_feed_byte(bit_output_stream *bos, byte b) {
 	}
 }
 
+inline void bos_feed_byte_dirty(bit_output_stream *bos, byte b) {
+	putc(b, bos->channel);
+}
+
 void bos_flush(bit_output_stream *bos) {
 	if (bos->current_cursor != 8) {
 		print_buffer(bos);
