@@ -49,12 +49,22 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Rewind the input. */
 	inputStream->cursor = 0;
 	
+	/* Random data speedup. */
+	bool data_is_random = standard_data_is_random(tree);
+	
 	/* Encode the input. */
 	byte b = byis_read_dirty(inputStream);
-	while (inputStream->cursor <= inputStream->buffer_size) {
-		huffman_code *encode = tree->leaves[b]->code;
-		bos_feed_bits(outputStream, encode->code, encode->length);
-		b = byis_read_dirty(inputStream);
+	if (data_is_random) {
+		while (inputStream->cursor <= inputStream->buffer_size) {
+			putc((uint_fast8_t) tree->leaves[b]->code->code, output);
+			b = byis_read_dirty(inputStream);
+		}
+	} else {
+		while (inputStream->cursor <= inputStream->buffer_size) {
+			huffman_code *encode = tree->leaves[b]->code;
+			bos_feed_bits(outputStream, encode->code, encode->length);
+			b = byis_read_dirty(inputStream);
+		}
 	}
 	
 	/* Apply padding after the last bits. */

@@ -32,3 +32,5 @@
     526736  523541      521102  520248      520706  519561
 avg:235547  234066      233086  232847      233112  2330404
         -> 1250 wint (d betekent windowsize en avg is average textlengte)
+
+- random data heeft alle paden lengte 8 -> kan onmiddellijk geprint worden zonder buffer
