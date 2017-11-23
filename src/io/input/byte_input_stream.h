@@ -23,7 +23,7 @@ struct byte_input_stream;
  */
 typedef void (*_input_buffer_expand_function)(struct byte_input_stream *);
 
-typedef struct {
+typedef struct byte_input_stream {
 	byte *buffer;
 	FILE *channel;
 	size_t cursor;

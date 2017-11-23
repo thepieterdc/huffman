@@ -5,7 +5,6 @@
  */
 
 #include <stdlib.h>
-#include <memory.h>
 #include "byte_input_stream.h"
 #include "../../util/logging.h"
 #include "../../util/errors.h"
@@ -18,7 +17,9 @@
  * @param byis the byte input stream
  */
 static void buffer_expand_overwrite(byte_input_stream *byis) {
-	byis->buffer_size = 0;
+	byis->buffer[0] = byis->buffer[byis->buffer_size - 2];
+	byis->buffer[1] = byis->buffer[byis->buffer_size - 1];
+	byis->buffer_size = 2;
 	byis->cursor = 0;
 }
 
@@ -59,11 +60,11 @@ void byis_free(byte_input_stream *byis) {
 }
 
 byte byis_read(byte_input_stream *byis) {
-	if (byis->cursor < byis->buffer_size) {
+	if (byis->cursor < byis->buffer_size - 1) {
 		return byis->buffer[byis->cursor++];
 	} else {
 		byis->expandFn(byis);
-		byis->buffer_size += fread_unlocked(byis->buffer, sizeof(byte), byis->max_buffer_size, byis->channel);
+		byis->buffer_size += fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte), byis->max_buffer_size - byis->buffer_size, byis->channel);
 	}
 	
 	if (byis->buffer_size == 0) {
