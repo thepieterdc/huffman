@@ -44,15 +44,15 @@ static void huffmantree_print_rec(huffman_node *root, uint_fast16_t indent) {
 	}
 	
 	if (root->type == NODE) {
-		fprintf(stderr, "NODE[a=%lu, o=%d, d=%d, parent=%d]\n", root->weight, root->order_no, root->depth,
+		fprintf(stderr, "NODE[a=%lu, o=%d, parent=%d]\n", root->weight, root->order_no,
 		        root->parent != NULL ? root->parent->order_no : -1);
 		huffmantree_print_rec(root->left, (uint_fast16_t) (indent + 1));
 		huffmantree_print_rec(root->right, (uint_fast16_t) (indent + 1));
 	} else if (root->type == LEAF) {
-		fprintf(stderr, "LEAF[a=%lu, o=%d, data=%d, d=%d, parent=%d]\n", root->weight, root->order_no, root->data, root->depth,
+		fprintf(stderr, "LEAF[a=%lu, o=%d, data=%d, parent=%d]\n", root->weight, root->order_no, root->data,
 		        root->parent != NULL ? root->parent->order_no : -1);
 	} else {
-		fprintf(stderr, "NYT[a=%lu, o=%d, d=%d, parent=%d]\n", root->weight, root->order_no, root->depth,
+		fprintf(stderr, "NYT[a=%lu, o=%d, parent=%d]\n", root->weight, root->order_no,
 		        root->parent != NULL ? root->parent->order_no : -1);
 	}
 }
