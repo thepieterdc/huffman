@@ -36,3 +36,5 @@ avg:235547  234066      233086  232847      233112  2330404
 - random data heeft alle paden lengte 8 -> kan onmiddellijk geprint worden zonder buffer
 
 - unlocked_io want sneller -> locks
+
+- outputbuffer size testen met mooie grafieken enzo
