@@ -8,8 +8,8 @@
 #include "util/arguments.h"
 
 int main(int argc, char **argv) {
-	FILE *in = stdin;
-	FILE *out = stdout;
+	FILE *in = fopen("tests/testvectors/banaan.in", "rb");
+	FILE *out = fopen("/dev/null", "wb");
 	
 	_huffmanfunction function = argument_parse(argc, argv);
 

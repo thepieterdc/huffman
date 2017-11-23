@@ -46,8 +46,8 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 
 void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left) {
 	while (left > 0) {
-		if(bos->current_cursor == 8 && left == 8) {
-			putc((uint_fast8_t) (bits & 0b11111111), bos->channel);
+		if (bos->current_cursor == 8 && left == 8) {
+			putc((uint_fast8_t) bits, bos->channel);
 			return;
 		} else if (left < bos->current_cursor) {
 			bos->current_byte |= (bits << (bos->current_cursor -= left));

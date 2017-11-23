@@ -26,7 +26,6 @@ typedef struct huffman_node {
 	uint_least16_t order_no;
 	uint_least64_t weight;
 	huffman_code *code;
-	uint_least8_t depth;
 	struct huffman_node *parent;
 	struct huffman_node *left;
 	struct huffman_node *right;

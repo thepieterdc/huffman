@@ -37,14 +37,6 @@ void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, 
 huffman_tree *standard_build_tree_from_frequencies(uint_least32_t frequencies[]);
 
 /**
- * Checks whether data is randomly distributed (every code is 8 bits).
- *
- * @param tree the Huffman tree
- * @return true if the data is randomly distributed
- */
-bool standard_data_is_random(huffman_tree *tree);
-
-/**
  * Decodes the next character in the input stream.
  *
  * @param tree the Huffman tree to use
