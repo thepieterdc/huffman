@@ -8,9 +8,10 @@
 #define HUFFMAN_IO_OUTPUT_BITOUTPUTSTREAM_H
 
 #include <stdio.h>
+#include "../../util/binary.h"
 #include "../../datatypes/huffman_code.h"
 
-#define OUTPUT_BUFFER_SIZE 32768
+#define OUTPUT_BUFFER_SIZE KILOBYTE(32)
 
 /**
  * An output stream for bits.
