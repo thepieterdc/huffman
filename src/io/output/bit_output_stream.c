@@ -15,7 +15,7 @@
  * @param bos the bit output stream
  */
 static inline void print_buffer(bit_output_stream *bos) {
-	putc(bos->current_byte, bos->channel);
+	putc_unlocked(bos->current_byte, bos->channel);
 	bos->current_byte = 0;
 	bos->current_cursor = 8;
 }
@@ -26,6 +26,7 @@ bit_output_stream *bos_create(FILE *channel) {
 	ret->current_byte = 0;
 	ret->current_cursor = 8;
 	if (channel) {
+		flockfile(channel);
 #ifdef IS_DEBUG
 #ifndef IS_TEST
 		setvbuf(channel, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
@@ -47,7 +48,7 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left) {
 	while (left > 0) {
 		if (bos->current_cursor == 8 && left == 8) {
-			putc((uint_fast8_t) bits, bos->channel);
+			putc_unlocked((uint_fast8_t) bits, bos->channel);
 			return;
 		} else if (left < bos->current_cursor) {
 			bos->current_byte |= (bits << (bos->current_cursor -= left));
@@ -63,19 +64,19 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left
 
 void bos_feed_byte(bit_output_stream *bos, byte b) {
 	if (bos->current_cursor == 8) {
-		putc(b, bos->channel);
+		putc_unlocked(b, bos->channel);
 	} else if (bos->current_cursor == 0) {
 		print_buffer(bos);
-		putc(b, bos->channel);
+		putc_unlocked(b, bos->channel);
 	} else {
 		bos->current_byte |= (b >> (8 - bos->current_cursor));
-		putc(bos->current_byte, bos->channel);
+		putc_unlocked(bos->current_byte, bos->channel);
 		bos->current_byte = (b << bos->current_cursor);
 	}
 }
 
 inline void bos_feed_byte_dirty(bit_output_stream *bos, byte b) {
-	putc(b, bos->channel);
+	putc_unlocked(b, bos->channel);
 }
 
 void bos_flush(bit_output_stream *bos) {
@@ -86,6 +87,9 @@ void bos_flush(bit_output_stream *bos) {
 }
 
 void bos_free(bit_output_stream *bos) {
+	if(bos->channel) {
+		funlockfile(bos->channel);
+	}
 	free(bos);
 }
 
