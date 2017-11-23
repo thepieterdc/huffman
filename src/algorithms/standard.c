@@ -76,16 +76,8 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
 	bit_input_stream *inputStream = bis_create(input, false);
 	
-	/* Lock the output channel. */
-	flockfile(output);
-
-#ifdef IS_DEBUG
-#ifndef IS_TEST
-	setvbuf(output, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
-#endif
-#else
-	setvbuf(output, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
-#endif
+	/* Prepare the output channel. */
+	huffman_prepare_output(output);
 	
 	/* Build up the Huffman tree. */
 	huffman_tree *tree = huffmantree_create(NULL);
@@ -100,7 +92,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	standard_assign_characters(tree, inputStream);
 	
 	/* Decode every code in the input string. */
-	while (inputStream->stream->cursor < inputStream->stream->buffer_size - 2) {
+	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
 		putc_unlocked(standard_decode_character(tree->root, inputStream), output);
 	}
 	
@@ -112,9 +104,9 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	
 	/* Flush the output buffer. */
 	fflush(output);
+	funlockfile(output);
 	
 	/* Cleanup allocated memory. */
 	huffmantree_free(tree);
-	funlockfile(output);
 	bis_free(inputStream);
 }

@@ -17,4 +17,11 @@
  */
 size_t huffman_finalize_input(bit_input_stream *in);
 
+/**
+ * Prepares the outputstream for decoding.
+ *
+ * @param out the outputstream
+ */
+void huffman_prepare_output(FILE *out);
+
 #endif /* HUFFMAN_ALGORITHMS_UTIL_COMMON_H */

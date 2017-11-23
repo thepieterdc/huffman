@@ -28,7 +28,7 @@ byte twopass_decode_character(huffman_tree *tree, bit_input_stream *in, FILE *ou
 		bit rd = bis_read_bit(in);
 		cursor = rd ? cursor->right : cursor->left;
 	}
-	putc(cursor->data, out);
+	putc_unlocked(cursor->data, out);
 	return cursor->data;
 }
 

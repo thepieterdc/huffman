@@ -60,7 +60,7 @@ void byis_free(byte_input_stream *byis) {
 }
 
 byte byis_read(byte_input_stream *byis) {
-	if (byis->cursor < byis->buffer_size - 1) {
+	if (byis->cursor < byis->buffer_size - 2) {
 		return byis->buffer[byis->cursor++];
 	} else {
 		byis->expandFn(byis);

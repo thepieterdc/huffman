@@ -45,10 +45,10 @@ huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_s
 		/* z is a new character; add it to the tree. */
 		byte z = bis_read_byte(in);
 		huffman_node *o = adaptive_add_character(tree, z);
-		putc(z, out);
+		putc_unlocked(z, out);
 		return o->parent;
 	} else {
-		putc(cursor->data, out);
+		putc_unlocked(cursor->data, out);
 		return cursor;
 	}
 }

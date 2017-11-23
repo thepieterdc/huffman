@@ -51,14 +51,9 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 void huffman_adaptive_decompress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
 	bit_input_stream *inputStream = bis_create(input, false);
-
-#ifdef IS_DEBUG
-#ifndef IS_TEST
-	setvbuf(output, NULL, _IONBF, OUTPUT_BUFFER_SIZE);
-#endif
-#else
-	setvbuf(output, NULL, _IOFBF, OUTPUT_BUFFER_SIZE);
-#endif
+	
+	/* Prepare the output channel. */
+	huffman_prepare_output(output);
 	
 	/* Create an Adaptive Huffman tree. */
 	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
@@ -81,6 +76,7 @@ void huffman_adaptive_decompress(FILE *input, FILE *output) {
 	
 	/* Flush the output buffer. */
 	fflush(output);
+	funlockfile(output);
 	
 	/* Cleanup allocated memory. */
 	adaptivehuffmantree_free(aht);
