@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include "../../datatypes/bit.h"
 
-#define INPUT_BUFFER_SIZE 4194304
+#define INPUT_BUFFER_SIZE 3
 
 /**
  * A byte input stream.

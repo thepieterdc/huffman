@@ -8,7 +8,7 @@
 #include "util/arguments.h"
 
 int main(int argc, char **argv) {
-	FILE *in = stdin;
+	FILE *in = fopen("/tmp/banaan.enc", "rb");
 	FILE *out = stdout;
 	
 	_huffmanfunction function = argument_parse(argc, argv);

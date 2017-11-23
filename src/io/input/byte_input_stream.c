@@ -37,9 +37,9 @@ byte_input_stream *byis_create(FILE *channel, bool retain) {
 	ret->channel = channel;
 	ret->max_buffer_size = INPUT_BUFFER_SIZE + 2;
 	ret->retain = retain;
-	if (channel) {
-		flockfile(channel);
-	}
+	
+	flockfile(channel);
+	ret->buffer_size = fread_unlocked(ret->buffer, sizeof(byte), ret->max_buffer_size, channel);
 	return ret;
 }
 
@@ -51,23 +51,21 @@ void byis_feed_byte(byte_input_stream *byis, byte data) {
 void byis_feed_stream(byte_input_stream *byis, FILE *stream) {
 	buffer_expand(byis);
 	byis->buffer_size += fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte),
-	                           byis->max_buffer_size - byis->buffer_size, stream);
+	                                    byis->max_buffer_size - byis->buffer_size, stream);
 }
 
 void byis_free(byte_input_stream *byis) {
-	if (byis->channel) {
-		funlockfile(byis->channel);
-	}
+	funlockfile(byis->channel);
 	free(byis->buffer);
 	free(byis);
 }
 
 byte byis_read(byte_input_stream *byis) {
-	if (byis->cursor + 2 == byis->buffer_size || byis->buffer_size == 0) {
-		if (byis->channel) {
-			byis_feed_stream(byis, byis->channel);
-		}
+	if (byis->cursor + 2 < byis->buffer_size) {
+		return byis->buffer[byis->cursor++];
 	}
+	
+	byis_feed_stream(byis, byis->channel);
 	
 	if (byis->buffer_size == 0) {
 		error(ERROR_END_OF_INPUT);
