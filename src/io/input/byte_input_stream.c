@@ -5,6 +5,7 @@
  */
 
 #include <stdlib.h>
+#include <memory.h>
 #include "byte_input_stream.h"
 #include "../../util/logging.h"
 #include "../../util/errors.h"
@@ -40,9 +41,9 @@ static void buffer_expand_retain(byte_input_stream *byis) {
 
 byte_input_stream *byis_create(FILE *channel, bool retain) {
 	byte_input_stream *ret = (byte_input_stream *) callocate(1, sizeof(byte_input_stream));
-	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE, sizeof(byte));
+	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE+2, sizeof(byte));
 	ret->channel = channel;
-	ret->max_buffer_size = INPUT_BUFFER_SIZE;
+	ret->max_buffer_size = INPUT_BUFFER_SIZE+2;
 	ret->expandFn = (_input_buffer_expand_function) (retain ? buffer_expand_retain : buffer_expand_overwrite);
 	
 	if (channel) {
@@ -60,9 +61,11 @@ void byis_free(byte_input_stream *byis) {
 }
 
 byte byis_read(byte_input_stream *byis) {
-	if (byis->cursor < byis->buffer_size - 2) {
+	if(byis->cursor < byis->buffer_size - 2) {
 		return byis->buffer[byis->cursor++];
-	} else {
+	}
+	
+	if (byis->cursor == byis->buffer_size - 2) {
 		byis->expandFn(byis);
 		byis->buffer_size += fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte), byis->max_buffer_size - byis->buffer_size, byis->channel);
 	}
