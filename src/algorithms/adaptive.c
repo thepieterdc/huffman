@@ -64,7 +64,7 @@ void huffman_adaptive_decompress(FILE *input, FILE *output) {
 	adaptive_huffman_tree *aht = adaptivehuffmantree_create();
 	
 	/* Decode the input. */
-	while (inputStream->stream->cursor < inputStream->stream->buffer_size - 2) {
+	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
 		/* Output the decoded character and append it to the window. */
 		huffman_node *t = adaptive_decode_character(aht, inputStream, output);
 		

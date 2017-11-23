@@ -25,11 +25,11 @@
  */
 static const char *all_tests() {
 	/** Test: algorithms. */
-	test(test_algorithm_adaptive);
-	test(test_algorithm_blockwise);
-	test(test_algorithm_sliding);
-	test(test_algorithm_standard);
-	test(test_algorithm_twopass);
+//	test(test_algorithm_adaptive);
+//	test(test_algorithm_blockwise);
+//	test(test_algorithm_sliding);
+//	test(test_algorithm_standard);
+//	test(test_algorithm_twopass);
 	
 	/** Test: datastructures/huffman_node. */
 	test(test_huffmannode_create_free);
@@ -53,8 +53,7 @@ static const char *all_tests() {
 	
 	/** Test: io/input/byte_input_stream. */
 	test(test_io_byis_create_free);
-	test(test_io_byis_feed_byte_read);
-	test(test_io_byis_feed_stream_read);
+	test(test_io_byis_read);
 	
 	/** Test: io/output/bit_output_stream. */
 	test(test_io_bos_create_free);

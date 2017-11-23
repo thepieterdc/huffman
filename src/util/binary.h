@@ -53,4 +53,8 @@ byte bitstring_to_byte(string s);
  */
 string byte_to_bitstring(byte b);
 
+#define GIGABYTE(x)   ((size_t) (x) << 30)
+#define KILOBYTE(x)   ((size_t) (x) << 10)
+#define MEGABYTE(x)   ((size_t) (x) << 20)
+
 #endif /* HUFFMAN_UTIL_BINARY_H */

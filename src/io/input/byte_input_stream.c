@@ -10,62 +10,61 @@
 #include "../../util/logging.h"
 #include "../../util/errors.h"
 #include "../../util/memory.h"
+#include "../../util/binary.h"
 
 /**
- * Expands or clears the internal buffer if necessary.
+ * Expands the buffer by overwriting its contents.
  *
  * @param byis the byte input stream
  */
-static void buffer_expand(byte_input_stream *byis) {
-	if (byis->buffer_size == byis->max_buffer_size) {
-		if (byis->retain) {
-			byis->max_buffer_size *= 2;
-			byis->buffer = (byte *) reallocate(byis->buffer, byis->max_buffer_size);
-		} else {
-			byis->cursor = 0;
-			byis->buffer[0] = byis->buffer[byis->buffer_size - 2];
-			byis->buffer[1] = byis->buffer[byis->buffer_size - 1];
-			byis->buffer_size = 2;
-			memset(byis->buffer + 2, '\0', byis->max_buffer_size - 2);
-		}
+static void buffer_expand_overwrite(byte_input_stream *byis) {
+	byis->buffer_size = 0;
+	byis->cursor = 0;
+}
+
+/**
+ * Expands the buffer by retaining its contents.
+ *
+ * @param byis the byte input stream
+ */
+static void buffer_expand_retain(byte_input_stream *byis) {
+	/* Prevents allocating enormous amounts of memory for large files. */
+	if (byis->max_buffer_size > GIGABYTE(2)) {
+		byis->max_buffer_size += GIGABYTE(1);
+	} else {
+		byis->max_buffer_size *= 2;
 	}
+	byis->buffer = (byte *) reallocate(byis->buffer, byis->max_buffer_size);
 }
 
 byte_input_stream *byis_create(FILE *channel, bool retain) {
 	byte_input_stream *ret = (byte_input_stream *) callocate(1, sizeof(byte_input_stream));
-	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE + 2, sizeof(byte));
+	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE, sizeof(byte));
 	ret->channel = channel;
-	ret->max_buffer_size = INPUT_BUFFER_SIZE + 2;
-	ret->retain = retain;
+	ret->max_buffer_size = INPUT_BUFFER_SIZE;
+	ret->expandFn = (_input_buffer_expand_function) (retain ? buffer_expand_retain : buffer_expand_overwrite);
 	
-	flockfile(channel);
-	ret->buffer_size = fread_unlocked(ret->buffer, sizeof(byte), ret->max_buffer_size, channel);
+	if (channel) {
+		ret->buffer_size = fread_unlocked(ret->buffer, sizeof(byte), ret->max_buffer_size, channel);
+	}
 	return ret;
 }
 
-void byis_feed_byte(byte_input_stream *byis, byte data) {
-	buffer_expand(byis);
-	byis->buffer[byis->buffer_size++] = data;
-}
-
-void byis_feed_stream(byte_input_stream *byis, FILE *stream) {
-	buffer_expand(byis);
-	byis->buffer_size += fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte),
-	                                    byis->max_buffer_size - byis->buffer_size, stream);
-}
-
 void byis_free(byte_input_stream *byis) {
-	funlockfile(byis->channel);
+	if (byis->channel) {
+		funlockfile(byis->channel);
+	}
 	free(byis->buffer);
 	free(byis);
 }
 
 byte byis_read(byte_input_stream *byis) {
-	if (byis->cursor + 2 < byis->buffer_size) {
+	if (byis->cursor < byis->buffer_size) {
 		return byis->buffer[byis->cursor++];
+	} else {
+		byis->expandFn(byis);
+		byis->buffer_size += fread_unlocked(byis->buffer, sizeof(byte), byis->max_buffer_size, byis->channel);
 	}
-	
-	byis_feed_stream(byis, byis->channel);
 	
 	if (byis->buffer_size == 0) {
 		error(ERROR_END_OF_INPUT);

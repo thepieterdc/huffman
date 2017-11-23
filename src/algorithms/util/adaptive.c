@@ -44,7 +44,6 @@ huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_s
 	if (cursor->type == NYT) {
 		/* z is a new character; add it to the tree. */
 		byte z = bis_read_byte(in);
-		fprintf(stderr, "Read character: %c\n", z);
 		huffman_node *o = adaptive_add_character(tree, z);
 		putc(z, out);
 		return o->parent;

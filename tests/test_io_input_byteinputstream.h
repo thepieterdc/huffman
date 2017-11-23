@@ -10,10 +10,7 @@
 /** Tests byis_create(), byis_free(). */
 const char *test_io_byis_create_free();
 
-/** Tests byis_feed_byte(), byis_read(). */
-const char *test_io_byis_feed_byte_read();
-
-/** Tests byis_feed_stream(), byis_read(). */
-const char *test_io_byis_feed_stream_read();
+/** Tests byis_read(). */
+const char *test_io_byis_read();
 
 #endif /* HUFFMAN_TEST_IO_INPUT_BYTEINPUTSTREAM_H */

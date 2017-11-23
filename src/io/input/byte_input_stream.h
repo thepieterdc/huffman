@@ -11,18 +11,25 @@
 #include <stdbool.h>
 #include "../../datatypes/bit.h"
 
-#define INPUT_BUFFER_SIZE 3
+#define INPUT_BUFFER_SIZE 5
 
 /**
  * A byte input stream.
  */
+struct byte_input_stream;
+
+/**
+ * A function that expands the buffer.
+ */
+typedef void (*_input_buffer_expand_function)(struct byte_input_stream *);
+
 typedef struct {
 	byte *buffer;
 	FILE *channel;
 	size_t cursor;
 	size_t buffer_size;
 	size_t max_buffer_size;
-	bool retain;
+	_input_buffer_expand_function expandFn;
 } byte_input_stream;
 
 /**
@@ -33,22 +40,6 @@ typedef struct {
  * @return the created byte input stream
  */
 byte_input_stream *byis_create(FILE *channel, bool retain);
-
-/**
- * Adds a byte to the input stream.
- *
- * @param byis the input stream
- * @param data the byte to feed
- */
-void byis_feed_byte(byte_input_stream *byis, byte data);
-
-/**
- * Consumes bytes from a stream to the input stream.
- *
- * @param byis the input stream
- * @param stream the stream to consume
- */
-void byis_feed_stream(byte_input_stream *byis, FILE *stream);
 
 /**
  * Frees the memory allocated by the byte input stream.
