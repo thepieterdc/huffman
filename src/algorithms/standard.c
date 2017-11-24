@@ -51,27 +51,26 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	inputStream->cursor = 0;
 	
 	/* Create two dictionaries for fast lookups. */
+	bool data_is_random = true;
 	uint_fast64_t codes[HUFFMAN_MAX_LEAVES] = {0};
 	uint_fast8_t codelengths[HUFFMAN_MAX_LEAVES] = {0};
 	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
 		if (tree->leaves[i]) {
 			codes[i] = tree->leaves[i]->code->code;
 			codelengths[i] = tree->leaves[i]->code->length;
+			if(codelengths[i] != 8) {
+				data_is_random = false;
+			}
+		} else {
+			data_is_random = false;
 		}
 	}
 	
 	/* Encode the input. */
-	byte b = byis_read_unsafe(inputStream);
-	if (standard_data_is_random(tree)) {
-		while (inputStream->cursor <= inputStream->buffer_size) {
-			putc_unlocked((uint_fast8_t) codes[b], output);
-			b = byis_read_unsafe(inputStream);
-		}
+	if (data_is_random) {
+		standard_encode_random(inputStream, output, codes);
 	} else {
-		while (inputStream->cursor <= inputStream->buffer_size) {
-			bos_feed_bits(outputStream, codes[b], codelengths[b]);
-			b = byis_read_unsafe(inputStream);
-		}
+		standard_encode_regular(inputStream, outputStream, codes, codelengths);
 	}
 	
 	/* Apply padding after the last bits. */
@@ -99,7 +98,6 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	/* Build up the Huffman tree. */
 	huffman_tree *tree = huffmantree_create(NULL);
 	tree->root->code = huffmancode_create();
-	
 	standard_build_tree_from_bits(tree->root, inputStream, true);
 	
 	/* Clear the remaining padding bits. */

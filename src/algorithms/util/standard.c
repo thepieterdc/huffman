@@ -52,10 +52,11 @@ huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[])
 	/* Add all bytes to a heap. */
 	min_heap *heap = minheap_create(256);
 	for (size_t i = 0; i < 256; ++i) {
-		if (frequencies[i] > 0) {
-			huffman_node *leaf = huffmannode_create_leaf((byte) i, frequencies[i]);
+		register uint_least64_t freq = frequencies[i];
+		if (freq > 0) {
+			huffman_node *leaf = huffmannode_create_leaf((byte) i, freq);
+			minheap_insert(heap, freq, leaf);
 			tree->leaves[i] = leaf;
-			minheap_insert(heap, leaf->weight, leaf);
 		}
 	}
 	
@@ -80,15 +81,6 @@ huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[])
 	return tree;
 }
 
-bool standard_data_is_random(huffman_tree *tree) {
-	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
-		if (tree->leaves[i] == NULL || tree->leaves[i]->code->length != 8) {
-			return false;
-		}
-	}
-	return true;
-}
-
 byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 	huffman_node *cursor = tree;
 	while (cursor->type != LEAF) {
@@ -96,6 +88,22 @@ byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 		cursor = rd ? cursor->right : cursor->left;
 	}
 	return cursor->data;
+}
+
+void standard_encode_random(byte_input_stream *in, FILE *out, uint_fast64_t codes[]) {
+	register byte b = byis_read_unsafe(in);
+	while (in->cursor <= in->buffer_size) {
+		putc_unlocked((uint_fast8_t) codes[b], out);
+		b = byis_read_unsafe(in);
+	}
+}
+
+void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, uint_fast64_t codes[], uint_fast8_t code_lengths[]) {
+	register byte b = byis_read_unsafe(in);
+	while (in->cursor <= in->buffer_size) {
+		bos_feed_bits(out, codes[b], code_lengths[b]);
+		b = byis_read_unsafe(in);
+	}
 }
 
 void standard_print_characters(huffman_node *root, bit_output_stream *out) {

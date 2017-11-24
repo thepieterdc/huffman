@@ -37,16 +37,6 @@ void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, 
 huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[]);
 
 /**
- * Checks whether or not the tree contains random data. A tree contains random
- * data if, and only if, every code is 8 bits long (and therefore each
- * byte value exists in the tree).
- *
- * @param tree the Huffman tree
- * @return true if the tree contains random data
- */
-bool standard_data_is_random(huffman_tree *tree);
-
-/**
  * Decodes the next character in the input stream.
  *
  * @param tree the Huffman tree to use
@@ -54,6 +44,25 @@ bool standard_data_is_random(huffman_tree *tree);
  * @return the decoded character
  */
 byte standard_decode_character(huffman_node *tree, bit_input_stream *in);
+
+/**
+ * Encodes all characters in the input stream, assumning the data is random.
+ *
+ * @param in the input stream
+ * @param out the output channel
+ * @param codes the codes for every character
+ */
+void standard_encode_random(byte_input_stream *in, FILE *out, uint_fast64_t codes[]);
+
+/**
+ * Encodes all characters in the input stream.
+ *
+ * @param in the input stream
+ * @param out the output stream
+ * @param codes the codes for every character
+ * @param code_lengths the code lengths for every character
+ */
+void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, uint_fast64_t codes[], uint_fast8_t code_lengths[]);
 
 /**
  * Traverses the tree in a DFS manner and prints all characters.
