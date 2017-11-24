@@ -86,7 +86,7 @@ void huffman_sliding_decompress(FILE *input, FILE *output) {
 		}
 	}
 	
-	/* Decode the remaining bytes. */
+	/* Decode the remaining byte. */
 	size_t indicator = huffman_finalize_input(inputStream);
 	while(inputStream->current_cursor < indicator) {
 		huffman_node *t = sliding_decode_character(aht, window, inputStream, output);

@@ -67,7 +67,7 @@ void huffman_adaptive_decompress(FILE *input, FILE *output) {
 		adaptive_update_tree(aht, t);
 	}
 	
-	/* Decode the remaining bytes. */
+	/* Decode the remaining byte. */
 	size_t indicator = huffman_finalize_input(inputStream);
 	while (inputStream->current_cursor < indicator) {
 		huffman_node *t = adaptive_decode_character(aht, inputStream, output);

@@ -34,7 +34,9 @@ avg:235547  234066      233086  232847      233112  2330404
         -> 1250 wint (d betekent windowsize en avg is average textlengte)
 
 - random data heeft alle paden lengte 8 -> kan onmiddellijk geprint worden zonder buffer
+ook in decoder rekening mee gehouden
+beklemtonen dat er eigenlijk vanalles gedaan is om het enorm snel te maken voor random data
 
-- unlocked_io want sneller -> locks
+- unlocked_io want sneller -> file locks
 
 - outputbuffer size testen met mooie grafieken enzo

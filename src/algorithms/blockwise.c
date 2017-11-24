@@ -95,7 +95,7 @@ void huffman_blockwise_decompress(FILE *input, FILE *output) {
 		adaptivehuffmantree_free(aht);
 	}
 	
-	/* Decode the remaining bytes. */
+	/* Decode the remaining byte. */
 	size_t indicator = huffman_finalize_input(inputStream);
 	while(inputStream->current_cursor < indicator) {
 		huffman_node *t = adaptive_decode_character(aht, inputStream, output);

@@ -113,7 +113,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 		putc_unlocked(standard_decode_character(tree->root, inputStream), output);
 	}
 	
-	/* Decode the remaining bytes. */
+	/* Decode the remaining byte. */
 	size_t indicator = huffman_finalize_input(inputStream);
 	while (inputStream->current_cursor < indicator) {
 		putc_unlocked(standard_decode_character(tree->root, inputStream), output);
