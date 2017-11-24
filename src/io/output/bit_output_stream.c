@@ -9,10 +9,6 @@
 #include "../../util/memory.h"
 #include "../../util/binary.h"
 
-static uint_fast64_t one = 0;
-static uint_fast64_t two = 0;
-static uint_fast64_t three = 0;
-
 /**
  * Prints the contents of the internal buffer.
  *
@@ -52,15 +48,12 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left) {
 	while (left > 0) {
 		if (bos->current_cursor == 8 && left == 8) {
-			one++;
 			putc_unlocked((uint_fast8_t) bits, bos->channel);
 			return;
 		} else if (left < bos->current_cursor) {
-			two++;
 			bos->current_byte |= (bits << (bos->current_cursor -= left));
 			left = 0;
 		} else {
-			three++;
 			uint_fast8_t shift = left - bos->current_cursor;
 			bos->current_byte |= (bits & (bitmask_n_bits(bos->current_cursor) << shift)) >> shift;
 			left -= bos->current_cursor;
@@ -93,7 +86,6 @@ void bos_free(bit_output_stream *bos) {
 	if(bos->channel) {
 		funlockfile(bos->channel);
 	}
-	fprintf(stderr, "Results: %lu - %lu - %lu\n", one, two, three);
 	free(bos);
 }
 

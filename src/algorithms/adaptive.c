@@ -37,7 +37,7 @@ void huffman_adaptive_compress(FILE *input, FILE *output) {
 	size_t padding = 8 - bos_pad(outputStream);
 	
 	/* Output the amount of padding bits added. */
-	bos_feed_byte(outputStream, (byte) padding);
+	putc_unlocked((byte) padding, output);
 	
 	/* Flush the output buffer. */
 	bos_flush(outputStream);

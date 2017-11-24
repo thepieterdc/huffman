@@ -7,6 +7,7 @@
 #include "twopass.h"
 #include "../../datastructures/byte_queue.h"
 #include "../../util/binary.h"
+#include "../../io/output/bit_output_stream.h"
 
 void twopass_assign_weights(huffman_node *root, bit_input_stream *in) {
 	if (root->type == LEAF) {
@@ -79,10 +80,10 @@ void twopass_parse_tree(adaptive_huffman_tree *aht, huffman_tree *tree) {
 
 void twopass_print_weights(huffman_node *root, bit_output_stream *out) {
 	if (root->type == LEAF) {
-		bos_feed_byte(out, (byte) ((root->weight >> 24) & BYTE_MASK));
-		bos_feed_byte(out, (byte) ((root->weight >> 16) & BYTE_MASK));
-		bos_feed_byte(out, (byte) ((root->weight >> 8) & BYTE_MASK));
-		bos_feed_byte(out, (byte) (root->weight & BYTE_MASK));
+		putc_unlocked((byte) ((root->weight >> 24) & BYTE_MASK), out->channel);
+		putc_unlocked((byte) ((root->weight >> 16) & BYTE_MASK), out->channel);
+		putc_unlocked((byte) ((root->weight >> 8) & BYTE_MASK), out->channel);
+		putc_unlocked((byte) (root->weight & BYTE_MASK), out->channel);
 	} else {
 		twopass_print_weights(root->left, out);
 		twopass_print_weights(root->right, out);

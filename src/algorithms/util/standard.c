@@ -7,6 +7,7 @@
 #include "standard.h"
 #include "../../datastructures/huffman_tree/huffman_tree.h"
 #include "../../datastructures/min_heap.h"
+#include "../../io/output/bit_output_stream.h"
 
 /**
  * Recursive step to set the characters in a Huffman tree.
@@ -90,7 +91,7 @@ byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 
 void standard_print_characters(huffman_node *root, bit_output_stream *out) {
 	if (root->type == LEAF) {
-		bos_feed_byte(out, root->data);
+		putc_unlocked(root->data, out->channel);
 	} else {
 		standard_print_characters(root->left, out);
 		standard_print_characters(root->right, out);
