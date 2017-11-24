@@ -19,6 +19,7 @@
 void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
 	byte_input_stream *inputStream = byis_create(input, true);
+	byis_consume(inputStream);
 	
 	/* Create a buffer to store the output. */
 	bit_output_stream *outputStream = bos_create(output);
@@ -26,8 +27,8 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	/* Determine the frequencies of each character. */
 	uint_fast64_t frequencies[HUFFMAN_MAX_LEAVES] = {0};
 	
-	while (inputStream->cursor <= inputStream->buffer_size) {
-		frequencies[byis_read(inputStream)]++;
+	while (inputStream->cursor < inputStream->buffer_size) {
+		frequencies[byis_read_unsafe(inputStream)]++;
 	}
 	
 	/* Failsafe for empty input. */
@@ -60,10 +61,10 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	}
 	
 	/* Encode the input. */
-	byte b = byis_read_dirty(inputStream);
+	byte b = byis_read_unsafe(inputStream);
 	while (inputStream->cursor <= inputStream->buffer_size) {
 		bos_feed_bits(outputStream, codes[b], codelengths[b]);
-		b = byis_read_dirty(inputStream);
+		b = byis_read_unsafe(inputStream);
 	}
 	
 	/* Apply padding after the last bits. */

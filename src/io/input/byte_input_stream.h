@@ -12,7 +12,7 @@
 #include "../../datatypes/bit.h"
 #include "../../util/binary.h"
 
-#define INPUT_BUFFER_SIZE 10
+#define INPUT_BUFFER_SIZE MEBIBYTE(2)
 
 /**
  * A byte input stream.
@@ -32,6 +32,13 @@ typedef struct byte_input_stream {
 	size_t max_buffer_size;
 	_input_buffer_expand_function expandFn;
 } byte_input_stream;
+
+/**
+ * Reads the entire input stream.
+ *
+ * @param byis the byte input stream to consume
+ */
+void byis_consume(byte_input_stream *byis);
 
 /**
  * Creates a new byte input stream.
@@ -63,6 +70,6 @@ byte byis_read(byte_input_stream *byis);
  * @param byis the byte input stream
  * @return the byte read
  */
-byte byis_read_dirty(byte_input_stream *byis);
+byte byis_read_unsafe(byte_input_stream *byis);
 
 #endif /* HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H */

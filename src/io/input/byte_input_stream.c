@@ -31,19 +31,31 @@ static void buffer_expand_overwrite(byte_input_stream *byis) {
  */
 static void buffer_expand_retain(byte_input_stream *byis) {
 	/* Prevents allocating enormous amounts of memory for large files. */
-	if (byis->max_buffer_size > GIGABYTE(2)) {
-		byis->max_buffer_size += GIGABYTE(1);
+	if (byis->max_buffer_size > GIBIBYTE(2)) {
+		byis->max_buffer_size += GIBIBYTE(1);
 	} else {
 		byis->max_buffer_size *= 2;
 	}
 	byis->buffer = (byte *) reallocate(byis->buffer, byis->max_buffer_size);
 }
 
+void byis_consume(byte_input_stream *byis) {
+	if(byis->buffer_size == byis->max_buffer_size) {
+		size_t read = 0;
+		do {
+			byis->expandFn(byis);
+			read = fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte),
+			                       byis->max_buffer_size - byis->buffer_size, byis->channel);
+			byis->buffer_size += read;
+		} while (read != 0);
+	}
+}
+
 byte_input_stream *byis_create(FILE *channel, bool retain) {
 	byte_input_stream *ret = (byte_input_stream *) callocate(1, sizeof(byte_input_stream));
-	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE+2, sizeof(byte));
+	ret->buffer = (byte *) callocate(INPUT_BUFFER_SIZE + 2, sizeof(byte));
 	ret->channel = channel;
-	ret->max_buffer_size = INPUT_BUFFER_SIZE+2;
+	ret->max_buffer_size = INPUT_BUFFER_SIZE + 2;
 	ret->expandFn = (_input_buffer_expand_function) (retain ? buffer_expand_retain : buffer_expand_overwrite);
 	
 	if (channel) {
@@ -61,13 +73,14 @@ void byis_free(byte_input_stream *byis) {
 }
 
 byte byis_read(byte_input_stream *byis) {
-	if(byis->cursor < byis->buffer_size - 2) {
+	if (byis->cursor < byis->buffer_size - 2) {
 		return byis->buffer[byis->cursor++];
 	}
 	
 	if (byis->cursor == byis->buffer_size - 2) {
 		byis->expandFn(byis);
-		byis->buffer_size += fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte), byis->max_buffer_size - byis->buffer_size, byis->channel);
+		byis->buffer_size += fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte),
+		                                    byis->max_buffer_size - byis->buffer_size, byis->channel);
 	}
 	
 	if (byis->buffer_size == 0) {
@@ -77,6 +90,6 @@ byte byis_read(byte_input_stream *byis) {
 	return byis->buffer[byis->cursor++];
 }
 
-inline byte byis_read_dirty(byte_input_stream *byis) {
+inline byte byis_read_unsafe(byte_input_stream *byis) {
 	return byis->buffer[byis->cursor++];
 }

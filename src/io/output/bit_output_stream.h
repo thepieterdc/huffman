@@ -11,7 +11,7 @@
 #include "../../util/binary.h"
 #include "../../datatypes/huffman_code.h"
 
-#define OUTPUT_BUFFER_SIZE KILOBYTE(32)
+#define OUTPUT_BUFFER_SIZE KIBIBYTE(32)
 
 /**
  * An output stream for bits.
