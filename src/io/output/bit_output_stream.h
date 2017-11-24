@@ -56,14 +56,6 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t amou
 void bos_feed_byte(bit_output_stream *bos, byte b);
 
 /**
- * Feeds a byte to the output stream without checking the current buffer.
- *
- * @param byis the byte output stream
- * @param b the byte to feed
- */
-void bos_feed_byte_dirty(bit_output_stream *bos, byte b);
-
-/**
  * Flushes the output buffer.
  *
  * @param bos the byte output stream
