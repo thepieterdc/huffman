@@ -25,59 +25,59 @@
  */
 static const char *all_tests() {
 	/** Test: algorithms. */
-//	test(test_algorithm_adaptive);
-//	test(test_algorithm_blockwise);
-//	test(test_algorithm_sliding);
+	test(test_algorithm_adaptive);
+	test(test_algorithm_blockwise);
+	test(test_algorithm_sliding);
 	test(test_algorithm_standard);
-//	test(test_algorithm_twopass);
-//
-//	/** Test: datastructures/huffman_node. */
-//	test(test_huffmannode_create_free);
-//
-//	/** Test: datastructures/min_heap. */
-//	test(test_minheap_create_free);
-//	test(test_minheap_insert_find_extract_min);
-//
-//	/** Test: datastructures/byte_queue. */
-//	test(test_byte_queue_create_free);
-//	test(test_byte_queue_empty);
-//	test(test_byte_queue_push_peek_pop);
-//
-//	/** Test: datatypes/huffman_code. */
-//	test(test_huffmancode_create_left_right);
-//
-//	/** Test: io/input/bit_input_stream. */
-//	test(test_io_bis_create_free);
-//	test(test_io_bis_read_bit);
-//	test(test_io_bis_read_byte);
-//
-//	/** Test: io/input/byte_input_stream. */
-//	test(test_io_byis_create_free);
-//	test(test_io_byis_read);
-//
-//	/** Test: io/output/bit_output_stream. */
-//	test(test_io_bos_create_free);
-//	test(test_io_bos_feed_bit_flush);
-//	test(test_io_bos_feed_bit_pad_flush);
-//	test(test_io_bos_feed_byte_flush);
-//
-//	/** Test: util/arguments. */
-//	test(test_arguments_algorithm);
-//	test(test_arguments_mode);
-//	test(test_arguments_usage_display);
-//
-//	/** Test: util/binary. */
-//	test(test_bit_to_bitchar);
-//	test(test_bitchar_to_bit);
-//	test(test_bitmask_n_bits);
-//	test(test_bitstring_to_byte);
-//	test(test_byte_to_bitstring);
-//
-//	/** Test: util/string. */
-//	test(test_char_to_int);
-//	test(test_string_concat);
-//	test(test_string_contains);
-//	test(test_string_equals);
+	test(test_algorithm_twopass);
+
+	/** Test: datastructures/huffman_node. */
+	test(test_huffmannode_create_free);
+
+	/** Test: datastructures/min_heap. */
+	test(test_minheap_create_free);
+	test(test_minheap_insert_find_extract_min);
+
+	/** Test: datastructures/byte_queue. */
+	test(test_byte_queue_create_free);
+	test(test_byte_queue_empty);
+	test(test_byte_queue_push_peek_pop);
+
+	/** Test: datatypes/huffman_code. */
+	test(test_huffmancode_create_left_right);
+
+	/** Test: io/input/bit_input_stream. */
+	test(test_io_bis_create_free);
+	test(test_io_bis_read_bit);
+	test(test_io_bis_read_byte);
+
+	/** Test: io/input/byte_input_stream. */
+	test(test_io_byis_create_free);
+	test(test_io_byis_read);
+
+	/** Test: io/output/bit_output_stream. */
+	test(test_io_bos_create_free);
+	test(test_io_bos_feed_bit_flush);
+	test(test_io_bos_feed_bit_pad_flush);
+	test(test_io_bos_feed_byte_flush);
+
+	/** Test: util/arguments. */
+	test(test_arguments_algorithm);
+	test(test_arguments_mode);
+	test(test_arguments_usage_display);
+
+	/** Test: util/binary. */
+	test(test_bit_to_bitchar);
+	test(test_bitchar_to_bit);
+	test(test_bitmask_n_bits);
+	test(test_bitstring_to_byte);
+	test(test_byte_to_bitstring);
+
+	/** Test: util/string. */
+	test(test_char_to_int);
+	test(test_string_concat);
+	test(test_string_contains);
+	test(test_string_equals);
 	return 0;
 }
 

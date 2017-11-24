@@ -24,7 +24,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Determine the frequencies of each character. */
-	uint_least32_t frequencies[HUFFMAN_MAX_LEAVES] = {0};
+	uint_fast64_t frequencies[HUFFMAN_MAX_LEAVES] = {0};
 	
 	while (inputStream->cursor <= inputStream->buffer_size) {
 		frequencies[byis_read(inputStream)]++;
@@ -53,8 +53,10 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	uint_fast64_t codes[HUFFMAN_MAX_LEAVES] = {0};
 	uint_fast8_t codelengths[HUFFMAN_MAX_LEAVES] = {0};
 	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
-		codes[i] = tree->leaves[i]->code->code;
-		codelengths[i] = tree->leaves[i]->code->length;
+		if(tree->leaves[i]) {
+			codes[i] = tree->leaves[i]->code->code;
+			codelengths[i] = tree->leaves[i]->code->length;
+		}
 	}
 	
 	/* Encode the input. */

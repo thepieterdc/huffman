@@ -38,7 +38,7 @@ typedef struct huffman_node {
  * @param weight the weight of this leaf
  * @return the created node
  */
-huffman_node *huffmannode_create_leaf(byte data, uint_least32_t weight);
+huffman_node *huffmannode_create_leaf(byte data, uint_least64_t weight);
 
 /**
  * Creates a new Huffman node-node.

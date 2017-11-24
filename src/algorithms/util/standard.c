@@ -45,7 +45,7 @@ void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, 
 	}
 }
 
-huffman_tree *standard_build_tree_from_frequencies(uint_least32_t frequencies[]) {
+huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[]) {
 	huffman_tree *tree = huffmantree_create_empty();
 	
 	/* Add all bytes to a heap. */

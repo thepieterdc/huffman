@@ -24,7 +24,7 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Determine the frequencies of each character. */
-	uint_least32_t frequencies[256] = {0};
+	uint_least64_t frequencies[256] = {0};
 	
 	while (inputStream->cursor <= inputStream->buffer_size) {
 		frequencies[byis_read(inputStream)]++;
