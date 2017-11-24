@@ -54,7 +54,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	uint_fast64_t codes[HUFFMAN_MAX_LEAVES] = {0};
 	uint_fast8_t codelengths[HUFFMAN_MAX_LEAVES] = {0};
 	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
-		if(tree->leaves[i]) {
+		if (tree->leaves[i]) {
 			codes[i] = tree->leaves[i]->code->code;
 			codelengths[i] = tree->leaves[i]->code->length;
 		}
@@ -62,9 +62,16 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	
 	/* Encode the input. */
 	byte b = byis_read_unsafe(inputStream);
-	while (inputStream->cursor <= inputStream->buffer_size) {
-		bos_feed_bits(outputStream, codes[b], codelengths[b]);
-		b = byis_read_unsafe(inputStream);
+	if (standard_data_is_random(tree)) {
+		while (inputStream->cursor <= inputStream->buffer_size) {
+			putc_unlocked((uint_fast8_t) codes[b], output);
+			b = byis_read_unsafe(inputStream);
+		}
+	} else {
+		while (inputStream->cursor <= inputStream->buffer_size) {
+			bos_feed_bits(outputStream, codes[b], codelengths[b]);
+			b = byis_read_unsafe(inputStream);
+		}
 	}
 	
 	/* Apply padding after the last bits. */

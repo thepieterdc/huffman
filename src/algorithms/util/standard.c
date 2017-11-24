@@ -80,6 +80,15 @@ huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[])
 	return tree;
 }
 
+bool standard_data_is_random(huffman_tree *tree) {
+	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
+		if (tree->leaves[i] == NULL || tree->leaves[i]->code->length != 8) {
+			return false;
+		}
+	}
+	return true;
+}
+
 byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 	huffman_node *cursor = tree;
 	while (cursor->type != LEAF) {

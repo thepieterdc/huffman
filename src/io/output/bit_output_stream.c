@@ -46,27 +46,24 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 }
 
 void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left) {
-	while (left > 0) {
+	do {
 		if (bos->current_cursor == 8 && left == 8) {
 			putc_unlocked((uint_fast8_t) bits, bos->channel);
 			return;
 		} else if (left < bos->current_cursor) {
 			bos->current_byte |= (bits << (bos->current_cursor -= left));
-			left = 0;
+			return;
 		} else {
 			uint_fast8_t shift = left - bos->current_cursor;
 			bos->current_byte |= (bits & (bitmask_n_bits(bos->current_cursor) << shift)) >> shift;
 			left -= bos->current_cursor;
 			print_buffer(bos);
 		}
-	}
+	} while(left > 0);
 }
 
 void bos_feed_byte(bit_output_stream *bos, byte b) {
 	if (bos->current_cursor == 8) {
-		putc_unlocked(b, bos->channel);
-	} else if (bos->current_cursor == 0) {
-		print_buffer(bos);
 		putc_unlocked(b, bos->channel);
 	} else {
 		bos->current_byte |= (b >> (8 - bos->current_cursor));
