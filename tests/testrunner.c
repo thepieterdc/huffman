@@ -94,5 +94,5 @@ int main(void) {
 	} else {
 		warning(msg);
 	}
-	return testunit_tests_ok != testunit_tests_total;
+	return testunit_tests_total - testunit_tests_ok;
 }

@@ -21,14 +21,13 @@ const char *test_io_byis_read() {
 	char *buf;
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
-	
-	byte_input_stream *byis = byis_create(memfile, true);
-	
 	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
 		fprintf(memfile, "%c", (byte) (i % 256));
 	}
 	
-	for (size_t i = 0; i < INPUT_BUFFER_SIZE*2; ++i) {
+	byte_input_stream *byis = byis_create(memfile, true);
+	
+	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
 		assertEquals(byis_read(byis), (byte) (i % 256));
 	}
 	

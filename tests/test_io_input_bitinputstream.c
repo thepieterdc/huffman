@@ -49,11 +49,11 @@ const char *test_io_bis_read_byte() {
 	size_t size;
 	FILE *memfile = open_memstream(&buf, &size);
 	
-	bit_input_stream *bis = bis_create(memfile, true);
-	
 	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
 		fprintf(memfile, "%c", (byte) (i % 256));
 	}
+	
+	bit_input_stream *bis = bis_create(memfile, true);
 	
 	for (size_t i = 0; i < INPUT_BUFFER_SIZE * 2; ++i) {
 		assertEquals(bis_read_byte(bis), (byte) (i % 256));

@@ -12,7 +12,7 @@
 #include "../../datatypes/bit.h"
 #include "../../util/binary.h"
 
-#define INPUT_BUFFER_SIZE MEGABYTE(2)
+#define INPUT_BUFFER_SIZE 10
 
 /**
  * A byte input stream.
