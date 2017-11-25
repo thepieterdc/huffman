@@ -98,7 +98,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	/* Build up the Huffman tree. */
 	huffman_tree *tree = huffmantree_create(NULL);
 	tree->root->code = huffmancode_create();
-	standard_build_tree_from_bits(tree->root, inputStream, true);
+	uint_fast8_t max_code = standard_build_tree_from_bits(tree->root, inputStream, true);
 	
 	/* Clear the remaining padding bits. */
 	bis_clear_current_byte(inputStream);

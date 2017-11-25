@@ -10,6 +10,7 @@
 #include "../../io/output/bit_output_stream.h"
 #include "../../io/input/bit_input_stream.h"
 #include "common.h"
+#include "../../util/numerical.h"
 
 /**
  * Recursive step to set the characters in a Huffman tree.
@@ -32,20 +33,22 @@ void standard_assign_characters(huffman_tree *tree, bit_input_stream *in) {
 	standard_assign_characters_rec(tree, tree->root, in);
 }
 
-void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes) {
+uint_fast8_t standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes) {
 	bit rd = bis_read_bit(input);
 	root->type = rd ? LEAF : NODE;
 	if (!rd) {
 		root->left = huffmannode_create_node(NULL, NULL);
 		root->left->parent = root;
 		root->left->code = assign_codes ? huffmancode_create_left(root->code) : NULL;
-		standard_build_tree_from_bits(root->left, input, assign_codes);
+		uint_fast8_t p1 = standard_build_tree_from_bits(root->left, input, assign_codes);
 		
 		root->right = huffmannode_create_node(NULL, NULL);
 		root->right->parent = root;
 		root->right->code = assign_codes ? huffmancode_create_right(root->code) : NULL;
-		standard_build_tree_from_bits(root->right, input, assign_codes);
+		uint_fast8_t p2 = standard_build_tree_from_bits(root->right, input, assign_codes);
+		return (uint_fast8_t) (1 + MAX(p1, p2));
 	}
+	return 1;
 }
 
 huffman_tree *standard_build_tree_from_frequencies(const uint_least64_t frequencies[]) {

@@ -26,8 +26,9 @@ void standard_assign_characters(huffman_tree *tree, bit_input_stream *in);
  * @param root the root of the tree
  * @param input the input stream
  * @param assign_codes true to assign a code to every node
+ * @return the maximum path length
  */
-void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes);
+uint_fast8_t standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes);
 
 /**
  * Creates a Huffman tree from a frequency table.
@@ -70,8 +71,9 @@ void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree
  * @param in the input stream
  * @param out the output channel
  * @param tree the Huffman tree
+ * @param maxpath the maximum path length
  */
-void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree);
+void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree, uint_fast8_t maxpath);
 
 /**
  * Encodes all characters in the input stream, assuming the data is random.
