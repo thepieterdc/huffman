@@ -8,6 +8,7 @@
 #include "../../datastructures/huffman_tree/huffman_tree.h"
 #include "../../datastructures/min_heap.h"
 #include "../../io/output/bit_output_stream.h"
+#include "../../io/input/bit_input_stream.h"
 
 /**
  * Recursive step to set the characters in a Huffman tree.
@@ -46,7 +47,7 @@ void standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, 
 	}
 }
 
-huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[]) {
+huffman_tree *standard_build_tree_from_frequencies(const uint_least64_t frequencies[]) {
 	huffman_tree *tree = huffmantree_create_empty();
 	
 	/* Add all bytes to a heap. */
@@ -81,6 +82,15 @@ huffman_tree *standard_build_tree_from_frequencies(uint_least64_t frequencies[])
 	return tree;
 }
 
+bool standard_data_is_random(huffman_tree *tree) {
+	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
+		if (tree->leaves[i] == NULL || tree->leaves[i]->code->length != 8) {
+			return false;
+		}
+	}
+	return true;
+}
+
 byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 	huffman_node *cursor = tree;
 	while (cursor->type != LEAF) {
@@ -88,6 +98,25 @@ byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 		cursor = rd ? cursor->right : cursor->left;
 	}
 	return cursor->data;
+}
+
+void standard_decode_random(bit_input_stream *in, FILE *out, huffman_tree *tree) {
+	/* Create a dictionary for fast lookups. */
+	uint_fast8_t dictionary[HUFFMAN_MAX_LEAVES] = {0};
+	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
+		uint_fast8_t code = (uint_fast8_t) tree->leaves[i]->code->code;
+		dictionary[code] = (uint_fast8_t) i;
+	}
+
+	register byte rd = byis_read(in->stream);
+	while (in->stream->cursor <= in->stream->buffer_size - 2) {
+		putc_unlocked(dictionary[rd], out);
+		rd = byis_read(in->stream);
+	}
+	register uint_fast8_t indicator = byis_read(in->stream);
+	if(indicator != 0) {
+		putc_unlocked(dictionary[rd], out);
+	}
 }
 
 void standard_encode_random(byte_input_stream *in, FILE *out, uint_fast64_t codes[]) {
@@ -98,7 +127,8 @@ void standard_encode_random(byte_input_stream *in, FILE *out, uint_fast64_t code
 	}
 }
 
-void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, uint_fast64_t codes[], uint_fast8_t code_lengths[]) {
+void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, uint_fast64_t codes[],
+                             uint_fast8_t code_lengths[]) {
 	register byte b = byis_read_unsafe(in);
 	while (in->cursor <= in->buffer_size) {
 		bos_feed_bits(out, codes[b], code_lengths[b]);

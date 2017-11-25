@@ -40,3 +40,5 @@ beklemtonen dat er eigenlijk vanalles gedaan is om het enorm snel te maken voor 
 - unlocked_io want sneller -> file locks
 
 - outputbuffer size testen met mooie grafieken enzo
+
+"als je totale random data met standaard zou encoden kan je gewoon zeggen dat de code == de ascii waarde"

@@ -107,14 +107,17 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	standard_assign_characters(tree, inputStream);
 	
 	/* Decode every code in the input string. */
-	while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
-		putc_unlocked(standard_decode_character(tree->root, inputStream), output);
-	}
-	
-	/* Decode the remaining byte. */
-	size_t indicator = huffman_finalize_input(inputStream);
-	while (inputStream->current_cursor < indicator) {
-		putc_unlocked(standard_decode_character(tree->root, inputStream), output);
+	if(standard_data_is_random(tree)) {
+		standard_decode_random(inputStream, output, tree);
+	} else {
+		while (inputStream->stream->cursor <= inputStream->stream->buffer_size - 2) {
+			putc_unlocked(standard_decode_character(tree->root, inputStream), output);
+		}
+		/* Decode the remaining byte. */
+		size_t indicator = huffman_finalize_input(inputStream);
+		while (inputStream->current_cursor < indicator) {
+			putc_unlocked(standard_decode_character(tree->root, inputStream), output);
+		}
 	}
 	
 	/* Flush the output buffer. */
