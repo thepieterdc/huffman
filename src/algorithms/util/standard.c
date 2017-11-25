@@ -100,20 +100,20 @@ byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
 	return cursor->data;
 }
 
-void standard_decode_random(bit_input_stream *in, FILE *out, huffman_tree *tree) {
+void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree) {
 	/* Create a dictionary for fast lookups. */
 	uint_fast8_t dictionary[HUFFMAN_MAX_LEAVES] = {0};
 	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
 		uint_fast8_t code = (uint_fast8_t) tree->leaves[i]->code->code;
 		dictionary[code] = (uint_fast8_t) i;
 	}
-
-	register byte rd = byis_read(in->stream);
-	while (in->stream->cursor <= in->stream->buffer_size - 2) {
+	
+	register byte rd = byis_read(in);
+	while (in->cursor <= in->buffer_size - 2) {
 		putc_unlocked(dictionary[rd], out);
-		rd = byis_read(in->stream);
+		rd = byis_read(in);
 	}
-	register uint_fast8_t indicator = byis_read(in->stream);
+	register uint_fast8_t indicator = byis_read(in);
 	if(indicator != 0) {
 		putc_unlocked(dictionary[rd], out);
 	}
