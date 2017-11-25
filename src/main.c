@@ -8,10 +8,8 @@
 #include "util/arguments.h"
 
 int main(int argc, char **argv) {
-	FILE *in = fopen("/tmp/ascii.enc", "rb");
-//	FILE *in = stdin;
+	FILE *in = stdin;
 	FILE *out = stdout;
-//	FILE *out = stdout;
 	
 	_huffmanfunction function = argument_parse(argc, argv);
 

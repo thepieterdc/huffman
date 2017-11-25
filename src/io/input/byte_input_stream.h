@@ -12,7 +12,7 @@
 #include "../../datatypes/bit.h"
 #include "../../util/binary.h"
 
-#define INPUT_BUFFER_SIZE 4
+#define INPUT_BUFFER_SIZE MEBIBYTE(2)
 
 /**
  * A byte input stream.

@@ -109,10 +109,15 @@ void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree
 	}
 	
 	register byte rd = byis_read(in);
-	while (in->cursor <= in->buffer_size - 2) {
+	while(in->cursor <= in->buffer_size - 2) {
 		putc_unlocked(dictionary[rd], out);
+		while (in->cursor < in->buffer_size - 2) {
+			rd = byis_read_unsafe(in);
+			putc_unlocked(dictionary[rd], out);
+		}
 		rd = byis_read(in);
 	}
+	
 	register uint_fast8_t indicator = byis_read(in);
 	if(indicator != 0) {
 		putc_unlocked(dictionary[rd], out);
