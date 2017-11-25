@@ -42,3 +42,10 @@ beklemtonen dat er eigenlijk vanalles gedaan is om het enorm snel te maken voor 
 - outputbuffer size testen met mooie grafieken enzo
 
 "als je totale random data met standaard zou encoden kan je gewoon zeggen dat de code == de ascii waarde"
+
+decoding standaard via lookuptable:
+    kijk hoeveel bits er nog gelezen kunnen worden in de huidige byte van inputreader
+    maak tables van 1-x (x = min(8, langste_code_lengte))
+    zoek op in grootste lookup table
+    indien leaf -> print
+    indien node -> ga vanaf daar verder met standaard manier
