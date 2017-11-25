@@ -65,6 +65,15 @@ byte standard_decode_character(huffman_node *tree, bit_input_stream *in);
 void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree);
 
 /**
+ * Decodes all characters in the input stream.
+ *
+ * @param in the input stream
+ * @param out the output channel
+ * @param tree the Huffman tree
+ */
+void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree);
+
+/**
  * Encodes all characters in the input stream, assuming the data is random.
  *
  * @param in the input stream

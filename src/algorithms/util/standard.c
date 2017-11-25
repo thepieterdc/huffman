@@ -9,6 +9,7 @@
 #include "../../datastructures/min_heap.h"
 #include "../../io/output/bit_output_stream.h"
 #include "../../io/input/bit_input_stream.h"
+#include "common.h"
 
 /**
  * Recursive step to set the characters in a Huffman tree.
@@ -121,6 +122,17 @@ void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree
 	register uint_fast8_t indicator = byis_read(in);
 	if(indicator != 0) {
 		putc_unlocked(dictionary[rd], out);
+	}
+}
+
+void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree) {
+	while (in->stream->cursor <= in->stream->buffer_size - 2) {
+		putc_unlocked(standard_decode_character(tree->root, in), out);
+	}
+	/* Decode the remaining byte. */
+	size_t indicator = huffman_finalize_input(in);
+	while (in->current_cursor < indicator) {
+		putc_unlocked(standard_decode_character(tree->root, in), out);
 	}
 }
 
