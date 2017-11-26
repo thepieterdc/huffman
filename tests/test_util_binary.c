@@ -80,3 +80,23 @@ const char *test_byte_to_bitstring() {
 	free(bitstring2);
 	return 0;
 }
+
+const char *test_nth_bit_in_byte_lsb() {
+	for (size_t i = 0; i < BITS_IN_BYTE; ++i) {
+		byte b = (byte) (1 << i);
+		for (size_t j = 0; j < BITS_IN_BYTE; ++j) {
+			assertEquals(nth_bit_in_byte_lsb(b, j), i == j);
+		}
+	}
+	return 0;
+}
+
+const char *test_nth_bit_in_byte_msb() {
+	for (size_t i = 0; i < BITS_IN_BYTE; ++i) {
+		byte b = (byte) (1 << i);
+		for (size_t j = BITS_IN_BYTE; j > 0; --j) {
+			assertEquals(nth_bit_in_byte_msb(b, j - 1), BITS_IN_BYTE - i == j);
+		}
+	}
+	return 0;
+}

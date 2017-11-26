@@ -11,6 +11,11 @@
 #include <stdint.h>
 
 /**
+ * The amount of bits in one byte.
+ */
+#define BITS_IN_BYTE 8
+
+/**
  * A single bit.
  */
 typedef bool bit;

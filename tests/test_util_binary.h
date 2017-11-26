@@ -25,4 +25,10 @@ const char *test_bitstring_to_byte();
 /** Tests: byte_to_bitstring(). */
 const char *test_byte_to_bitstring();
 
+/** Tests: nth_bit_in_byte_lsb(). */
+const char *test_nth_bit_in_byte_lsb();
+
+/** Tests: nth_bit_in_byte_msb(). */
+const char *test_nth_bit_in_byte_msb();
+
 #endif /* HUFFMAN_TEST_UTIL_BINARY_H */

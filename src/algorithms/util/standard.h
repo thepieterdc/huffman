@@ -26,7 +26,7 @@ void standard_assign_characters(huffman_tree *tree, bit_input_stream *in);
  * @param root the root of the tree
  * @param input the input stream
  * @param assign_codes true to assign a code to every node
- * @return the maximum path length
+ * @return the maximum tree depth (includes root)
  */
 uint_fast8_t standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes);
 
@@ -34,6 +34,7 @@ uint_fast8_t standard_build_tree_from_bits(huffman_node *root, bit_input_stream 
  * Creates a Huffman tree from a frequency table.
  *
  * @param frequencies the frequency table
+ * @return the created Huffman tree
  */
 huffman_tree *standard_build_tree_from_frequencies(const uint_least64_t frequencies[]);
 

@@ -12,11 +12,6 @@
 #include "../datatypes/string.h"
 
 /**
- * The amount of bits in one byte.
- */
-#define BITS_IN_BYTE 8
-
-/**
  * A mask that covers all bits in a byte.
  */
 #define BYTE_MASK 0xFF
@@ -52,7 +47,7 @@
  * @param o the offset (LSB based)
  * @return the mask to use
  */
-#define bitmask_n_offset(n,o) ((bitmask_n(n) << (o)))
+#define bitmask_n_offset(n, o) ((bitmask_n(n) << (o)))
 
 /**
  * Converts a string of bits to a byte.
@@ -71,7 +66,7 @@ byte bitstring_to_byte(string s);
 string byte_to_bitstring(byte b);
 
 /**
- * Gets the {n}-th bit in a byte (LSB-based).
+ * Gets the {n}-th bit in a byte (LSB-based). Zero based.
  *
  * @param b the byte
  * @param n the LSB-based position of the bit to retrieve
@@ -80,13 +75,13 @@ string byte_to_bitstring(byte b);
 #define nth_bit_in_byte_lsb(b, n) (bit) ((b) & (1 << (n)))
 
 /**
- * Gets the {n}-th bit in a byte (MSB-based).
+ * Gets the {n}-th bit in a byte (MSB-based). Zero based.
  *
  * @param b the byte
  * @param n the MSB-based position of the bit to retrieve
  * @return the value of the bit at position n, starting from the left
  */
-#define nth_bit_in_byte_msb(b, n) (bit) ((b) & (0x40 >> (n)))
+#define nth_bit_in_byte_msb(b, n) (bit) ((b) & (0x80 >> (n)))
 
 #define GIBIBYTE(x)   ((size_t) (x) << 30)
 #define KIBIBYTE(x)   ((size_t) (x) << 10)

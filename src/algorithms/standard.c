@@ -58,7 +58,7 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 		if (tree->leaves[i]) {
 			codes[i] = tree->leaves[i]->code->code;
 			codelengths[i] = tree->leaves[i]->code->length;
-			if(codelengths[i] != BITS_IN_BYTE) {
+			if (codelengths[i] != BITS_IN_BYTE) {
 				data_is_random = false;
 			}
 		} else {
@@ -98,7 +98,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	/* Build up the Huffman tree. */
 	huffman_tree *tree = huffmantree_create(NULL);
 	tree->root->code = huffmancode_create();
-	uint_fast8_t max_code = standard_build_tree_from_bits(tree->root, inputStream, true);
+	uint_fast8_t max_code = (uint_fast8_t) (standard_build_tree_from_bits(tree->root, inputStream, true) - 1);
 	
 	/* Clear the remaining padding bits. */
 	bis_clear_current_byte(inputStream);
@@ -107,7 +107,7 @@ void huffman_standard_decompress(FILE *input, FILE *output) {
 	standard_assign_characters(tree, inputStream);
 	
 	/* Decode every code in the input string. */
-	if(standard_data_is_random(tree)) {
+	if (standard_data_is_random(tree)) {
 		standard_decode_random(inputStream->stream, output, tree);
 	} else {
 		standard_decode_regular(inputStream, output, tree, max_code);
