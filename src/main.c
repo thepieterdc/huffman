@@ -8,6 +8,7 @@
 #include "util/arguments.h"
 
 int main(int argc, char **argv) {
+//	FILE *in = stdin;
 	FILE *in = fopen("tests/testvectors/banaan.out", "rb");
 	FILE *out = stdout;
 	

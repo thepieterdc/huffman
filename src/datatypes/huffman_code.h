@@ -11,6 +11,11 @@
 #include "bit.h"
 
 /**
+ * The maximum length of a Huffman code.
+ */
+#define HUFFMAN_MAX_CODE_LENGTH 256
+
+/**
  * A code in a Huffman tree
  */
 typedef struct huffman_code {

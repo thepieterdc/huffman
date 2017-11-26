@@ -25,9 +25,9 @@
  */
 static const char *all_tests() {
 	/** Test: algorithms. */
-//	test(test_algorithm_adaptive);
-//	test(test_algorithm_blockwise);
-//	test(test_algorithm_sliding);
+	test(test_algorithm_adaptive);
+	test(test_algorithm_blockwise);
+	test(test_algorithm_sliding);
 	test(test_algorithm_standard);
 	test(test_algorithm_twopass);
 
@@ -69,7 +69,8 @@ static const char *all_tests() {
 	/** Test: util/binary. */
 	test(test_bit_to_bitchar);
 	test(test_bitchar_to_bit);
-	test(test_bitmask_n_bits);
+	test(test_bitmask_n);
+	test(test_bitmask_n_offset);
 	test(test_bitstring_to_byte);
 	test(test_byte_to_bitstring);
 

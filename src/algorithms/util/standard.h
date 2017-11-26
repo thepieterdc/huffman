@@ -48,15 +48,6 @@ huffman_tree *standard_build_tree_from_frequencies(const uint_least64_t frequenc
 bool standard_data_is_random(huffman_tree *tree);
 
 /**
- * Decodes the next character in the input stream.
- *
- * @param tree the Huffman tree to use
- * @param in the input stream
- * @return the decoded character
- */
-byte standard_decode_character(huffman_node *tree, bit_input_stream *in);
-
-/**
  * Decodes all characters in the input stream, assuming the data is random.
  *
  * @param in the input stream

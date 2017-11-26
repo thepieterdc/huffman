@@ -18,10 +18,10 @@ byte bitstring_to_byte(string s) {
 }
 
 string byte_to_bitstring(byte b) {
-	string ret = (string) mallocate((8 + 1) * sizeof(char));
-	ret[8] = '\0';
+	string ret = (string) mallocate((BITS_IN_BYTE + 1) * sizeof(char));
+	ret[BITS_IN_BYTE] = '\0';
 	
-	for (size_t i = 0; i < 8; ++i) {
+	for (size_t i = 0; i < BITS_IN_BYTE; ++i) {
 		ret[7 - i] = bit_to_bitchar((bit) (b & 1));
 		b >>= 1;
 	}

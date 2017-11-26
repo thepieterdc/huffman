@@ -9,7 +9,19 @@
 
 #include "huffman_node.h"
 
-#define HUFFMAN_MAX_CODE_LENGTH 256
+/**
+ * Bit that represents going left in the Huffman tree.
+ */
+#define HUFFMAN_DIRECTION_LEFT 0
+
+/**
+ * Bit that represents going right in the Huffman tree.
+ */
+#define HUFFMAN_DIRECTION_RIGHT 1
+
+/**
+ * The maximum amount of leaves in a Huffman tree.
+ */
 #define HUFFMAN_MAX_LEAVES 256
 
 /**
@@ -48,7 +60,9 @@ void huffmantree_free(huffman_tree *tree);
  * @param tree the tree to print
  */
 #ifdef IS_DEBUG
+
 void huffmantree_print(huffman_tree *tree);
+
 #endif
 
 /**
@@ -57,5 +71,14 @@ void huffmantree_print(huffman_tree *tree);
  * @param tree the tree
  */
 void huffmantree_set_codes(huffman_tree *tree);
+
+/**
+ * Traverses a Huffman tree in a given direction.
+ *
+ * @param cur the current position
+ * @param dir 0 to go left, 1 to go right
+ * @return the destination cursor
+ */
+#define huffmantree_traverse(cur, dir) ((dir) == HUFFMAN_DIRECTION_LEFT) ? ((cur)->left) : ((cur)->right)
 
 #endif /* HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANTREE_H */

@@ -10,6 +10,11 @@
 /**
  * Returns the highest of two numbers.
  */
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 
-#endif /* HUFFMAN_NUMERICAL_H */
+/**
+ * Returns the lowest of two numbers.
+ */
+#define min(a, b) ((a) < (b) ? (a) : (b))
+
+#endif /* HUFFMAN_UTIL_NUMERICAL_H */

@@ -14,19 +14,19 @@
 
 void bis_clear_current_byte(bit_input_stream *bis) {
 	bis->current_byte = 0;
-	bis->current_cursor = 8;
+	bis->current_cursor = BITS_IN_BYTE;
 }
 
 bit_input_stream *bis_create(FILE *channel, bool retain) {
 	bit_input_stream *ret = (bit_input_stream *) callocate(1, sizeof(bit_input_stream));
-	ret->current_cursor = 8;
+	ret->current_cursor = BITS_IN_BYTE;
 	ret->stream = byis_create(channel, retain);
 	return ret;
 }
 
 void bis_flush(bit_input_stream *bis) {
 	bis->current_byte = 0;
-	bis->current_cursor = 8;
+	bis->current_cursor = BITS_IN_BYTE;
 	bis->stream->buffer_size = 0;
 }
 
@@ -36,7 +36,7 @@ void bis_free(bit_input_stream *bis) {
 }
 
 bit bis_read_bit(bit_input_stream *bis) {
-	if (bis->current_cursor == 8) {
+	if (bis->current_cursor == BITS_IN_BYTE) {
 		bis->current_byte = byis_read(bis->stream);
 		bis->current_cursor = 0;
 	}
@@ -51,9 +51,9 @@ bit bis_read_bit(bit_input_stream *bis) {
 }
 
 byte bis_read_byte(bit_input_stream *bis) {
-	if (bis->current_cursor != 8) {
+	if (bis->current_cursor != BITS_IN_BYTE) {
 		byte ret = 0;
-		for (size_t i = 0; i < 8; ++i) {
+		for (size_t i = 0; i < BITS_IN_BYTE; ++i) {
 			ret <<= 1;
 			ret |= bis_read_bit(bis);
 		}

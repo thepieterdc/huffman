@@ -13,8 +13,11 @@ const char *test_bit_to_bitchar();
 /** Tests: bitchar_to_bit(). */
 const char *test_bitchar_to_bit();
 
-/** Tests: bitmask_n_bits(). */
-const char *test_bitmask_n_bits();
+/** Tests: bitmask_n(). */
+const char *test_bitmask_n();
+
+/** Tests: bitmask_n_offset(). */
+const char *test_bitmask_n_offset();
 
 /** Tests: bitstring_to_byte(). */
 const char *test_bitstring_to_byte();

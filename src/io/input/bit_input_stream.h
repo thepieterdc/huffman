@@ -19,6 +19,14 @@ typedef struct {
 } bit_input_stream;
 
 /**
+ * Gets the amount of bits left in the current byte.
+ *
+ * @param bis
+ * @return
+ */
+#define bis_bits_left(bis) (BITS_IN_BYTE - (bis)->current_cursor)
+
+/**
  * Clears the current byte.
  *
  * @param bis the input stream
@@ -49,6 +57,15 @@ void bis_flush(bit_input_stream *bis);
 void bis_free(bit_input_stream *bis);
 
 /**
+ * Returns n bits from the buffer.
+ *
+ * @param bis the bit input stream
+ * @param n the amount of bits to retrieve
+ * @return n bits from the buffer
+ */
+#define bis_get_n_bits(bis, n) (((bis)->current_byte) & bitmask_n_offset((n), 8-((bis)->current_cursor)-(n)))
+
+/**
  * Reads one bit from the bit input stream
  *
  * @param bis the bit input stream
@@ -63,5 +80,13 @@ bit bis_read_bit(bit_input_stream *bis);
  * @return the byte
  */
 byte bis_read_byte(bit_input_stream *bis);
+
+/**
+ * Rewinds the internal cursor by n bits, cannot retrieve lost bytes.
+ *
+ * @param bis the bit input stream
+ * @param n the amount of bits to rewind
+ */
+#define bis_rewind(bis, n) ((bis)->current_cursor -= (n))
 
 #endif /* HUFFMAN_IO_INPUT_BIT_INPUTSTREAM_H */

@@ -17,14 +17,14 @@
 static inline void print_buffer(bit_output_stream *bos) {
 	putc_unlocked(bos->current_byte, bos->channel);
 	bos->current_byte = 0;
-	bos->current_cursor = 8;
+	bos->current_cursor = BITS_IN_BYTE;
 }
 
 bit_output_stream *bos_create(FILE *channel) {
 	bit_output_stream *ret = (bit_output_stream *) mallocate(sizeof(bit_output_stream));
 	ret->channel = channel;
 	ret->current_byte = 0;
-	ret->current_cursor = 8;
+	ret->current_cursor = BITS_IN_BYTE;
 	if (channel) {
 		flockfile(channel);
 #ifdef IS_DEBUG
@@ -47,15 +47,15 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 
 void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left) {
 	do {
-		if (bos->current_cursor == 8 && left == 8) {
-			putc_unlocked((uint_fast8_t) bits, bos->channel);
+		if (bos->current_cursor == BITS_IN_BYTE && left == BITS_IN_BYTE) {
+			putc_unlocked((byte) bits, bos->channel);
 			return;
 		} else if (left < bos->current_cursor) {
 			bos->current_byte |= (bits << (bos->current_cursor -= left));
 			return;
 		} else {
 			uint_fast8_t shift = left - bos->current_cursor;
-			bos->current_byte |= (bits & (bitmask_n_bits(bos->current_cursor) << shift)) >> shift;
+			bos->current_byte |= (bits & (bitmask_n(bos->current_cursor) << shift)) >> shift;
 			left -= bos->current_cursor;
 			print_buffer(bos);
 		}
@@ -63,17 +63,17 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left
 }
 
 void bos_feed_byte(bit_output_stream *bos, byte b) {
-	if (bos->current_cursor == 8) {
+	if (bos->current_cursor == BITS_IN_BYTE) {
 		putc_unlocked(b, bos->channel);
 	} else {
-		bos->current_byte |= (b >> (8 - bos->current_cursor));
+		bos->current_byte |= (b >> (BITS_IN_BYTE - bos->current_cursor));
 		putc_unlocked(bos->current_byte, bos->channel);
 		bos->current_byte = (b << bos->current_cursor);
 	}
 }
 
 void bos_flush(bit_output_stream *bos) {
-	if (bos->current_cursor != 8) {
+	if (bos->current_cursor != BITS_IN_BYTE) {
 		print_buffer(bos);
 	}
 	fflush(bos->channel);
@@ -88,7 +88,7 @@ void bos_free(bit_output_stream *bos) {
 
 size_t bos_pad(bit_output_stream *bos) {
 	size_t padding = bos->current_cursor;
-	if (padding != 8) {
+	if (padding != BITS_IN_BYTE) {
 		print_buffer(bos);
 		return padding;
 	}

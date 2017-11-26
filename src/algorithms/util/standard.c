@@ -4,6 +4,7 @@
  * Project: huffman
  */
 
+#include <stdlib.h>
 #include "standard.h"
 #include "../../datastructures/huffman_tree/huffman_tree.h"
 #include "../../datastructures/min_heap.h"
@@ -11,6 +12,7 @@
 #include "../../io/input/bit_input_stream.h"
 #include "common.h"
 #include "../../util/numerical.h"
+#include "../../util/memory.h"
 
 /**
  * Recursive step to set the characters in a Huffman tree.
@@ -46,7 +48,7 @@ uint_fast8_t standard_build_tree_from_bits(huffman_node *root, bit_input_stream 
 		root->right->parent = root;
 		root->right->code = assign_codes ? huffmancode_create_right(root->code) : NULL;
 		uint_fast8_t p2 = standard_build_tree_from_bits(root->right, input, assign_codes);
-		return (uint_fast8_t) (1 + MAX(p1, p2));
+		return (uint_fast8_t) (1 + max(p1, p2));
 	}
 	return 1;
 }
@@ -55,8 +57,8 @@ huffman_tree *standard_build_tree_from_frequencies(const uint_least64_t frequenc
 	huffman_tree *tree = huffmantree_create_empty();
 	
 	/* Add all bytes to a heap. */
-	min_heap *heap = minheap_create(256);
-	for (size_t i = 0; i < 256; ++i) {
+	min_heap *heap = minheap_create(HUFFMAN_MAX_LEAVES);
+	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
 		register uint_least64_t freq = frequencies[i];
 		if (freq > 0) {
 			huffman_node *leaf = huffmannode_create_leaf((byte) i, freq);
@@ -88,20 +90,11 @@ huffman_tree *standard_build_tree_from_frequencies(const uint_least64_t frequenc
 
 bool standard_data_is_random(huffman_tree *tree) {
 	for (size_t i = 0; i < HUFFMAN_MAX_LEAVES; ++i) {
-		if (tree->leaves[i] == NULL || tree->leaves[i]->code->length != 8) {
+		if (tree->leaves[i] == NULL || tree->leaves[i]->code->length != BITS_IN_BYTE) {
 			return false;
 		}
 	}
 	return true;
-}
-
-byte standard_decode_character(huffman_node *tree, bit_input_stream *in) {
-	huffman_node *cursor = tree;
-	while (cursor->type != LEAF) {
-		bit rd = bis_read_bit(in);
-		cursor = rd ? cursor->right : cursor->left;
-	}
-	return cursor->data;
 }
 
 void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree) {
@@ -112,8 +105,9 @@ void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree
 		dictionary[code] = (uint_fast8_t) i;
 	}
 	
+	/* Decode the input stream using the dictionary. */
 	register byte rd = byis_read(in);
-	while(in->cursor <= in->buffer_size - 2) {
+	while (in->cursor <= in->buffer_size - 2) {
 		putc_unlocked(dictionary[rd], out);
 		while (in->cursor < in->buffer_size - 2) {
 			rd = byis_read_unsafe(in);
@@ -122,20 +116,71 @@ void standard_decode_random(byte_input_stream *in, FILE *out, huffman_tree *tree
 		rd = byis_read(in);
 	}
 	
+	/* Decode the remaining byte. */
 	register uint_fast8_t indicator = byis_read(in);
-	if(indicator != 0) {
+	if (indicator != 0) {
 		putc_unlocked(dictionary[rd], out);
 	}
 }
 
-void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree) {
-	while (in->stream->cursor <= in->stream->buffer_size - 2) {
-		putc_unlocked(standard_decode_character(tree->root, in), out);
+/**
+ * Decodes up to the next character in the input stream.
+ *
+ * @param cursor the start cursor
+ * @param in the input stream
+ * @return the decoded character
+ */
+static inline byte standard_decode_character(huffman_node *cursor, bit_input_stream *in) {
+	while (cursor->type != LEAF) {
+		bit dir = bis_read_bit(in);
+		cursor = huffmantree_traverse(cursor, dir);
 	}
+	return cursor->data;
+}
+
+// 27% putc - 68% decode - +/- 32mbit/s - 536,171,997 ins
+void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree, uint_fast8_t maxpath) {
+	/* Create max. 8 lookup tables. */
+	huffman_node **lookup_tables[BITS_IN_BYTE];
+	for (size_t i = 0; i < min(BITS_IN_BYTE, maxpath); ++i) {
+		uint_least16_t amount_nodes = (uint_least16_t) (2 << i);
+		huffman_node **table = mallocate(amount_nodes * sizeof(huffman_node *));
+		
+		/* Create an entry for every possible code of length i+1. */
+		for (size_t j = 0; j < amount_nodes; ++j) {
+			huffman_node *cursor = tree->root;
+			size_t length = 0;
+			while (cursor->type != LEAF && length++ < i + 1) {
+				bit direction = nth_bit_in_byte_msb(j, 7 - i + length);
+				cursor = huffmantree_traverse(cursor, direction);
+			}
+			table[j] = cursor;
+		}
+		
+		lookup_tables[i] = table;
+	}
+	
+	while (in->stream->cursor <= in->stream->buffer_size - 2) {
+		size_t read_amount = min(bis_bits_left(in), maxpath);
+		huffman_node **table = lookup_tables[read_amount - 1];
+		huffman_node *cursor = table[bis_get_n_bits(in, read_amount)];
+		if(cursor->type == LEAF) {
+			putc_unlocked(cursor->data, out);
+			bis_rewind(in, read_amount-cursor->code->length);
+		}
+		
+						putc_unlocked(standard_decode_character(tree->root, in), out);
+	}
+	
 	/* Decode the remaining byte. */
 	size_t indicator = huffman_finalize_input(in);
 	while (in->current_cursor < indicator) {
 		putc_unlocked(standard_decode_character(tree->root, in), out);
+	}
+	
+	/* Free memory allocated by the lookup tables. */
+	for (size_t i = 0; i < min(BITS_IN_BYTE, maxpath); ++i) {
+		free(lookup_tables[i]);
 	}
 }
 

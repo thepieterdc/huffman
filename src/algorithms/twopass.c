@@ -25,7 +25,7 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	bit_output_stream *outputStream = bos_create(output);
 	
 	/* Determine the frequencies of each character. */
-	uint_least64_t frequencies[256] = {0};
+	uint_least64_t frequencies[HUFFMAN_MAX_LEAVES] = {0};
 	
 	while (inputStream->cursor < inputStream->buffer_size) {
 		frequencies[byis_read_unsafe(inputStream)]++;
@@ -71,7 +71,7 @@ void huffman_twopass_compress(FILE *input, FILE *output) {
 	}
 	
 	/* Apply padding after the last bits. */
-	size_t padding = 8 - bos_pad(outputStream);
+	size_t padding = BITS_IN_BYTE - bos_pad(outputStream);
 	
 	/* Output the amount of padding bits added. */
 	putc_unlocked((byte) padding, output);
