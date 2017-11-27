@@ -63,7 +63,7 @@ void bis_free(bit_input_stream *bis);
  * @param n the amount of bits to retrieve
  * @return n bits from the buffer
  */
-#define bis_get_n_bits(bis, n) (((bis)->current_byte) & bitmask_n_offset((n), 8-((bis)->current_cursor)-(n)))
+#define bis_get_n_bits(bis, n) ((uint_fast8_t) ((bis)->current_byte << (bis)->current_cursor) >> (BITS_IN_BYTE-(n)))
 
 /**
  * Reads one bit from the bit input stream

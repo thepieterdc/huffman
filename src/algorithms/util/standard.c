@@ -161,17 +161,21 @@ void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree
 		
 		lookup_tables[i] = table;
 	}
-
+	
 	while (in->stream->cursor <= in->stream->buffer_size - 2) {
 		size_t read_amount = min(bis_bits_left(in), maxpath);
-		huffman_node **table = lookup_tables[read_amount - 1];
-		huffman_node *cursor = table[bis_get_n_bits(in, read_amount)];
-		if(cursor->type == LEAF) {
-			putc_unlocked(cursor->data, out);
-			bis_rewind(in, read_amount-cursor->code->length);
-		} else {
-			putc_unlocked(standard_decode_character(cursor, in), out);
+		huffman_node *cursor = tree->root;
+		if (read_amount != 0) {
+			huffman_node **table = lookup_tables[read_amount - 1];
+			size_t tbl = (size_t) bis_get_n_bits(in, read_amount);
+			cursor = table[tbl];
+			if (cursor->type == LEAF) {
+				putc_unlocked(cursor->data, out);
+				bis_rewind(in, read_amount - cursor->code->length);
+				continue;
+			}
 		}
+		putc_unlocked(standard_decode_character(cursor, in), out);
 	}
 	
 	/* Decode the remaining byte. */
