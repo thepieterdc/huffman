@@ -12,6 +12,11 @@
 #include "../../util/logging.h"
 #include "../../util/errors.h"
 
+/** Mappings. */
+static byte bis_read_bit_map[BITS_IN_BYTE] = {
+		0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1
+};
+
 void bis_clear_current_byte(bit_input_stream *bis) {
 	bis->current_byte = 0;
 	bis->current_cursor = BITS_IN_BYTE;
@@ -35,13 +40,14 @@ void bis_free(bit_input_stream *bis) {
 	free(bis);
 }
 
+/* 462,383,138 I ; 34.08% */
 bit bis_read_bit(bit_input_stream *bis) {
 	if (bis->current_cursor == BITS_IN_BYTE) {
 		bis->current_byte = byis_read(bis->stream);
 		bis->current_cursor = 0;
 	}
 	
-	return (bit) (bis->current_byte & (1 << (BITS_IN_BYTE - 1 - (bis->current_cursor++))));
+	return (bit) (bis->current_byte & bis_read_bit_map[bis->current_cursor++]);
 }
 
 byte bis_read_byte(bit_input_stream *bis) {

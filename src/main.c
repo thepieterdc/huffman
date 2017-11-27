@@ -6,6 +6,7 @@
 
 #include <time.h>
 #include "util/arguments.h"
+#include "io/input/bit_input_stream.h"
 
 int main(int argc, char **argv) {
 	FILE *in = stdin;
