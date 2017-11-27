@@ -169,6 +169,7 @@ void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree
 			huffman_node **table = lookup_tables[read_amount - 1];
 			size_t tbl = (size_t) bis_get_n_bits(in, read_amount);
 			cursor = table[tbl];
+			in->current_cursor += read_amount;
 			if (cursor->type == LEAF) {
 				putc_unlocked(cursor->data, out);
 				bis_rewind(in, read_amount - cursor->code->length);

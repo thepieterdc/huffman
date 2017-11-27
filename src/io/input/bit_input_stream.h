@@ -57,7 +57,7 @@ void bis_flush(bit_input_stream *bis);
 void bis_free(bit_input_stream *bis);
 
 /**
- * Returns n bits from the buffer.
+ * Returns n bits from the buffer. Does not remove those bits from the buffer.
  *
  * @param bis the bit input stream
  * @param n the amount of bits to retrieve
