@@ -40,7 +40,6 @@ void bis_free(bit_input_stream *bis) {
 	free(bis);
 }
 
-/* 462,383,138 I ; 34.08% */
 bit bis_read_bit(bit_input_stream *bis) {
 	if (bis->current_cursor == BITS_IN_BYTE) {
 		bis->current_byte = byis_read(bis->stream);
