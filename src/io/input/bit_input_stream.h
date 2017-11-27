@@ -9,13 +9,25 @@
 
 #include "byte_input_stream.h"
 
+
 /**
  * An input stream for bits.
  */
-typedef struct {
+struct bit_input_stream;
+
+/**
+ * A function that reads a byte
+ */
+typedef byte (*_bit_input_feed_byte_function)(struct byte_input_stream *);
+
+/**
+ * An input stream for bits.
+ */
+typedef struct bit_input_stream {
 	byte_input_stream *stream;
 	byte current_byte;
 	size_t current_cursor;
+	_bit_input_feed_byte_function feedFn;
 } bit_input_stream;
 
 /**

@@ -12,6 +12,7 @@
 #include "test_unit.h"
 #include "../src/util/logging.h"
 #include "../src/util/errors.h"
+#include "../src/util/memory.h"
 
 #define TEST_ALGORITHM_TESTVECTORS "./tests/testvectors/"
 
@@ -57,7 +58,7 @@ static const char *test_huffman_algorithm(const _huffmanfunction encode, const _
 			size_t raw_size = (size_t) ftell(raw);
 			fseek(raw, 0, SEEK_SET);
 			
-			char raw_buffer[raw_size + 1];
+			char *raw_buffer = (char *) mallocate((raw_size + 1) * sizeof(char));
 			size_t last = fread(raw_buffer, sizeof(char), raw_size, raw);
 			raw_buffer[last] = '\0';
 			
@@ -164,7 +165,7 @@ const char *test_algorithm_standard() {
 	}
 	
 	closedir(testvectors);
-	
+
 //	assertEquals(test_huffman_algorithm(enc, dec), 0);
 	return 0;
 }
