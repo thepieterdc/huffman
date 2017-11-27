@@ -42,7 +42,7 @@ void bis_free(bit_input_stream *bis) {
 
 bit bis_read_bit(bit_input_stream *bis) {
 	if (bis->current_cursor == BITS_IN_BYTE) {
-		bis->current_byte = byis_read(bis->stream);
+		bis->current_byte = byis_read_unsafe(bis->stream);
 		bis->current_cursor = 0;
 	}
 	

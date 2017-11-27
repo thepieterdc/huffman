@@ -90,7 +90,8 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 
 void huffman_standard_decompress(FILE *input, FILE *output) {
 	/* Create a buffer to store the input. */
-	bit_input_stream *inputStream = bis_create(input, false);
+	bit_input_stream *inputStream = bis_create(input, true);
+	byis_consume(inputStream->stream);
 	
 	/* Prepare the output channel. */
 	huffman_prepare_output(output);
