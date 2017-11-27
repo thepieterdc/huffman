@@ -141,34 +141,25 @@ static inline byte standard_decode_character(huffman_node *cursor, bit_input_str
 // 27% putc - 68% decode - +/- 32mbit/s - 536,171,997 ins
 void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree, uint_fast8_t maxpath) {
 	huffmantree_print(tree);
-	fprintf(stderr, "\n");
-
 	/* Create max. 8 lookup tables. */
 	huffman_node **lookup_tables[min(BITS_IN_BYTE, maxpath)];
 	for (size_t i = 0; i < min(BITS_IN_BYTE, maxpath); ++i) {
 		uint_least16_t amount_nodes = (uint_least16_t) (2 << i);
-		fprintf(stderr, "Table for length: %d - %d nodes\n", i+1, amount_nodes);
 		huffman_node **table = mallocate(amount_nodes * sizeof(huffman_node *));
 		
 		/* Create an entry for every possible code of length i+1. */
 		for (size_t j = 0; j < amount_nodes; ++j) {
-			fprintf(stderr, "Entry: %d\n", j);
 			huffman_node *cursor = tree->root;
 			size_t length = 0;
-//			fprintf(stderr, "Read: ");
-			while (cursor->type != LEAF && length++ < i + 1) {
-				fprintf(stderr, "Bit %d of %s = %d", 7 - i + length, byte_to_bitstring(j), nth_bit_in_byte_msb(j, 7 - i + length));
+			while (cursor->type != LEAF && length < i + 1) {
 				bit direction = nth_bit_in_byte_msb(j, 7 - i + length);
-				fprintf(stderr, "%d", direction);
 				cursor = huffmantree_traverse(cursor, direction);
+				length++;
 			}
-			fprintf(stderr, " - %s\n", cursor->type == LEAF ? "Leaf" : "Node");
 			table[j] = cursor;
 		}
 		
 		lookup_tables[i] = table;
-		
-		fprintf(stderr, "\n");
 	}
 
 	while (in->stream->cursor <= in->stream->buffer_size - 2) {
