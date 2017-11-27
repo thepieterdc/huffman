@@ -70,6 +70,6 @@ byte byis_read(byte_input_stream *byis);
  * @param byis the byte input stream
  * @return the byte read
  */
-byte byis_read_unsafe(byte_input_stream *byis);
+#define byis_read_unsafe(byis) (byte) ((byis)->buffer[(byis)->cursor++])
 
 #endif /* HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H */

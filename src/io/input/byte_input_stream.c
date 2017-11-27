@@ -31,10 +31,10 @@ static void buffer_expand_overwrite(byte_input_stream *byis) {
  */
 static void buffer_expand_retain(byte_input_stream *byis) {
 	/* Prevents allocating enormous amounts of memory for large files. */
-	if (byis->max_buffer_size > GIBIBYTE(2)) {
-		byis->max_buffer_size += GIBIBYTE(1);
-	} else {
+	if (byis->max_buffer_size <= GIBIBYTE(2)) {
 		byis->max_buffer_size *= 2;
+	} else {
+		byis->max_buffer_size += GIBIBYTE(1);
 	}
 	byis->buffer = (byte *) reallocate(byis->buffer, byis->max_buffer_size);
 }
@@ -87,9 +87,5 @@ byte byis_read(byte_input_stream *byis) {
 		error(ERROR_END_OF_INPUT);
 	}
 	
-	return byis->buffer[byis->cursor++];
-}
-
-inline byte byis_read_unsafe(byte_input_stream *byis) {
 	return byis->buffer[byis->cursor++];
 }

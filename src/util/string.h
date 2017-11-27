@@ -8,6 +8,7 @@
 #define HUFFMAN_UTIL_STRING_H
 
 #include <stdbool.h>
+#include <string.h>
 #include "../datatypes/string.h"
 
 /**
@@ -34,7 +35,7 @@ string str_concat(string s1, string s2);
  * @param needle the string to find in haystack
  * @return true if haystack contains needle
  */
-bool str_contains(string haystack, string needle);
+#define str_contains(haystack, needle) (bool) (strstr((haystack), (needle)) != NULL)
 
 /**
  * Returns whether 2 strings are equal.
@@ -43,6 +44,6 @@ bool str_contains(string haystack, string needle);
  * @param s2 the second string
  * @return true if both strings are equal
  */
-bool str_equals(string s1, string s2);
+#define str_equals(s1, s2) (bool) (strcmp((s1), (s2)) == 0)
 
 #endif /* HUFFMAN_UTIL_STRING_H */
