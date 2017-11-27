@@ -41,13 +41,7 @@ bit bis_read_bit(bit_input_stream *bis) {
 		bis->current_cursor = 0;
 	}
 	
-	bit ret = (bit) (bis->current_byte & (1 << 7));
-	
-	bis->current_byte <<= 1;
-	
-	bis->current_cursor++;
-	
-	return ret;
+	return (bit) (bis->current_byte & (1 << (BITS_IN_BYTE - 1 - (bis->current_cursor++))));
 }
 
 byte bis_read_byte(bit_input_stream *bis) {

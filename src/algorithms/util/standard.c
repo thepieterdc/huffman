@@ -140,7 +140,6 @@ static inline byte standard_decode_character(huffman_node *cursor, bit_input_str
 
 // 27% putc - 68% decode - +/- 32mbit/s - 536,171,997 ins
 void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree, uint_fast8_t maxpath) {
-	huffmantree_print(tree);
 	/* Create max. 8 lookup tables. */
 	huffman_node **lookup_tables[min(BITS_IN_BYTE, maxpath)];
 	for (size_t i = 0; i < min(BITS_IN_BYTE, maxpath); ++i) {
