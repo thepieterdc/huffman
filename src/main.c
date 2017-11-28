@@ -6,17 +6,18 @@
 
 #include <time.h>
 #include "util/arguments.h"
+#include "io/output/bit_output_stream.h"
 
 int main(int argc, char **argv) {
-	FILE *in = fopen("tests/testvectors/banaan.in", "rb");
-	FILE *out = fopen("/tmp/banaan.out", "wb");
+	FILE *in = stdin;
+	FILE *out = stdout;
 	
 	_huffmanfunction function = argument_parse(argc, argv);
 
 #ifdef IS_DEBUG
 	clock_t tic = clock();
 #endif
-	
+
 	function(in, out);
 
 #ifdef IS_DEBUG
