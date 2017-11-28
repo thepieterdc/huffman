@@ -18,7 +18,7 @@
  */
 typedef struct {
 	FILE *channel;
-	byte current_byte;
+	uint_fast64_t current_buffer;
 	uint_fast8_t current_cursor;
 } bit_output_stream;
 
@@ -29,6 +29,14 @@ typedef struct {
  * @return the created byte output stream
  */
 bit_output_stream *bos_create(FILE *channel);
+
+/**
+ * Calculates the amount of bytes in the internal buffer
+ *
+ * @param cursor the current cursor
+ * @return the amount of bytes
+ */
+#define bos_current_byte(cursor) (size_t) (BIT_OUTPUT_STREAM_SIZE_BYTES - ((cursor) >> 3))
 
 /**
  * Feeds the stream with one bit.
@@ -46,14 +54,6 @@ void bos_feed_bit(bit_output_stream *bos, bit b);
  * @param amount the amount of bits to feed
  */
 void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t amount);
-
-/**
- * Feeds the stream with one byte.
- *
- * @param bos the bit output stream
- * @param b the byte to feed
- */
-void bos_feed_byte(bit_output_stream *bos, byte b);
 
 /**
  * Flushes the output buffer.

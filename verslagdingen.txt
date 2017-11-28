@@ -56,3 +56,6 @@ decoding standaard via lookuptable:
 sliding zelfde principe ^
 
 - codes op andere plaatsen ook door 64bit voorgesteld want file moet ook op disk passen dus 10tb was genoeg
+
+- swaps in uint64 stuff
+    http://www.yolinux.com/TUTORIALS/Endian-Byte-Order.html

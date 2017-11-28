@@ -89,12 +89,12 @@ huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte charac
 	huffman_node *ret = tree->tree->leaves[character];
 	
 	if (tree->amt_nodes == 0) {
-		bos_feed_byte(out, character);
+		bos_feed_bits(out, character, BITS_IN_BYTE);
 		ret = NULL;
 	} else {
 		if (!ret) {
 			adaptive_print_code(tree->nyt, out);
-			bos_feed_byte(out, character);
+			bos_feed_bits(out, character, 8);
 		} else {
 			adaptive_print_code(ret, out);
 		}
@@ -120,9 +120,9 @@ uint_fast16_t adaptive_find_swap(adaptive_huffman_tree *tree, huffman_node *node
 }
 
 void adaptive_print_code(huffman_node *node, bit_output_stream *out) {
-	uint_fast64_t code = 0;
-	size_t codelength = 0;
-
+//	uint_fast64_t code = 0;
+//	size_t codelength = 0;
+	
 //	huffman_node *cursor = node;
 //	while (cursor->parent != NULL) {
 ////		code <<= 1;
