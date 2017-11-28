@@ -54,3 +54,5 @@ decoding standaard via lookuptable:
     -> O(n) met n = het aantal nodes van zelfde gewicht -> nooit echt heel hoog op normale teksten want onmogelijk dat elke letter exact evenveel voorkomt
 
 sliding zelfde principe ^
+
+- codes op andere plaatsen ook door 64bit voorgesteld want file moet ook op disk passen dus 10tb was genoeg
