@@ -12,7 +12,7 @@
 #include "util/adaptive.h"
 #include "util/common.h"
 
-#define HUFFMAN_BLOCKWISE_BLOCKSIZE 3
+#define HUFFMAN_BLOCKWISE_BLOCKSIZE 1024
 
 void huffman_blockwise_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */
