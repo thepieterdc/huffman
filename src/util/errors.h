@@ -12,6 +12,7 @@
 #define ERROR_EMPTY_HEAP 2
 #define ERROR_END_OF_INPUT 3
 #define ERROR_EMPTY_BYTEQUEUE 4
+#define ERROR_INVALID_INPUT 5
 
 /**
  * Contains all error messages; keys are defined above.

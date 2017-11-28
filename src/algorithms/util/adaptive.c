@@ -8,8 +8,12 @@
 #include <stdlib.h>
 #include "adaptive.h"
 #include "../../util/binary.h"
+#include "../../util/logging.h"
+#include "../../util/errors.h"
 
 huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
+	if (tree->tree->leaves[data]) error(ERROR_INVALID_INPUT);
+	
 	huffman_node *parent = tree->nyt->parent;
 	huffman_node *newleaf = huffmannode_create_leaf(data, 1);
 	newleaf->order_no = (uint_least16_t) (tree->amt_nodes + 1);
