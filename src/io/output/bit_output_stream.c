@@ -62,14 +62,16 @@ void bos_feed_bit(bit_output_stream *bos, bit b) {
 void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left) {
 	register size_t cursor = bos->current_cursor;
 	if (cursor > left) {
+		/* Bits can be added to the buffer as a whole. */
 		bos->current_buffer |= (bits << (cursor - left));
 		bos->current_cursor -= left;
 	} else {
+		/* Bits do not fit in the buffer and must be split to be printed. */
 		bos->current_buffer |= (bits >> (left - cursor));
 		uint_fast64_t buffer = outputstream_endian_64(bos->current_buffer);
 		fwrite_unlocked(&buffer, BIT_OUTPUT_STREAM_SIZE_BYTES, 1, bos->channel);
-		bos->current_buffer = (bits << cursor);
-		bos->current_cursor = (uint_fast8_t) (BIT_OUTPUT_STREAM_SIZE_BITS - cursor);
+		bos->current_buffer = (bits << (BIT_OUTPUT_STREAM_SIZE_BITS - left - cursor));
+		bos->current_cursor = (uint_fast8_t) (BIT_OUTPUT_STREAM_SIZE_BITS - left + cursor);
 	}
 }
 
