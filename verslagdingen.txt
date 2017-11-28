@@ -49,3 +49,8 @@ decoding standaard via lookuptable:
     zoek op in grootste lookup table
     indien leaf -> print
     indien node -> ga vanaf daar verder met standaard manier
+
+-findswap: zoek alle nodes hoger in de boom met hetzelfde gewicht als deze node
+    -> O(n) met n = het aantal nodes van zelfde gewicht -> nooit echt heel hoog op normale teksten want onmogelijk dat elke letter exact evenveel voorkomt
+
+sliding zelfde principe ^

@@ -28,10 +28,10 @@ huffman_node *sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *
  * Finds the node t' to swap with.
  *
  * @param tree the Adaptive Huffman tree
- * @param weight the weight of the node t
+ * @param node the node t
  * @return the ordernumber to swap with
  */
-uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, uint_least64_t weight);
+uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, huffman_node *node);
 
 /**
  * Removes the sibling of NYT from the Adaptive Huffman tree.

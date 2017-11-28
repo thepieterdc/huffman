@@ -33,13 +33,14 @@ sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_in
 	}
 }
 
-uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, uint_least64_t weight) {
-	for (uint_least16_t i = tree->amt_nodes; i > 0; --i) {
-		if (tree->nodes[i - 1]->weight == weight) {
+uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, huffman_node *node) {
+	for (uint_least16_t i = tree->amt_nodes; i > node->order_no; --i) {
+		if (tree->nodes[i - 1]->weight == node->weight) {
 			return (uint_least16_t) (i - 1);
 		}
 	}
-	return 0;
+	
+	return node->order_no;
 }
 
 void sliding_remove_node(adaptive_huffman_tree *tree) {
@@ -69,7 +70,7 @@ void sliding_remove_node(adaptive_huffman_tree *tree) {
 	huffman_node *t = tree->nyt;
 	huffman_node *swap_node;
 	while (t->parent) {
-		swap_node = tree->nodes[sliding_find_swap(tree, t->weight)];
+		swap_node = tree->nodes[sliding_find_swap(tree, t)];
 		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */
 			adaptive_do_swap(tree, t, swap_node);
@@ -96,7 +97,7 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 	bool remove = t->weight == 1;
 	
 	while (t->parent) {
-		swap_node = tree->nodes[sliding_find_swap(tree, t->weight)];
+		swap_node = tree->nodes[sliding_find_swap(tree, t)];
 		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */
 			adaptive_do_swap(tree, t, swap_node);

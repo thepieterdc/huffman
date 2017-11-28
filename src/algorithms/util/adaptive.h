@@ -55,10 +55,10 @@ huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte charac
  * Finds the node t' to swap with.
  *
  * @param tree the Adaptive Huffman tree
- * @param weight the weight of the node t
+ * @param node the node t
  * @return the ordernumber to swap with
  */
-uint_least16_t adaptive_find_swap(adaptive_huffman_tree *tree, uint_least64_t weight);
+uint_fast16_t adaptive_find_swap(adaptive_huffman_tree *tree, huffman_node *node);
 
 /**
  * Finds and outputs the Huffman code for a given node.

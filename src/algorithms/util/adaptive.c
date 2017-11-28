@@ -105,9 +105,10 @@ huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte charac
 	return ret;
 }
 
-uint_least16_t adaptive_find_swap(adaptive_huffman_tree *tree, uint_least64_t weight) {
-	for (uint_least16_t i = 0; i < tree->amt_nodes; ++i) {
-		if (tree->nodes[i]->weight == weight) {
+uint_fast16_t adaptive_find_swap(adaptive_huffman_tree *tree, huffman_node *node) {
+	register uint_least64_t weight = node->weight;
+	for (uint_fast16_t i = node->order_no; i > 0; --i) {
+		if (tree->nodes[i - 1]->weight != weight) {
 			return i;
 		}
 	}
@@ -132,7 +133,7 @@ void adaptive_print_code(huffman_node *node, bit_output_stream *out) {
 void adaptive_update_tree(adaptive_huffman_tree *tree, huffman_node *t) {
 	huffman_node *swap_node;
 	while (t) {
-		swap_node = tree->nodes[adaptive_find_swap(tree, t->weight)];
+		swap_node = tree->nodes[adaptive_find_swap(tree, t)];
 		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */
 			adaptive_do_swap(tree, t, swap_node);
