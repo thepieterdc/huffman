@@ -29,7 +29,7 @@
  */
 static inline void print_buffer(bit_output_stream *bos) {
 	uint_fast64_t buffer = outputstream_endian_64(bos->current_buffer);
-	fwrite_unlocked(&buffer, 8, bos_current_byte(bos->current_cursor), bos->channel);
+	fwrite_unlocked(&buffer, bos_current_byte(bos->current_cursor), 1, bos->channel);
 	bos->current_buffer = 0;
 	bos->current_cursor = BIT_OUTPUT_STREAM_SIZE_BITS;
 }
@@ -53,7 +53,7 @@ bit_output_stream *bos_create(FILE *channel) {
 }
 
 void bos_feed_bit(bit_output_stream *bos, bit b) {
-	bos->current_buffer |= (b << (--bos->current_cursor));
+	bos->current_buffer |= ((uint_fast64_t) b << (--bos->current_cursor));
 	if (bos->current_cursor == 0) {
 		print_buffer(bos);
 	}
