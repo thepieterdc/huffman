@@ -120,6 +120,18 @@ uint_fast16_t adaptive_find_swap(adaptive_huffman_tree *tree, huffman_node *node
 }
 
 void adaptive_print_code(huffman_node *node, bit_output_stream *out) {
+	bit code[HUFFMAN_MAX_CODE_LENGTH];
+	size_t codelength = 0;
+	
+	huffman_node *cursor = node;
+	
+	while (cursor->parent != NULL) {
+		code[codelength++] = cursor->parent->left != cursor;
+		cursor = cursor->parent;
+	}
+	for (size_t i = codelength; i > 0; --i) {
+		bos_feed_bit(out, code[i - 1]);
+	}
 //	uint_fast64_t code = 0;
 //	size_t codelength = 0;
 	

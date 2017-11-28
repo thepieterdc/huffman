@@ -16,7 +16,4 @@ const char *test_io_bos_feed_bit_flush();
 /** Tests bos_feed_bit(), bos_pad(), bos_flush(). */
 const char *test_io_bos_feed_bit_pad_flush();
 
-/** Tests bos_feed_byte(), bos_flush(). */
-const char *test_io_bos_feed_byte_flush();
-
 #endif /* HUFFMAN_TEST_IO_OUTPUT_BITOUTPUTSTREAM_H */

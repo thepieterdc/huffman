@@ -70,27 +70,3 @@ const char *test_io_bos_feed_bit_pad_flush() {
 	
 	return 0;
 }
-
-const char *test_io_bos_feed_byte_flush() {
-	char *buf;
-	size_t size;
-	FILE *memfile = open_memstream(&buf, &size);
-	
-	bit_output_stream *bos = bos_create(memfile);
-	
-	bos_feed_byte(bos, (byte) 0b01010101);
-	bos_feed_byte(bos, (byte) 0b10101010);
-	
-	bos_flush(bos);
-	
-	assertEquals((byte) getc(memfile), 0b01010101);
-	assertEquals((byte) getc(memfile), 0b10101010);
-	
-	bos_free(bos);
-	
-	fclose(memfile);
-	
-	free(buf);
-	
-	return 0;
-}

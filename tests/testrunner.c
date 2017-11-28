@@ -59,7 +59,6 @@ static const char *all_tests() {
 	test(test_io_bos_create_free);
 	test(test_io_bos_feed_bit_flush);
 	test(test_io_bos_feed_bit_pad_flush);
-	test(test_io_bos_feed_byte_flush);
 
 	/** Test: util/arguments. */
 	test(test_arguments_algorithm);
