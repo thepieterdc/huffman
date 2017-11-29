@@ -9,7 +9,7 @@
 #include "io/output/bit_output_stream.h"
 
 int main(int argc, char **argv) {
-	FILE *in = fopen("tests/testvectors/loremipsum.in", "rb");
+	FILE *in = stdin;
 	FILE *out = stdout;
 	
 	_huffmanfunction function = argument_parse(argc, argv);

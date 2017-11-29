@@ -70,7 +70,7 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left
 		bos->current_buffer |= (bits >> (left - cursor));
 		uint_fast64_t buffer = outputstream_endian_64(bos->current_buffer);
 		fwrite_unlocked(&buffer, BIT_OUTPUT_STREAM_SIZE_BYTES, 1, bos->channel);
-		bos->current_buffer = (bits << (BIT_OUTPUT_STREAM_SIZE_BITS - left - cursor));
+		bos->current_buffer = (bits << (BIT_OUTPUT_STREAM_SIZE_BITS - left + cursor));
 		bos->current_cursor = (uint_fast8_t) (BIT_OUTPUT_STREAM_SIZE_BITS - left + cursor);
 	}
 }
