@@ -55,6 +55,7 @@ bit_output_stream *bos_create(FILE *channel) {
 void bos_feed_bit(bit_output_stream *bos, bit b) {
 	bos->current_buffer |= ((uint_fast64_t) b << (--bos->current_cursor));
 	if (bos->current_cursor == 0) {
+		fprintf(stderr, "Flushed\n");
 		print_buffer(bos);
 	}
 }
@@ -67,11 +68,21 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left
 		bos->current_cursor -= left;
 	} else {
 		/* Bits do not fit in the buffer and must be split to be printed. */
-		bos->current_buffer |= (bits >> (left - cursor));
-		uint_fast64_t buffer = outputstream_endian_64(bos->current_buffer);
-		fwrite_unlocked(&buffer, BIT_OUTPUT_STREAM_SIZE_BYTES, 1, bos->channel);
-		bos->current_buffer = (bits << (BIT_OUTPUT_STREAM_SIZE_BITS - left + cursor));
-		bos->current_cursor = (uint_fast8_t) (BIT_OUTPUT_STREAM_SIZE_BITS - left + cursor);
+		fprintf(stderr, "Can print another %d bits of %d\n", cursor, left);
+		for(size_t i = cursor; i > 0; --i) {
+			fprintf(stderr, "Printed %d\n", i);
+			bos_feed_bit(bos, (bit) (bits & (1 << (i - 1))));
+		}
+		fprintf(stderr, "Now printing remaining %d bits of %d\n", left-cursor, left);
+		for(size_t i = left-cursor; i > 0; --i) {
+			fprintf(stderr, "Printed %d\n", i);
+			bos_feed_bit(bos, (bit) (bits & (1 << (i - 1))));
+		}
+//		bos->current_buffer |= (bits >> (left - cursor));
+//		uint_fast64_t buffer = outputstream_endian_64(bos->current_buffer);
+//		fwrite_unlocked(&buffer, BIT_OUTPUT_STREAM_SIZE_BYTES, 1, bos->channel);
+//		bos->current_buffer = ((uint_fast64_t) (bits << (BIT_OUTPUT_STREAM_SIZE_BITS - left + cursor)));
+//		bos->current_cursor = (uint_fast8_t) (BIT_OUTPUT_STREAM_SIZE_BITS - left + cursor);
 	}
 }
 
