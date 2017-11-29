@@ -41,11 +41,11 @@ void huffman_standard_compress(FILE *input, FILE *output) {
 	huffmantree_set_codes(tree);
 	
 	/* Print the Huffman tree and apply padding. */
-//	standard_print_tree(tree->root, outputStream);
+	standard_print_tree(tree->root, outputStream);
 	bos_pad(outputStream);
 	
 	/* Print the characters from left to right. */
-//	standard_print_characters(tree->root, outputStream);
+	standard_print_characters(tree->root, outputStream);
 	
 	/* Rewind the input. */
 	inputStream->cursor = 0;
