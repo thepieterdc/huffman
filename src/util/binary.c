@@ -27,3 +27,14 @@ string byte_to_bitstring(byte b) {
 	}
 	return ret;
 }
+
+string uint64_to_bitstring(uint64_t b) {
+	string ret = (string) mallocate((64 + 1) * sizeof(char));
+	ret[64] = '\0';
+	
+	for (size_t i = 0; i < 64; ++i) {
+		ret[63 - i] = bit_to_bitchar((bit) (b & 1));
+		b >>= 1;
+	}
+	return ret;
+}

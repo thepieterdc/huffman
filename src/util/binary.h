@@ -83,6 +83,14 @@ string byte_to_bitstring(byte b);
  */
 #define nth_bit_in_byte_msb(b, n) (bit) ((b) & (0x80 >> (n)))
 
+/**
+ * Converts a uint64 to a string representation.
+ *
+ * @param b the uint64 to convert
+ * @return the bitstring
+ */
+string uint64_to_bitstring(uint64_t b);
+
 #define GIBIBYTE(x)   ((size_t) (x) << 30)
 #define KIBIBYTE(x)   ((size_t) (x) << 10)
 #define MEBIBYTE(x)   ((size_t) (x) << 20)
