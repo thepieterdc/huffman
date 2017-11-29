@@ -120,35 +120,15 @@ uint_fast16_t adaptive_find_swap(adaptive_huffman_tree *tree, huffman_node *node
 }
 
 void adaptive_print_code(huffman_node *node, bit_output_stream *out) {
-	bit code[HUFFMAN_MAX_CODE_LENGTH];
-	size_t codelength = 0;
+	uint_fast64_t code = 0;
+	uint_fast8_t codelength = 0;
 	
 	huffman_node *cursor = node;
-	
 	while (cursor->parent != NULL) {
-		code[codelength++] = cursor->parent->left != cursor;
+		code |= (uint_fast64_t) ((cursor->parent->left != cursor) << (codelength++));
 		cursor = cursor->parent;
 	}
-	for (size_t i = codelength; i > 0; --i) {
-		bos_feed_bit(out, code[i - 1]);
-	}
-//	uint_fast64_t code = 0;
-//	size_t codelength = 0;
-	
-//	huffman_node *cursor = node;
-//	while (cursor->parent != NULL) {
-////		code <<= 1;
-////		code |= cursor->parent != cursor;
-//		checken of byis_feed_byte msb of lsb based is
-//		waarschijnlijk ook herschrijven naar fwrite64bit
-//		code opbouwen door & 1 te doen als rechts
-//		code[codelength++] = cursor->parent->left != cursor;
-//		cursor = cursor->parent;
-//	}
-//	hier nu gewoon byis_feed_byte callen met code en codelength -> niet meer reversen
-//	for (size_t i = codelength; i > 0; --i) {
-//		bos_feed_bit(out, code[i - 1]);
-//	}
+	bos_feed_bits(out, code, codelength);
 }
 
 void adaptive_update_tree(adaptive_huffman_tree *tree, huffman_node *t) {
