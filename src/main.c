@@ -6,14 +6,10 @@
 
 #include <time.h>
 #include "util/arguments.h"
-#include "io/output/bit_output_stream.h"
 
 int main(int argc, char **argv) {
-	FILE *in = fopen("tests/testvectors/loremipsum.in", "rb");
-	FILE *out = fopen("/tmp/lorem", "wb");
-	
-//	FILE *in = stdin;
-//	FILE *out = stdout;
+	FILE *in = stdin;
+	FILE *out = stdout;
 	
 	_huffmanfunction function = argument_parse(argc, argv);
 
