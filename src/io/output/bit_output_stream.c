@@ -55,7 +55,6 @@ bit_output_stream *bos_create(FILE *channel) {
 void bos_feed_bit(bit_output_stream *bos, bit b) {
 	bos->current_buffer |= ((uint_fast64_t) b << (--bos->current_cursor));
 	if (bos->current_cursor == 0) {
-		fprintf(stderr, "Flushed\n");
 		print_buffer(bos);
 	}
 }
@@ -69,10 +68,12 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left
 	} else {
 		/* Bits do not fit in the buffer and must be split to be printed. */
 		fprintf(stderr, "Can print another %d bits of %d of %s\n", cursor, left, byte_to_bitstring((byte) bits));
-		for(size_t i = 0; i < cursor; ++i) {
+		for(size_t i = 0; i < cursor-1; ++i) {
 			fprintf(stderr, "Printed %d -> %d, mask %s\n", i, (bit) (bits & (1 << (left-i-1))), byte_to_bitstring(1 << (left-i-1)));
 			bos_feed_bit(bos, (bit) (bits & (1 << (left-i-1))));
 		}
+		fprintf(stderr, "Printed %d -> %d, mask %s\n", cursor-1, (bit) (bits & (1 << (left-(cursor-1)-1))), byte_to_bitstring(1 << (left-(cursor-1)-1)));
+		bos_feed_bit(bos, (bit) (bits & (1 << (left-(cursor-1)-1))));
 		fprintf(stderr, "Now printing remaining %d bits of %d of %s\n", left-cursor, left, byte_to_bitstring((byte) bits));
 		for(size_t i = left-cursor; i > 0; --i) {
 			fprintf(stderr, "Printed %d -> %d\n", i, (bit) (bits & (1 << (i-1))));
