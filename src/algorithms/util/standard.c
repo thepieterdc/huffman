@@ -13,6 +13,8 @@
 #include "common.h"
 #include "../../util/numerical.h"
 #include "../../util/memory.h"
+#include "../../util/logging.h"
+#include "../../util/errors.h"
 
 /**
  * Recursive step to set the characters in a Huffman tree.
@@ -35,22 +37,38 @@ void standard_assign_characters(huffman_tree *tree, bit_input_stream *in) {
 	standard_assign_characters_rec(tree, tree->root, in);
 }
 
-uint_fast8_t standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes) {
+/**
+ * @internal
+ * @param root the root of the tree
+ * @param input the input stream
+ * @param assign_codes true to assign a code to every node
+ * @param depth the current depth of the node
+ * @return the maximum tree depth (includes root)
+ */
+static inline uint_fast8_t
+standard_build_tree_from_bits_helper(huffman_node *root, bit_input_stream *input, bool assign_codes, size_t depth) {
 	bit rd = bis_read_bit(input);
 	root->type = rd ? LEAF : NODE;
 	if (!rd) {
+		if (depth > 260) error(ERROR_MAXIMUM_HUFFMAN_DEPTH);
+		
 		root->left = huffmannode_create_node(NULL, NULL);
 		root->left->parent = root;
 		root->left->code = assign_codes ? huffmancode_create_left(root->code) : NULL;
-		uint_fast8_t p1 = standard_build_tree_from_bits(root->left, input, assign_codes);
+		uint_fast8_t p1 = standard_build_tree_from_bits_helper(root->left, input, assign_codes, depth + 1);
 		
 		root->right = huffmannode_create_node(NULL, NULL);
 		root->right->parent = root;
 		root->right->code = assign_codes ? huffmancode_create_right(root->code) : NULL;
-		uint_fast8_t p2 = standard_build_tree_from_bits(root->right, input, assign_codes);
+		uint_fast8_t p2 = standard_build_tree_from_bits_helper(root->right, input, assign_codes, depth + 1);
+		
 		return (uint_fast8_t) (1 + max(p1, p2));
 	}
 	return 1;
+}
+
+uint_fast8_t standard_build_tree_from_bits(huffman_node *root, bit_input_stream *input, bool assign_codes) {
+	return standard_build_tree_from_bits_helper(root, input, assign_codes, 0);
 }
 
 huffman_tree *standard_build_tree_from_frequencies(const uint_least64_t frequencies[]) {
