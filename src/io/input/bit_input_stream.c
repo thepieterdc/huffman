@@ -18,7 +18,7 @@ static byte bis_read_bit_map[BITS_IN_BYTE] = {
 };
 
 /**
- * Converts the macro into a function pointer.
+ * Converts the macro to a function pointer.
  */
 inline static byte bis_feed_unsafe(byte_input_stream *byis) {
 	return byis_read_unsafe(byis);
