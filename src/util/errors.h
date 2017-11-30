@@ -14,6 +14,7 @@
 #define ERROR_EMPTY_BYTEQUEUE 4
 #define ERROR_INVALID_INPUT 5
 #define ERROR_MAXIMUM_HUFFMAN_DEPTH 6
+#define ERROR_TWOPASS_WEIGHT_ZERO 7
 
 /**
  * Contains all error messages; keys are defined above.

@@ -8,6 +8,8 @@
 #include "../../datastructures/byte_queue.h"
 #include "../../util/binary.h"
 #include "../../io/output/bit_output_stream.h"
+#include "../../util/logging.h"
+#include "../../util/errors.h"
 
 void twopass_assign_weights(huffman_node *root, bit_input_stream *in) {
 	if (root->type == LEAF) {
@@ -15,6 +17,9 @@ void twopass_assign_weights(huffman_node *root, bit_input_stream *in) {
 		root->weight |= (bis_read_byte(in) << 16);
 		root->weight |= (bis_read_byte(in) << 8);
 		root->weight |= bis_read_byte(in);
+		if(root->weight == 0) {
+			error(ERROR_TWOPASS_WEIGHT_ZERO);
+		}
 	} else {
 		twopass_assign_weights(root->left, in);
 		twopass_assign_weights(root->right, in);
