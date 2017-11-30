@@ -88,25 +88,19 @@ void adaptive_do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_
 huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte character, bit_output_stream *out) {
 	huffman_node *ret = tree->tree->leaves[character];
 	
-	if (tree->amt_nodes == 0) {
-		bos_feed_bits(out, character, BITS_IN_BYTE);
-		ret = NULL;
-	} else {
-		if (!ret) {
-			adaptive_print_code(tree->nyt, out);
-			bos_feed_bits(out, character, 8);
-		} else {
-			adaptive_print_code(ret, out);
-		}
+	if(ret) {
+		adaptive_print_code(ret, out);
+		return ret;
 	}
 	
-	if (!ret) {
-		/* z is a new character; add it to the tree. */
-		huffman_node *o = adaptive_add_character(tree, character);
-		ret = o->parent;
+	if (tree->amt_nodes != 0) {
+		adaptive_print_code(tree->nyt, out);
 	}
 	
-	return ret;
+	bos_feed_bits(out, character, BITS_IN_BYTE);
+	
+	huffman_node *o = adaptive_add_character(tree, character);
+	return o->parent;
 }
 
 uint_fast16_t adaptive_find_swap(adaptive_huffman_tree *tree, huffman_node *node) {
