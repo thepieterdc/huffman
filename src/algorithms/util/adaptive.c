@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 #include "adaptive.h"
 #include "../../util/binary.h"
 #include "../../util/logging.h"
@@ -129,7 +130,7 @@ void adaptive_update_tree(adaptive_huffman_tree *tree, huffman_node *t) {
 	huffman_node *swap_node;
 	while (t) {
 		swap_node = tree->nodes[adaptive_find_swap(tree, t)];
-		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
+		if (t != swap_node && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */
 			adaptive_do_swap(tree, t, swap_node);
 		}

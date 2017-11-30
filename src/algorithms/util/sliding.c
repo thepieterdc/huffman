@@ -4,11 +4,8 @@
  * Project: huffman
  */
 
-#include <stdlib.h>
 #include "sliding.h"
-#include "../../util/logging.h"
 #include "adaptive.h"
-#include "../../datastructures/byte_queue.h"
 
 huffman_node *
 sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_input_stream *in, FILE *out) {
@@ -98,7 +95,7 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 	
 	while (t->parent) {
 		swap_node = tree->nodes[sliding_find_swap(tree, t)];
-		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
+		if (t != swap_node && swap_node->parent != t) {
 			/* Swap the nodes in the tree. */
 			adaptive_do_swap(tree, t, swap_node);
 		}
