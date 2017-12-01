@@ -12,7 +12,7 @@
 #include "util/sliding.h"
 #include "util/common.h"
 
-#define HUFFMAN_SLIDING_WINDOWSIZE 1250
+#define HUFFMAN_SLIDING_WINDOWSIZE 3
 
 void huffman_sliding_compress(FILE *input, FILE *output) {
 	/* Create a stream to process the input. */

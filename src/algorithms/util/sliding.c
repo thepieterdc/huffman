@@ -34,13 +34,14 @@ sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_in
 }
 
 uint_least16_t sliding_find_swap(adaptive_huffman_tree *tree, huffman_node *node) {
-	for (uint_least16_t i = tree->amt_nodes; i > node->order_no; --i) {
-		if (tree->nodes[i - 1]->weight == node->weight) {
+	register uint_fast64_t weight = node->weight;
+	for (uint_least16_t i = (uint_least16_t) (node->order_no + 1); i < tree->amt_nodes; ++i) {
+		if (tree->nodes[i]->weight != weight) {
 			return (uint_least16_t) (i - 1);
 		}
 	}
 	
-	return node->order_no;
+	return (uint_least16_t) (tree->amt_nodes - 1);
 }
 
 void sliding_remove_node(adaptive_huffman_tree *tree) {
