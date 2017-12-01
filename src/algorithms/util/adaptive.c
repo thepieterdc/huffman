@@ -27,8 +27,10 @@ huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 	ret->parent = parent;
 	
 	if (parent) {
+		/* Add the newly created mini Huffman tree to the existing tree. */
 		parent->left = ret;
 	} else {
+		/* The tree is empty. */
 		tree->tree->root = ret;
 	}
 	
@@ -69,14 +71,17 @@ void adaptive_do_swap(adaptive_huffman_tree *tree, huffman_node *node1, huffman_
 	bool node1_left_of_parent = node1->parent->left == node1;
 	bool node2_left_of_parent = node2->parent->left == node2;
 	
+	/* Swap the order numbers back to their original positions. */
 	uint_least16_t temp_o = node1->order_no;
 	node1->order_no = node2->order_no;
 	node2->order_no = temp_o;
 	
+	/* Swap the parents of the nodes. */
 	huffman_node *temp = node1->parent;
 	node1->parent = node2->parent;
 	node2->parent = temp;
 	
+	/* Attach the node to the other node's parent. */
 	if (node1_left_of_parent) {
 		node2->parent->left = node2;
 	} else {
@@ -94,6 +99,7 @@ huffman_node *adaptive_encode_character(adaptive_huffman_tree *tree, byte charac
 	huffman_node *ret = tree->tree->leaves[character];
 	
 	if(ret) {
+		/* The character already exists in the tree. */
 		adaptive_print_code(ret, out);
 		return ret;
 	}
@@ -133,6 +139,7 @@ void adaptive_print_code(huffman_node *node, bit_output_stream *out) {
 void adaptive_update_tree(adaptive_huffman_tree *tree, huffman_node *t) {
 	huffman_node *swap_node;
 	while (t) {
+		/* Find the node with the lowest order number and same weight as t. */
 		swap_node = tree->nodes[adaptive_find_swap(tree, t)];
 		if (t != swap_node && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */

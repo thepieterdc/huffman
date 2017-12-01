@@ -14,16 +14,19 @@ huffman_node *
 sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_input_stream *in, FILE *out) {
 	huffman_node *cursor = tree->tree->root;
 	
+	/* Traverse through the tree to process the input code. */
 	while (cursor->type != NYT && cursor->type != LEAF) {
 		bit rd = bis_read_bit(in);
-		cursor = rd ? cursor->right : cursor->left;
+		cursor = huffmantree_traverse(cursor, rd);
 	}
 	
 	if (cursor->type == NYT) {
 		/* z is a new character; add it to the tree. */
 		byte z = bis_read_byte(in);
 		huffman_node *o = adaptive_add_character(tree, z);
+		/* Print the new character. */
 		putc_unlocked(z, out);
+		/* Add the character to the sliding window. */
 		byte_queue_push(window, z);
 		return o->parent;
 	} else {
@@ -52,6 +55,7 @@ void sliding_remove_node(adaptive_huffman_tree *tree) {
 	
 	tree->nyt->parent = parent->parent;
 	
+	/* Replace the parent with the NYT node. */
 	if (parent->parent->left == parent) {
 		parent->parent->left = tree->nyt;
 	} else {
@@ -65,14 +69,18 @@ void sliding_remove_node(adaptive_huffman_tree *tree) {
 	tree->nyt->order_no = parent->order_no;
 	tree->nyt->weight = 1;
 	
+	/* Free the memory allocated by the now detached nodes. */
 	huffmannode_free(parent);
 	huffmannode_free(remove_node);
 	
+	/* Decrease the amount of nodes. */
 	tree->amt_nodes--;
 	
+	/* Make sure the NYT node is the sibling of the highest order number. */
 	huffman_node *t = tree->nyt;
 	huffman_node *swap_node;
 	while (t->parent) {
+		/* Find the node with the highest order number and same weight as t. */
 		swap_node = tree->nodes[sliding_find_swap(tree, t)];
 		if (t != swap_node && swap_node->parent != t && t->parent != swap_node) {
 			/* Swap the nodes in the tree. */
@@ -100,6 +108,7 @@ void sliding_update_tree(adaptive_huffman_tree *tree, byte b) {
 	bool remove = t->weight == 1;
 	
 	while (t->parent) {
+		/* Find the node with the highest order number and same weight as t. */
 		swap_node = tree->nodes[sliding_find_swap(tree, t)];
 		if (t != swap_node && swap_node->parent != t) {
 			/* Swap the nodes in the tree. */
