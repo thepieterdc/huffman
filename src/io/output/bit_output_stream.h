@@ -14,14 +14,11 @@
 #include "../../util/binary.h"
 #include "../../datatypes/huffman_code.h"
 
+#define OUTPUT_BUFFER_SIZE KIBIBYTE(32)
+
 #define BIT_OUTPUT_STREAM_SIZE_BITS 64
 #define BIT_OUTPUT_STREAM_SIZE_BYTES 8
 
-#define OUTPUT_BUFFER_SIZE KIBIBYTE(32)
-
-/**
- * Fixes the endianness to print 64 bits.
- */
 #if __BYTE_ORDER == __BIG_ENDIAN
 #define outputstream_endian_64(val) val
 #else
@@ -75,19 +72,7 @@ bit_output_stream *bos_create(FILE *channel);
  * @param bits the bits to feed
  * @param amount the amount of bits to feed
  */
-#define bos_feed_bits(bos, bits, left) ({\
-	register size_t cursor = (bos)->current_cursor;\
-	if (cursor > (left)) {\
-        (bos)->current_buffer |= ((bits) << (cursor - (left)));\
-        (bos)->current_cursor -= (left);\
-	} else {\
-		uint_fast8_t append = (uint_fast8_t) ((left) - cursor);\
-		uint_fast64_t buffer = outputstream_endian_64((bos)->current_buffer | (uint_fast64_t) ((bits) >> append));\
-		fwrite_unlocked(&buffer, 8, 1, (bos)->channel);\
-        (bos)->current_buffer = (((bits) & bitmask_n_offset(append, 0)) << (64 - append));\
-        (bos)->current_cursor = (uint_fast8_t) (BIT_OUTPUT_STREAM_SIZE_BITS - append);\
-	}\
-})
+void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t amount);
 
 /**
  * Flushes the output buffer.

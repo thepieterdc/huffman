@@ -215,7 +215,7 @@ void standard_encode_random(byte_input_stream *in, FILE *out, uint_fast64_t code
 	}
 }
 
-void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, uint_fast64_t codes[],
+void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, const uint_fast64_t codes[],
                              const uint_fast8_t code_lengths[]) {
 	register byte b = byis_read_unsafe(in);
 	while (in->cursor <= in->buffer_size) {

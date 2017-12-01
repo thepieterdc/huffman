@@ -65,7 +65,7 @@ void byis_free(byte_input_stream *byis);
  * @param byis the byte input stream
  * @return the byte read
  */
-byte byis_read(byte_input_stream *byte);
+byte byis_read(byte_input_stream *byis);
 
 /**
  * Reads a byte from the input stream without checking for overflows.
