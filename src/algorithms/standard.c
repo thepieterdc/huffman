@@ -10,13 +10,11 @@
 #include <stdio.h>
 #include "../io/input/byte_input_stream.h"
 #include "../io/output/bit_output_stream.h"
-#include "../datastructures/min_heap.h"
 #include "../datastructures/huffman_tree/huffman_node.h"
 #include "../datastructures/huffman_tree/huffman_tree.h"
 #include "util/standard.h"
 #include "../util/logging.h"
 #include "../util/errors.h"
-#include "../io/input/bit_input_stream.h"
 #include "util/common.h"
 
 void huffman_standard_compress(FILE *input, FILE *output) {
