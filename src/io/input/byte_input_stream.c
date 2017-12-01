@@ -61,6 +61,7 @@ byte_input_stream *byis_create(FILE *channel, bool retain) {
 	ret->expandFn = (_input_buffer_expand_function) (retain ? buffer_expand_retain : buffer_expand_overwrite);
 	
 	if (channel) {
+		flockfile(channel);
 		ret->buffer_size = fread_unlocked(ret->buffer, sizeof(byte), ret->max_buffer_size, channel);
 	}
 	return ret;

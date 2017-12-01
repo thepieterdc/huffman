@@ -66,6 +66,7 @@ static const char *test_huffman_algorithm(const _huffmanfunction encode, const _
 			assertEquals(raw_size, decoded_size);
 			assertTrue(str_equals(decoded, raw_buffer));
 			
+			free(raw_buffer);
 			fclose(raw);
 			
 			fclose(output_stream);
