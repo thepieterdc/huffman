@@ -4,12 +4,12 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdlib.h>
 #include "standard.h"
-#include "../../datastructures/huffman_tree/huffman_tree.h"
 #include "../../datastructures/min_heap.h"
-#include "../../io/output/bit_output_stream.h"
-#include "../../io/input/bit_input_stream.h"
 #include "common.h"
 #include "../../util/numerical.h"
 #include "../../util/memory.h"

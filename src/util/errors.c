@@ -4,6 +4,8 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+
 #include "errors.h"
 
 const char *_error_messages[8] = {"Failed to allocate memory.",

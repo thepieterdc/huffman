@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_ALGORITHMS_SLIDING_H
 #define HUFFMAN_ALGORITHMS_SLIDING_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 
 /**

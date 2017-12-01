@@ -4,6 +4,9 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include "blockwise.h"
 #include "../util/logging.h"
 #include "../io/input/byte_input_stream.h"

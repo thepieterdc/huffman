@@ -4,6 +4,9 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include "sliding.h"
 #include "util/adaptive.h"
 #include "util/sliding.h"

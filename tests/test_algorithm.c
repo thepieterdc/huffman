@@ -4,14 +4,15 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <dirent.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "test_algorithm.h"
 #include "test_unit.h"
-#include "../src/util/logging.h"
-#include "../src/util/errors.h"
 #include "../src/util/memory.h"
 
 #define TEST_ALGORITHM_TESTVECTORS "./tests/testvectors/"

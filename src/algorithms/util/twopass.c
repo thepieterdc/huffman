@@ -4,10 +4,10 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include "twopass.h"
-#include "../../datastructures/byte_queue.h"
-#include "../../util/binary.h"
-#include "../../io/output/bit_output_stream.h"
 #include "../../util/logging.h"
 #include "../../util/errors.h"
 

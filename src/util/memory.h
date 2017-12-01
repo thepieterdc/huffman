@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_UTIL_MEMORY_H
 #define HUFFMAN_UTIL_MEMORY_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <unistd.h>
 
 /**

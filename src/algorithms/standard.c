@@ -4,6 +4,9 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include "../io/input/byte_input_stream.h"
 #include "../io/output/bit_output_stream.h"

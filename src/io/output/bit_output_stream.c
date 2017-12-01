@@ -4,10 +4,12 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdlib.h>
 #include "bit_output_stream.h"
 #include "../../util/memory.h"
-#include "../../util/binary.h"
 
 #define BIT_OUTPUT_STREAM_SIZE_BITS 64
 #define BIT_OUTPUT_STREAM_SIZE_BYTES 8

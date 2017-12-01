@@ -4,16 +4,16 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include "arguments.h"
 #include "../algorithms/standard.h"
 #include "../algorithms/adaptive.h"
 #include "../algorithms/sliding.h"
 #include "../algorithms/twopass.h"
-#include "logging.h"
-#include "errors.h"
 #include "../algorithms/blockwise.h"
 
 _huffmanfunction compressionfunctions[5] = {(_huffmanfunction) huffman_standard_compress,

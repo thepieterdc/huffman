@@ -4,6 +4,9 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "adaptive_huffman_tree.h"

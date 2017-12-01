@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_ALGORITHMS_STANDARD_H
 #define HUFFMAN_ALGORITHMS_STANDARD_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 
 /**

@@ -4,11 +4,13 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "errors.h"
 #include "logging.h"
-#include "string.h"
 
 #define COLOUR_LOG_ERROR "\x1B[1;31m"
 #define COLOUR_LOG_INFO "\x1B[36m"

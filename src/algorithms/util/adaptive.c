@@ -4,11 +4,13 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
 #include "adaptive.h"
-#include "../../util/binary.h"
 #include "../../util/logging.h"
 #include "../../util/errors.h"
 

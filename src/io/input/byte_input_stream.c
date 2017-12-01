@@ -4,13 +4,14 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdlib.h>
-#include <memory.h>
 #include "byte_input_stream.h"
 #include "../../util/logging.h"
 #include "../../util/errors.h"
 #include "../../util/memory.h"
-#include "../../util/binary.h"
 
 /**
  * Expands the buffer by overwriting its contents.
