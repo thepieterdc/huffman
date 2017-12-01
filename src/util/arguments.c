@@ -38,12 +38,14 @@ const enum algorithm algorithm_from_opt(const char opt) {
 }
 
 const _huffmanfunction argument_parse(const int argc, char **argv) {
+	/* Default configuration. */
 	enum algorithm algorithm = STANDARD;
 	bool algorithm_set = false;
 	
 	enum mode mode = COMPRESS;
 	bool mode_set = false;
 	
+	/* Parse the arguments. */
 	int opt;
 	while ((opt = getopt(argc, argv, "t:cd")) != -1) {
 		switch (opt) {
@@ -68,6 +70,7 @@ const _huffmanfunction argument_parse(const int argc, char **argv) {
 		}
 	}
 	
+	/* Verify that the required options are set. */
 	if (!algorithm_set || !mode_set) {
 		usage_display(stderr);
 		exit(64);
@@ -85,16 +88,16 @@ void usage_display(FILE *channel) {
 	        "Usage: huffman [-cd] [-t algorithm]\n"
 			        "Reads from standard input and sends either encoded or decoded bytes to standard output.\n"
 			        "\n"
-			        "  -c\t\t\t\t encode the input\n"
-			        "  -d\t\t\t\t decode the input\n"
-			        "  -t algorithm\t\t specify which encoding/decoding algorithm to use\n"
-			        "\t\t\t\t\t 1 - Standard Huffman\n"
-			        "\t\t\t\t\t 2 - Adaptive Huffman\n"
-			        "\t\t\t\t\t 3 - Adaptive Huffman (sliding window)\n"
-			        "\t\t\t\t\t 4 - Two-pass Adaptive Huffman\n"
-			        "\t\t\t\t\t 5 - Blockwise Adaptive Huffman\n"
+			        "  -c\t\t\t encode the input\n"
+			        "  -d\t\t\t decode the input\n"
+			        "  -t algorithm\t\t specify which encoding/decoding algorithm to use:\n"
+			        "\t\t\t 1 - Standard Huffman\n"
+			        "\t\t\t 2 - Adaptive Huffman\n"
+			        "\t\t\t 3 - Adaptive Huffman (sliding window)\n"
+			        "\t\t\t 4 - Two-pass Adaptive Huffman\n"
+			        "\t\t\t 5 - Blockwise Adaptive Huffman\n"
 			        "\n"
-			        "Created by Pieter De Clercq. All rights reserved.\n"
+			        "Created by Pieter De Clercq (c) 2017. All rights reserved.\n"
 	);
 }
 
