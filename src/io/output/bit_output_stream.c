@@ -16,6 +16,7 @@ bit_output_stream *bos_create(FILE *channel) {
 	ret->channel = channel;
 	ret->current_buffer = 0;
 	ret->current_cursor = BIT_OUTPUT_STREAM_SIZE_BITS;
+	/* Lock the output channel. */
 	if (channel) {
 		flockfile(channel);
 #ifdef IS_DEBUG
@@ -39,7 +40,9 @@ void bos_feed_bits(bit_output_stream *bos, uint_fast64_t bits, uint_fast8_t left
 		/* Bits do not fit in the buffer and must be split to be printed. */
 		uint_fast8_t append = (uint_fast8_t) (left - cursor);
 		uint_fast64_t buffer = outputstream_endian_64(bos->current_buffer | (uint_fast64_t) (bits >> append));
+		/* Write the first part of the bitstring to print, to complete the current buffer. */
 		fwrite_unlocked(&buffer, 8, 1, bos->channel);
+		/* Write the remaining bits. */
 		bos->current_buffer = ((bits & bitmask_n_offset(append, 0)) << (64 - append));
 		bos->current_cursor = (uint_fast8_t) (BIT_OUTPUT_STREAM_SIZE_BITS - append);
 	}

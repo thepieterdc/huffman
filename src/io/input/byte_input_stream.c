@@ -19,6 +19,7 @@
  * @param byis the byte input stream
  */
 static void buffer_expand_overwrite(byte_input_stream *byis) {
+	/* Retain the last 2 bits to ensure these get never lost. */
 	byis->buffer[0] = byis->buffer[byis->buffer_size - 2];
 	byis->buffer[1] = byis->buffer[byis->buffer_size - 1];
 	byis->buffer_size = 2;
@@ -78,12 +79,14 @@ byte byis_read(byte_input_stream *byis) {
 		return byis->buffer[byis->cursor++];
 	}
 	
+	/* The internal buffer is fully used. */
 	if (byis->cursor == byis->buffer_size - 2) {
 		byis->expandFn(byis);
 		byis->buffer_size += fread_unlocked(byis->buffer + byis->buffer_size, sizeof(byte),
 		                                    byis->max_buffer_size - byis->buffer_size, byis->channel);
 	}
 	
+	/* The input stream is empty. */
 	if (byis->buffer_size == 0) {
 		error(ERROR_END_OF_INPUT);
 	}
