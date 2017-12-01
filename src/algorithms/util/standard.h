@@ -87,7 +87,7 @@ void standard_encode_random(byte_input_stream *in, FILE *out, uint_fast64_t code
  * @param codes the codes for every character
  * @param code_lengths the code lengths for every character
  */
-void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, uint_fast64_t codes[], const uint_fast8_t code_lengths[]);
+void standard_encode_regular(byte_input_stream *in, bit_output_stream *out, const uint_fast64_t codes[], const uint_fast8_t code_lengths[]);
 
 /**
  * Traverses the tree in a DFS manner and prints all characters.
