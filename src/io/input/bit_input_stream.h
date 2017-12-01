@@ -9,7 +9,6 @@
 
 #include "byte_input_stream.h"
 
-
 /**
  * An input stream for bits.
  */
