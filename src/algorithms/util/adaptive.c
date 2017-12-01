@@ -43,9 +43,10 @@ huffman_node *adaptive_add_character(adaptive_huffman_tree *tree, byte data) {
 huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_stream *in, FILE *out) {
 	huffman_node *cursor = tree->tree->root;
 	
+	/* Traverse through the tree to process the input code. */
 	while (cursor->type != NYT && cursor->type != LEAF) {
 		bit rd = bis_read_bit(in);
-		cursor = rd ? cursor->right : cursor->left;
+		cursor = huffmantree_traverse(cursor, rd);
 	}
 	
 	if (cursor->type == NYT) {
@@ -55,6 +56,7 @@ huffman_node *adaptive_decode_character(adaptive_huffman_tree *tree, bit_input_s
 		putc_unlocked(z, out);
 		return o->parent;
 	} else {
+		/* Print an existing character. */
 		putc_unlocked(cursor->data, out);
 		return cursor;
 	}

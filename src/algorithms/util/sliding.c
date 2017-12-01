@@ -27,7 +27,9 @@ sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_in
 		byte_queue_push(window, z);
 		return o->parent;
 	} else {
+		/* Print an existing character. */
 		putc_unlocked(cursor->data, out);
+		/* Add the character to the sliding window. */
 		byte_queue_push(window, cursor->data);
 		return cursor;
 	}

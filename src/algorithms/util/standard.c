@@ -167,6 +167,7 @@ void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree
 		for (size_t j = 0; j < amount_nodes; ++j) {
 			huffman_node *cursor = tree->root;
 			size_t length = 0;
+			/* Assume j is a code, traverse the path j. */
 			while (cursor->type != LEAF && length < i + 1) {
 				bit direction = nth_bit_in_byte_msb(j, 7 - i + length);
 				cursor = huffmantree_traverse(cursor, direction);
@@ -178,6 +179,7 @@ void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree
 		lookup_tables[i] = table;
 	}
 	
+	/* Attempt to decode the characters using the lookup tables. */
 	while (in->stream->cursor <= in->stream->buffer_size - 2) {
 		size_t read_amount = min(bis_bits_left(in), maxpath);
 		huffman_node *cursor = tree->root;
@@ -187,11 +189,13 @@ void standard_decode_regular(bit_input_stream *in, FILE *out, huffman_tree *tree
 			cursor = table[tbl];
 			in->current_cursor += read_amount;
 			if (cursor->type == LEAF) {
+				/* Character was decoded using the lookup table. */
 				putc_unlocked(cursor->data, out);
 				bis_rewind(in, read_amount - cursor->code->length);
 				continue;
 			}
 		}
+		/* Lookup table could not be (fully) used. Decode it the remaining bits by traversing. */
 		putc_unlocked(standard_decode_character(cursor, in), out);
 	}
 	

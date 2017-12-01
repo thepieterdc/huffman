@@ -30,9 +30,10 @@ void twopass_assign_weights(huffman_node *root, bit_input_stream *in) {
 byte twopass_decode_character(huffman_tree *tree, bit_input_stream *in, FILE *out) {
 	huffman_node *cursor = tree->root;
 	
+	/* Traverse through the tree to find the leaf. */
 	while (cursor->type != NYT && cursor->type != LEAF) {
 		bit rd = bis_read_bit(in);
-		cursor = rd ? cursor->right : cursor->left;
+		cursor = huffmantree_traverse(cursor, rd);
 	}
 	putc_unlocked(cursor->data, out);
 	return cursor->data;
