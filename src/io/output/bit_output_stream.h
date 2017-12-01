@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_IO_OUTPUT_BITOUTPUTSTREAM_H
 #define HUFFMAN_IO_OUTPUT_BITOUTPUTSTREAM_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include "../../util/binary.h"
 #include "../../datatypes/huffman_code.h"

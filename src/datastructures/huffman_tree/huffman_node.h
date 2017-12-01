@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H
 #define HUFFMAN_DATASTRUCTURES_HUFFMANTREE_HUFFMANNODE_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdint.h>
 #include "../../datatypes/huffman_code.h"
 

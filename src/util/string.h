@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_UTIL_STRING_H
 #define HUFFMAN_UTIL_STRING_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdbool.h>
 #include <string.h>
 #include "../datatypes/string.h"

@@ -4,13 +4,12 @@
  * Project: huffman
  */
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdlib.h>
 #include "bit_input_stream.h"
-#include "../../util/binary.h"
 #include "../../util/memory.h"
-#include "byte_input_stream.h"
-#include "../../util/logging.h"
-#include "../../util/errors.h"
 
 /** Mappings. */
 static byte bis_read_bit_map[BITS_IN_BYTE] = {

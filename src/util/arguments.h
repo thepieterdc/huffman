@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_UTIL_ARGUMENTS_H
 #define HUFFMAN_UTIL_ARGUMENTS_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <getopt.h>
 #include <stdio.h>
 #include "string.h"

@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_UTIL_BINARY_H
 #define HUFFMAN_UTIL_BINARY_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdint.h>
 #include "../datatypes/bit.h"
 #include "../datatypes/string.h"

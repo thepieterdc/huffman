@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H
 #define HUFFMAN_IO_INPUT_BYTEINPUTSTREAM_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdbool.h>
 #include "../../datatypes/bit.h"

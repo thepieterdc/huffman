@@ -4,11 +4,11 @@
  * Project: huffman
  */
 
-#include <stdlib.h>
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include "sliding.h"
-#include "../../util/logging.h"
 #include "adaptive.h"
-#include "../../datastructures/byte_queue.h"
 
 huffman_node *
 sliding_decode_character(adaptive_huffman_tree *tree, byte_queue *window, bit_input_stream *in, FILE *out) {

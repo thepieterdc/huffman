@@ -7,6 +7,9 @@
 #ifndef HUFFMAN_ALGORITHMS_UTIL_STANDARD_H
 #define HUFFMAN_ALGORITHMS_UTIL_STANDARD_H
 
+/** Required to use unlocked IO and memory streams. */
+#define _GNU_SOURCE
+
 #include "../../datastructures/huffman_tree/huffman_tree.h"
 #include "../../io/input/bit_input_stream.h"
 #include "../../io/output/bit_output_stream.h"
