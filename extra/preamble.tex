@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{scrreprt}
+\documentclass[tikz,12pt,a4paper]{scrreprt}
 \usepackage[utf8]{inputenc}
 \usepackage[dutch]{babel}
 \usepackage[margin=1in]{geometry}
@@ -10,11 +10,20 @@
 \usepackage{hyperref}
 \usepackage{imakeidx}
 \usepackage{listings,lstautogobble}
+\usepackage{nth}
 \usepackage{scrlayer}
 \usepackage{svg}
 \usepackage{syntax}
+\usepackage{tikz}
 \usepackage{titlesec}
 \usepackage{titletoc}
+
+\usetikzlibrary{shapes.geometric,arrows,fit,matrix,positioning}
+
+\tikzset
+{
+	treenode/.style = {circle, draw=black, align=center, minimum size=1cm, anchor=center}
+}
 
 \makeindex
 \setcounter{tocdepth}{2}
