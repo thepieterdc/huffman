@@ -6,4 +6,5 @@ clean:
 
 pdf:
 	$(info ====================================[ Creating pdf ]====================================)
-	latexmk -c --shell-escape -pdf verslag.tex
+	latexmk --shell-escape -pdf verslag.tex
+	latexmk -c
