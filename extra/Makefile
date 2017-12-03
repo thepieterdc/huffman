@@ -4,6 +4,6 @@ clean:
 	$(info ====================================[ Cleaning up ]====================================)
 	rm -rf verslag.pdf
 
-pdfs:
+pdf:
 	$(info ====================================[ Creating pdf ]====================================)
 	latexmk -c --shell-escape -pdf verslag.tex
