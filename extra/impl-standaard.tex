@@ -1,22 +1,50 @@
 \section{Standaard Huffmancoding}
 
-Bij het \emph{Standaard Huffmancoding}-algoritme heb ik de meeste optimalisaties toegepast. Dit algoritme leent zich, van alle vijf de algoritmes, hier het beste toe, omdat de volledige tekst moet worden ingelezen alvorens er gecodeerd kan worden. Dit zorgt ervoor dat er allerlei informatie over de tekst kan worden vergaard, zoals bijvoorbeeld de randomness. Voor er gestart wordt met encoderen of decoderen wordt eerst bepaald of de tekst \texttt{random} is. Indien dit het geval is, wordt een alternatief encodeer- en decodeeralgoritme gebruikt, om hogere snelheden te kunnen bereiken. Een tekst kwalificeert als \texttt{random} als alle 256 extended ascii tekens er in quasi dezelfde frequentie in voorkomen. Het gevolg hiervan is dat elk karakter een code van lengte 8 bits heeft.
+Bij het \emph{Standaard Huffmancoding}-algoritme heb ik de meeste optimalisaties toegepast. Dit algoritme leent zich, van alle vijf de algoritmes, hier het beste toe, omdat de volledige tekst moet worden ingelezen alvorens er gecodeerd kan worden. Dit zorgt ervoor dat er allerlei informatie over de tekst kan worden vergaard, zoals bijvoorbeeld de randomness. Voor er gestart wordt met encoderen of decoderen wordt eerst bepaald of de tekst \texttt{random} is. Indien dit het geval is, wordt een alternatief encodeer- en decodeeralgoritme gebruikt, om hogere snelheden te kunnen bereiken. Een tekst kwalificeert als \texttt{random} als alle 256 extended ASCII tekens er in quasi dezelfde frequentie in voorkomen. Het gevolg hiervan is dat elk karakter een code van lengte 8 bits heeft.
 
 \subsection{Encoder}
 
 \subsubsection{Gewone tekst}
-	- regular: dictionary met structs
+Voor aanvang van het encoderen wordt er een \emph{dictionary} opgebouwd. De dictionary bevat als sleutels de ASCII waarden van de karakters die in de tekst voorkomen. De waarden van deze sleutels zijn de reeds eerder beschreven \emph{huffman\_code}-structs. Op deze manier kan de code voor een karakter worden bepaald in $O(1)$. De code wordt vervolgens toegevoegd aan een 64-bit buffer door middel van bitsgewijze operaties, waarna deze geprint wordt.
 	
 \subsubsection{Random data}
-	- random: map want 8 bits codes
-	
+In het geval van random data wordt vertrokken van dezelfde strategie als voor gewone tekst. Aangezien elk karakter een code heeft van 8 bits, kunnen deze rechtstreeks geprint worden. Dit zorgt voor nog hogere snelheden vergeleken met gewone tekst, aangezien de code nu niet meer moet worden toegevoegd aan een 64-bit buffer. Tijdens het programmeren van deze routine bedacht ik echter een alternatieve, nog snellere versie. Hierover later meer onder \hyperref[impl:std:alt]{Alternatief}.
+
 \subsection{Decoder}
 
 \subsubsection{Gewone tekst}
-	- regular: lookup tables
+Bij het encoderen van gewone tekst maakte ik reeds gebruik van een vorm van caching. Hetzelfde idee wou ik eveneens toepassen bij het decoderen, maar dit kan niet rechtstreeks worden toegepast door het feit dat de codes een variabele lengte hebben en dus niet als indices van een array kunnen worden gebruikt. Wat wel mogelijk was is het gebruik van zogenaamde \emph{lookup tables} die het typisch vereiste bitsgewijze doorlopen in de boom kunnen verkorten of zelfs volledig overslaan. het opstellen van deze tabellen gebeurt als volgt:
+\begin{enumerate}
+	\item Stel $n$ \emph{lookup tables} op, zodanig dat tabel $t$ een lengte heeft van $2^t$ elementen, met $n = min(8, \text{diepte van de boom})$
+	\item Voor elke tabel $t$ van $n$, interpreteer elke index $p$ van deze tabel als een Huffmancode.
+	\item Voor elke Huffmancode uit stap $2$, doorloop de boom zo ver mogelijk volgens de code en sla het uitgekomen blad of knoop op in tabel $t$ op plaats $p$.\footnote{Een goede optimalisatie zou zijn om deze tabellen door middel van dynamisch programmeren op te bouwen. Hier had ik geen tijd meer voor, maar aangezien de tabellen voorafgaand aan het decoderen worden opgesteld, is deze kost verwaarloosbaar.}
+\end{enumerate}
+Nadat deze tabellen zijn opgesteld is het decoderen simpelweg deze tabellen zoveel als mogelijk doorlopen:
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\Procedure{Decodeer 1 karakter}{}
+		\State $\textit{n} \gets \text{aantal lookup tables} - 1$
+		
+		\State $\textit{b} \gets \text{aantal ongelezen bits in de huidige byte van de }\textit{bit\_input\_stream}$
+		\State $\textit{r} \gets min(n, b)$
+		\State $\textit{bits} \gets \text{lees }\textit{r}\text{ bits van de } \textit{bit\_input\_stream}$
+		\State $\textit{table} \gets \textit{lookup\_tables[r]}$
+		\State $\textit{node} \gets \textit{table[bits]}$
+		\If {$node \textit{ is een blad}$}
+			\State $\textbf{print}\text{ het karakter in blad }\textit{node}$
+		\Else
+			\State $\textbf{doorloop de boom}\text{ startende vanaf }\textit{node}\text{ tot een blad wordt bereikt op}$
+			\State $\text{de standaardmanier en print dan het karakter in dat blad.}$
+		\EndIf
+		\EndProcedure
+	\end{algorithmic}
+	\caption{Standaard Huffmandecoding met behulp van lookup tables}
+\end{algorithm}
+
 
 \subsubsection{Random data}
-	- random: map want 8 bits codes = 8 bits karakters
+Hier werd hetzelfde idee toegepast als bij het encoderen. Er wordt een één-op-één mapping gemaakt van codes naar karakters. Dit is mogelijk aangezien elke code exact 8 bits lang is en alle codes tussen $00000000$ en $11111111$ zullen voorkomen, conform mijn eerder geformuleerde definitie van \texttt{random}. Op een analoge manier als bij het encoderen van random data kan de ge\"encodeerde tekst gedecodeerd worden met kost $O(1)$ per karakter.
 
 \subsection{Alternatief}
+\label{impl:std:alt}
 Tijdens het programmeren van de \texttt{random} encoder en decoder, stuitte ik op een interessante vaststelling. Dit heb ik echter niet in de praktijk uitgewerkt, omdat het geen verband meer had met Huffmancoding, maar ik zal het wel hier bespreken. Eerder werd reeds vermeld dat in een random tekst elk karakter een code van lengte 8 bits heeft, even lang als de 1 byte waarmee het karakter voorgesteld wordt. Een alternatief, veel sneller codeeralgoritme zou dus onderstaande pseudo C-code kunnen zijn. Het is echter effici\"enter om de tekst dan niet te encoderen, aangezien de boom en \emph{ascii}-tabel nu enkel nog extra overhead zijn.
