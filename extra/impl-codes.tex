@@ -9,41 +9,49 @@ Huffmancodes worden opgeslagen in de vorm van onderstaande \emph{struct}. De cod
 \newpage
 \begin{figure}[h]
 	\centering
-\begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 5cm/#1,
-	level distance = 1.5cm},scale=0.6, transform shape]
+\begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 8cm/#1,
+	level distance = 1.5cm},scale=0.7, transform shape]
 \node[treenode] {root}
-child
-{
-	node [treenode] {}
-	child
-	{
-		node [treenode] {}
-		child
-		{
-			node [treenode] {}
-			child
-			{
-				node [treenode] {$255$}
-			}
-			child
-			{
-				node [treenode] {$254$}
-			}
-		}
-		child
-		{
-			node [treenode] {$002$}
-		}
-	}
-	child
-	{
-		node [treenode] {$001$}
-	}
-}
-child
-{
-	node [treenode] {$000$}
-}
+%child
+%{
+%	node [treenode] {}
+%	child
+%	{
+%		node [treenode] {}
+%		child
+%		{
+%			node [treenode] {}
+%			child
+%			{
+%				node [subtree] {$\cdots$}
+%				child
+%				{
+%					node [treenode] {$255$}
+%				}
+%				child
+%				{
+%					node [treenode] {$254$}
+%				}
+%			}
+%			child
+%			{
+%				node [treenode] {$003$}
+%			}
+%		}
+%		child
+%		{
+%			node [treenode] {$002$}
+%		}
+%	}
+%	child
+%	{
+%		node [treenode] {$001$}
+%	}
+%}
+%child
+%{
+%	node [treenode] {$000$}
+%}
 ;
 \end{tikzpicture}
 \caption{Huffmanboom met maximale diepte}
