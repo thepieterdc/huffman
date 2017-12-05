@@ -9,52 +9,8 @@ Huffmancodes worden opgeslagen in de vorm van onderstaande \emph{struct}. De cod
 \newpage
 \begin{figure}[h]
 	\centering
-\begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 8cm/#1,
-	level distance = 1.5cm},scale=0.7, transform shape]
-\node[treenode] {root}
-%child
-%{
-%	node [treenode] {}
-%	child
-%	{
-%		node [treenode] {}
-%		child
-%		{
-%			node [treenode] {}
-%			child
-%			{
-%				node [subtree] {$\cdots$}
-%				child
-%				{
-%					node [treenode] {$255$}
-%				}
-%				child
-%				{
-%					node [treenode] {$254$}
-%				}
-%			}
-%			child
-%			{
-%				node [treenode] {$003$}
-%			}
-%		}
-%		child
-%		{
-%			node [treenode] {$002$}
-%		}
-%	}
-%	child
-%	{
-%		node [treenode] {$001$}
-%	}
-%}
-%child
-%{
-%	node [treenode] {$000$}
-%}
-;
-\end{tikzpicture}
-\caption{Huffmanboom met maximale diepte}
+	\includegraphics[width=\linewidth]{resources/huffman-boom-maxpath.png}
+	\caption{Huffmanboom met maximale diepte}
 \end{figure}
 \noindent Bovenstaande boom kan enkel voorkomen als de frequenties van de karakters verdeeld zijn volgens de reeks van Fibonacci, immers, het algoritme dat de Huffmanboom opbouwt kiest telkens de 2 Huffmanbomen met het kleinste gewicht en voegt deze samen. Bij een Fibonacci-verdeling zal het algoritme dus steeds de reeds bestaande Huffmanboom samenvoegen met een volgend karakter. De samengevoegde Huffmanboom zal als gewicht steeds de som van het nieuwe karakter en de reeds bestaande Huffmanboom krijgen, wat exact gelijk is aan het gewicht van het volgende karakter dat zou worden toegevoegd, wegens de definitie van de Fibonacci-reeks. Een code die langer is dan 64 bits kan dus enkel voorkomen als de frequenties van de inputreeks Fibonacci verdeeld zijn tot minstens het \ordening{64} Fibonacci getal. De minimale grootte van deze tekst kan berekend worden met onderstaande formule. Aangezien bij Standaard Huffmancoding deze tekst in 1 keer in het \emph{RAM}-geheugen moet passen, is het niet nodig om codes langer dan 64 bits te ondersteunen.
 \begin{figure}[h]
