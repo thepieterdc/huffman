@@ -1,5 +1,9 @@
 \section{Adaptive Huffmancoding met sliding window}
 
-- sliding window uit paper knuth
+\subsection{Downdate}
+- downdate
 
-- find swapnode voor sliding
+- find swapnode voor sliding window
+
+\subsection{Grootte van het sliding window}
+Knuth beschrijft in zijn paper \cite{knuthhuffman} wat de optimale windowgroottes zijn op pagina 180. Deze windowgrootte heb ik, rekeninghoudend met de tabel op pagina 180 en zelf uitgevoerde experimenten, vastgelegd op $1250$. Onderstaande grafiek toont de compressieratio's\footnote{Compressieratio wordt gedefinieerd als $(1-\frac{c}{o})$ met $c,o$ respectievelijk de groottes van de gecomprimeerde tekst en de originele tekst, uitgedrukt in bytes.}.
