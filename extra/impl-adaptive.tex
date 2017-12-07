@@ -1,0 +1,23 @@
+\section{Adaptive Huffmancoding}
+Voor de updateprocedure werd het algoritme uit de cursus \cite{ad3cursus}, pagina $102$ gebruikt. Wat in de cursus niet wordt besproken is hoe de top $t'$ op een effici\"ente manier kan worden gevonden. Knuth bespreekt in zijn paper \cite{knuthhuffman} een techniek waarbij dit mogelijk is in constante tijd, maar zelf bedacht ik een andere manier om deze top te bepalen. Mijn techniek heeft complexiteit $O(n)$, met $n$ het aantal toppen met exact hetzelfde gewicht als de top $t$. Na empirische tests blijkt de waarde van $n$ gemiddeld steeds onder $3$ te liggen, dus ook een zeer effici\"ente en vooral gemakkelijke manier. De sleutel van deze manier is eigenschap b van een Huffman boom, vermeld op pagina $96$ van de cursus \cite{ad3cursus}:
+$$\textit{Als voor twee toppen }t, t'\textit{ geldt dat }o(t) < o(t')\textit{, dan geldt }a(t) \leq a(t')$$
+Het algoritme voor het bepalen van deze top wordt beschreven in onderstaande pseudocode. Deze pseuocode veronderstelt dat de ordernummers van de toppen stijgend zijn opgesteld. De wortel van de boom heeft dus het hoogste ordernummer.
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\Procedure{Vind\_t'}{}
+		\State $\textit{w} \gets \text{gewicht van de top t, waarvoor we t' willen bepalen}$
+		\State $\textit{o} \gets \text{ordenummer van de top t}$
+		\State $\textit{o\_max} \gets \text{ordenummer van de wortel}$
+		\For {$i = o; i < o\_max; ++i$}
+			\State $\textit{t'} \gets \text{top met ordenummer }\textit{i}$
+			\State $\textit{w'} \gets \text{gewicht van t'}$
+			\If {$w < w'$}
+				\State $\textit{ret} \gets \text{top met ordenummer } i-1$
+				\Return $\textit{ret}$
+			\EndIf
+		\EndFor
+		\Return $\textit{wortel}$
+		\EndProcedure
+	\end{algorithmic}
+	\caption{$O(n)$ algoritme voor bepaling van wisseltoppen bij Adaptive Huffmancoding}
+\end{algorithm}

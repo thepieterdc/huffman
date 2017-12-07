@@ -1,0 +1,19 @@
+\subsection{Huffmancodes}
+Huffmancodes worden opgeslagen in de vorm van onderstaande \emph{struct}. De codes worden bijgehouden in de bladeren van de boom, al koos ik ervoor dit enkel te doen bij het Standaard Huffmancoding-algoritme en niet bij de andere vier algoritmes. De reden hiervoor is dat aangezien bij de andere vier algoritmes de codes veranderen tijdens het encoderen/decoderen, waardoor de codes ook zouden moeten bijgewerkt worden. De kost om de codes bij elke update in alle nodes bij te werken ligt zeer hoog, het is goedkoper om telkens de boom achterwaarts te doorlopen bij het encoderen van een karakter, vertrekkende bij het blad dat het karakter bevat.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10em]{resources/huffman-code.png}
+	\caption{Huffman code}
+\end{figure}
+\\Het veld \emph{length} bevat de lengte van de code en \emph{code} bevat de eigenlijke code. Theoretisch kan de maximale lengte van een Huffmancode $255$ bits bedragen. Dit kan enkel voorkomen wanneer de boom een maximale diepte, eveneens $255$, heeft. De boom ziet er dan als volgt uit:
+\newpage
+\begin{figure}[h]
+	\centering
+	\includesvg[width=0.7\linewidth]{resources/huffman-boom-maxpath}
+	\caption{Huffmanboom met maximale diepte}
+\end{figure}
+\noindent Bovenstaande boom kan enkel voorkomen als de frequenties van de karakters verdeeld zijn volgens de reeks van Fibonacci, immers, het algoritme dat de Huffmanboom opbouwt kiest telkens de 2 Huffmanbomen met het kleinste gewicht en voegt deze samen. Bij een Fibonacci-verdeling zal het algoritme dus steeds de reeds bestaande Huffmanboom samenvoegen met een volgend karakter. De samengevoegde Huffmanboom zal als gewicht steeds de som van het nieuwe karakter en de reeds bestaande Huffmanboom krijgen, wat exact gelijk is aan het gewicht van het volgende karakter dat zou worden toegevoegd, wegens de definitie van de Fibonacci-reeks. Een code die langer is dan 64 bits kan dus enkel voorkomen als de frequenties van de inputreeks Fibonacci verdeeld zijn tot minstens het \ordening{64} Fibonacci getal. De minimale grootte van deze tekst kan berekend worden met onderstaande formule. Aangezien bij Standaard Huffmancoding deze tekst in 1 keer in het \emph{RAM}-geheugen moet passen, is het niet nodig om codes langer dan 64 bits te ondersteunen.
+\begin{figure}[h]
+	$$\sum_{i=1}^{64} fibo(i) = \text{\SI{10610209857723}{\byte}} \approx \SI{10.6}{\tera\byte}$$
+	\caption{Minimale bestandsgrootte voor codes langer dan 64 bits}
+\end{figure}

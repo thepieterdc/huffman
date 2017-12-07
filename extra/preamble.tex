@@ -1,0 +1,65 @@
+\documentclass[tikz,12pt,a4paper]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage[dutch]{babel}
+\usepackage[margin=1in]{geometry}
+\usepackage[pdftex]{graphicx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{imakeidx}
+\usepackage{listings,lstautogobble}
+\usepackage{nth}
+\usepackage{pgfplots}
+\usepackage{scrlayer}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{svg}
+\usepackage{syntax}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{titletoc}
+
+\addbibresource{referenties.bib}
+
+\lstset{ %
+	breakatwhitespace=true,
+	breaklines=true,
+	commentstyle=\color{gray},
+	frame=single,
+	keepspaces=true,
+	autogobble=true,
+	numbers=left,
+	numbersep=5pt,
+	numberstyle=\color{gray},
+	showspaces=false
+}
+
+\interfootnotelinepenalty=10000
+
+\pgfplotsset{compat=1.10}
+\usetikzlibrary{shapes.geometric,arrows,fit,matrix,positioning}
+\tikzset
+{
+	treenode/.style = {circle, draw=black, align=center, minimum size=1cm},
+	subtree/.style  = {isosceles triangle, draw=black, align=center, minimum height=0.5cm, minimum width=cm, shape border rotate=90, anchor=north}
+}
+
+\makeindex
+\setcounter{tocdepth}{2}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter.}{18pt}{\huge}
+\titlespacing*{\chapter}{0pt}{20pt}{20pt}
+
+\newcommand{\ordening}[1]{#1\textsuperscript{e}}
+
+\newcommand{\huffadap}{\emph{Adaptive} algoritme }
+\newcommand{\huffblock}{\emph{Bloksgewijze} algoritme }
+\newcommand{\huffslid}{\emph{Sliding window}-algoritme }
+\newcommand{\huffstd}{\emph{Standaard}-algoritme }
+\newcommand{\hufftwopass}{\emph{Two-pass}-algoritme }
