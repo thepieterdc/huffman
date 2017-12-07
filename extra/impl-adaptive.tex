@@ -1,7 +1,7 @@
 \section{Adaptive Huffmancoding}
 Voor de updateprocedure werd het algoritme uit de cursus \cite{ad3cursus}, pagina $102$ gebruikt. Wat in de cursus niet wordt besproken is hoe de top $t'$ op een effici\"ente manier kan worden gevonden. Knuth bespreekt in zijn paper \cite{knuthhuffman} een techniek waarbij dit mogelijk is in constante tijd, maar zelf bedacht ik een andere manier om deze top te bepalen. Mijn techniek heeft complexiteit $O(n)$, met $n$ het aantal toppen met exact hetzelfde gewicht als de top $t$. Na empirische tests blijkt de waarde van $n$ gemiddeld steeds onder $3$ te liggen, dus ook een zeer effici\"ente en vooral gemakkelijke manier. De sleutel van deze manier is eigenschap b van een Huffman boom, vermeld op pagina $96$ van de cursus \cite{ad3cursus}:
 $$\textit{Als voor twee toppen }t, t'\textit{ geldt dat }o(t) < o(t')\textit{, dan geldt }a(t) \leq a(t')$$
-Het algoritme voor het bepalen van deze top wordt beschreven in onderstaande pseudocode. Deze pseuocode veronderstelt dat de ordernummers van de toppen stijgend zijn opgesteld. De wortel van de boom heeft dus het hoogste ordernummer.
+Het algoritme voor het bepalen van deze top wordt beschreven in onderstaande pseudocode. Deze pseudocode veronderstelt dat de ordernummers van de toppen stijgend zijn opgesteld. De wortel van de boom heeft dus het hoogste ordernummer.
 \begin{algorithm}
 	\begin{algorithmic}[1]
 		\Procedure{Vind\_t'}{}

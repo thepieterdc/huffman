@@ -17,7 +17,7 @@ Bij het encoderen van gewone tekst maakte ik reeds gebruik van een vorm van cach
 \begin{enumerate}
 	\item Stel $n$ \emph{lookup tables} op, zodanig dat tabel $t$ een lengte heeft van $2^t$ elementen, met $n = min(8, \text{diepte van de boom})$
 	\item Voor elke tabel $t$ van $n$, interpreteer elke index $p$ van deze tabel als een Huffmancode.
-	\item Voor elke Huffmancode uit stap $2$, doorloop de boom zo ver mogelijk volgens de code en sla het uitgekomen blad of top op in tabel $t$ op plaats $p$.\footnote{Een goede optimalisatie zou zijn om deze tabellen door middel van dynamisch programmeren op te bouwen. Hier had ik geen tijd meer voor, maar aangezien de tabellen voorafgaand aan het decoderen worden opgesteld, is deze kost verwaarloosbaar.}
+	\item Voor elke Huffmancode uit stap $2$, doorloop de boom zo ver mogelijk volgens de code en sla het uitgekomen blad of top op in tabel $t$ op plaats $p$.\footnote{Een bijkomende optimalisatie zou zijn om deze tabellen door middel van dynamisch programmeren op te bouwen. Hier had ik geen tijd meer voor, maar aangezien de tabellen voorafgaand aan het decoderen worden opgesteld, is deze kost verwaarloosbaar.}
 \end{enumerate}
 Nadat deze tabellen zijn opgesteld is het decoderen simpelweg deze tabellen zoveel als mogelijk doorlopen:
 \begin{algorithm}
